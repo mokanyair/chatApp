@@ -1,29 +1,23 @@
 # app/database.py
 
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
+
 from app.config import settings
 
 # =====================================================
 # 1. DATABASE URL
 # =====================================================
-# Priority:
-# 1. Environment variable from Docker / Production
-# 2. Local fallback for development
 
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL")
+if not settings.DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set")
 
 # =====================================================
 # 2. SQLALCHEMY ENGINE
 # =====================================================
-# This is the actual connection manager to PostgreSQL.
 
 engine = create_engine(
-    DATABASE_URL,
+    settings.DATABASE_URL,
 
     # verifies stale connections automatically
     pool_pre_ping=True,
@@ -44,7 +38,6 @@ engine = create_engine(
 # =====================================================
 # 3. SESSION FACTORY
 # =====================================================
-# Every API request gets its own DB session.
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -55,14 +48,12 @@ SessionLocal = sessionmaker(
 # =====================================================
 # 4. BASE MODEL CLASS
 # =====================================================
-# All SQLAlchemy models inherit from this.
 
 Base = declarative_base()
 
 # =====================================================
 # 5. FASTAPI DEPENDENCY
 # =====================================================
-# Inject DB session into routes safely.
 
 def get_db():
     db = SessionLocal()

@@ -6,6 +6,6 @@ cryptography
 python-dotenv
 alembic
 redis
-passlib[bcrypt]
+bcrypt
 python-jose
 pydantic[email]

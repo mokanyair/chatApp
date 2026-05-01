@@ -17,8 +17,10 @@ class Settings:
         os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60)
     )
 
-    CORS_ORIGINS = os.getenv(
-        "CORS_ORIGINS", ""
-    ).split(",")
+    CORS_ORIGINS = [
+        o.strip()
+        for o in os.getenv("CORS_ORIGINS", "").split(",")
+        if o.strip()
+    ]
 
 settings = Settings()

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app import models, schemas
+from app.auth import hash_password, verify_password, create_access_token
 
 router = APIRouter()
 
@@ -29,7 +30,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = models.User(
         username=user.username,
         email=user.email,
-        hashed_password=user.password   # later hash properly
+        hashed_password=hash_password(user.password)
     )
 
     db.add(db_user)
@@ -37,6 +38,28 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
 
     return db_user
+
+
+# =====================================================
+# LOGIN
+# POST /users/login
+# =====================================================
+
+@router.post("/login", response_model=schemas.TokenResponse)
+def login(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
+    user = (
+        db.query(models.User)
+        .filter(models.User.email == payload.email)
+        .first()
+    )
+
+    if not user or not verify_password(payload.password, user.hashed_password):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+
+    return {"access_token": create_access_token(user.id), "token_type": "bearer"}
 
 
 # =====================================================
