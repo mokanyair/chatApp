@@ -5,6 +5,7 @@ from app.database import get_db
 from app import models, schemas
 from app.auth import get_current_user
 from app.services.chat_service import ChatService
+from app.services.redis_service import publish
 
 router = APIRouter()
 
@@ -15,17 +16,29 @@ router = APIRouter()
 # =====================================================
 
 @router.post("/", response_model=schemas.MessageOut, status_code=201)
-def send_message(
+async def send_message(
     payload: schemas.MessageCreate,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    return ChatService.send_message(
+    message = ChatService.send_message(
         db=db,
         sender_id=current_user.id,
         conversation_id=payload.conversation_id,
-        content=payload.content
+        content=payload.content,
     )
+    await publish(
+        f"conversation:{message.conversation_id}",
+        {
+            "id": message.id,
+            "content": message.content,
+            "sender_id": message.sender_id,
+            "conversation_id": message.conversation_id,
+            "created_at": message.created_at.isoformat(),
+            "is_read": message.is_read,
+        },
+    )
+    return message
 
 
 # =====================================================

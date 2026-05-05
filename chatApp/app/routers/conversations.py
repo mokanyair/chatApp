@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -86,3 +86,73 @@ def get_conversation(
         )
 
     return conversation
+
+
+# =====================================================
+# ADD MEMBER TO GROUP
+# POST /conversations/{conversation_id}/members
+# =====================================================
+
+@router.post(
+    "/{conversation_id}/members",
+    response_model=schemas.ConversationOut,
+)
+def add_member(
+    conversation_id: int,
+    payload: schemas.AddMemberRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    conversation = db.get(models.Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+
+    if not conversation.is_group:
+        raise HTTPException(status_code=400, detail="Not a group conversation")
+
+    participant_ids = {u.id for u in conversation.participants}
+    if current_user.id not in participant_ids:
+        raise HTTPException(status_code=403, detail="Not a participant in this conversation")
+
+    return ChatService.add_user_to_group(
+        db=db,
+        conversation_id=conversation_id,
+        user_id=payload.user_id,
+    )
+
+
+# =====================================================
+# REMOVE MEMBER FROM GROUP
+# DELETE /conversations/{conversation_id}/members/{user_id}
+# =====================================================
+
+@router.delete(
+    "/{conversation_id}/members/{user_id}",
+    response_model=schemas.ConversationOut,
+)
+def remove_member(
+    conversation_id: int,
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    conversation = db.get(models.Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+
+    if not conversation.is_group:
+        raise HTTPException(status_code=400, detail="Not a group conversation")
+
+    participant_ids = {u.id for u in conversation.participants}
+    if current_user.id not in participant_ids:
+        raise HTTPException(status_code=403, detail="Not a participant in this conversation")
+
+    # only a participant can remove themselves or others
+    if user_id not in participant_ids:
+        raise HTTPException(status_code=404, detail="User is not a member of this conversation")
+
+    return ChatService.remove_user_from_group(
+        db=db,
+        conversation_id=conversation_id,
+        user_id=user_id,
+    )

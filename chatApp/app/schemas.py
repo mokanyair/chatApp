@@ -104,3 +104,7 @@ class PaginatedMessages(BaseModel):
     page: int
     page_size: int
     items: List[MessageOut]
+
+
+class AddMemberRequest(BaseModel):
+    user_id: int

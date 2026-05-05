@@ -1,14 +1,25 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.config import settings
 from app.routers import users, messages, conversations
+from app.routers import websocket as ws_router
+from app.services.redis_service import close_redis
 
 
 # =====================================================
 # APP INSTANCE
 # =====================================================
 
-app = FastAPI(title=settings.APP_NAME)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    await close_redis()
+
+
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 
 # =====================================================
@@ -53,4 +64,9 @@ app.include_router(
     conversations.router,
     prefix="/conversations",
     tags=["Conversations"]
+)
+
+app.include_router(
+    ws_router.router,
+    tags=["WebSocket"]
 )
