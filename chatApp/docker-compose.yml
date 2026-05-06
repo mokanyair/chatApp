@@ -1,67 +1,112 @@
 services:
 
+  # ── Application ──────────────────────────────────────────────────────────────
+
   api:
     build: .
     container_name: chat_api
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
-
     volumes:
       - .:/code
-
     env_file:
       - .env
-
     depends_on:
       db:
         condition: service_healthy
       redis:
-        condition: service_healthy  
-  
+        condition: service_healthy
+      jaeger:
+        condition: service_started
+
+  # ── Data stores ───────────────────────────────────────────────────────────────
 
   db:
     image: mysql:8.0
     container_name: chat_mysql
-
     restart: always
-
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: chatdb
       MYSQL_USER: chatuser
       MYSQL_PASSWORD: chatpass
-
     ports:
       - "3307:3306"
-
     volumes:
       - mysql_data:/var/lib/mysql
-
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-
   redis:
     image: redis:7
     container_name: chat_redis
-
     ports:
       - "6379:6379"
-
     volumes:
       - redis_data:/data
-
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
-      retries: 10  
-      
+      retries: 10
+
+  # ── Observability ─────────────────────────────────────────────────────────────
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.58
+    container_name: chat_jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "4318:4318"     # OTLP HTTP collector
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: chat_prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: chat_alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    ports:
+      - "9093:9093"
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: chat_grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - jaeger
 
 volumes:
   mysql_data:
   redis_data:
+  prometheus_data:
+  grafana_data:

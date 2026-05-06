@@ -23,4 +23,7 @@ class Settings:
         if o.strip()
     ]
 
+    OTEL_SERVICE_NAME = os.getenv("OTEL_SERVICE_NAME", "chat-api")
+    OTLP_ENDPOINT = os.getenv("OTLP_ENDPOINT") or None
+
 settings = Settings()

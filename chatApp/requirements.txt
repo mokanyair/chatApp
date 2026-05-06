@@ -9,3 +9,13 @@ redis
 bcrypt
 python-jose
 pydantic[email]
+# observability
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-sqlalchemy
+opentelemetry-instrumentation-redis
+opentelemetry-exporter-otlp-proto-http
+prometheus-client
+prometheus-fastapi-instrumentator
+structlog

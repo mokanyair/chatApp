@@ -1,15 +1,21 @@
 import asyncio
 import json
+import time
 
+import structlog
+import redis.asyncio as aioredis
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Query
 
+from app.config import settings
 from app.database import SessionLocal
 from app.auth import decode_token
 from app import models
-from app.services.redis_service import get_redis, publish
+from app.services.redis_service import publish
 from app.services.chat_service import ChatService
+from app.domain_metrics import active_ws_connections, ws_message_latency
 
 router = APIRouter()
+log    = structlog.get_logger()
 
 
 @router.websocket("/ws/{conversation_id}")
@@ -20,41 +26,50 @@ async def websocket_endpoint(
 ):
     await websocket.accept()
 
-    # Authenticate
+    # ── Authenticate ──────────────────────────────────────────────────────────
     try:
         user_id = decode_token(token)
     except ValueError:
+        log.warning("ws_auth_failed", reason="invalid_token", conversation_id=conversation_id)
         await websocket.close(code=4001)
         return
 
-    # Verify participant membership
+    # ── Verify participant membership ─────────────────────────────────────────
     db = SessionLocal()
     try:
         conversation = db.get(models.Conversation, conversation_id)
         if not conversation:
+            log.warning("ws_conversation_not_found", conversation_id=conversation_id, user_id=user_id)
             await websocket.close(code=4004)
             return
         participant_ids = {u.id for u in conversation.participants}
         if user_id not in participant_ids:
+            log.warning("ws_unauthorized", user_id=user_id, conversation_id=conversation_id)
             await websocket.close(code=4003)
             return
     finally:
         db.close()
 
-    # Subscribe to this conversation's Redis channel
+    active_ws_connections.inc()
+    log.info("ws_connected", user_id=user_id, conversation_id=conversation_id)
+
     channel = f"conversation:{conversation_id}"
-    redis_client = await get_redis()
-    pubsub = redis_client.pubsub()
+
+    # Each connection gets a dedicated Redis client so subscriptions
+    # don't compete on a shared connection and miss messages.
+    pubsub_client = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
+    pubsub = pubsub_client.pubsub()
     await pubsub.subscribe(channel)
 
     async def listen_redis():
-        # Forward every Redis pub/sub message to this WebSocket client
-        async for raw in pubsub.listen():
-            if raw["type"] == "message":
-                await websocket.send_json(json.loads(raw["data"]))
+        try:
+            async for raw in pubsub.listen():
+                if raw["type"] == "message":
+                    await websocket.send_json(json.loads(raw["data"]))
+        except Exception:
+            pass
 
     async def listen_ws():
-        # Receive messages from client, persist, and publish to Redis
         while True:
             try:
                 data = await websocket.receive_json()
@@ -63,6 +78,8 @@ async def websocket_endpoint(
             content = (data.get("content") or "").strip()
             if not content:
                 continue
+
+            t0 = time.perf_counter()
             db = SessionLocal()
             try:
                 message = ChatService.send_message(
@@ -72,19 +89,21 @@ async def websocket_endpoint(
                     content=content,
                 )
                 payload = {
-                    "id": message.id,
-                    "content": message.content,
-                    "sender_id": message.sender_id,
+                    "id":              message.id,
+                    "content":         message.content,
+                    "sender_id":       message.sender_id,
                     "conversation_id": message.conversation_id,
-                    "created_at": message.created_at.isoformat(),
-                    "is_read": message.is_read,
+                    "created_at":      message.created_at.isoformat(),
+                    "is_read":         message.is_read,
                 }
             finally:
                 db.close()
-            await publish(channel, payload)
 
-    ws_task = asyncio.create_task(listen_ws())
+            await publish(channel, payload)
+            ws_message_latency.observe(time.perf_counter() - t0)
+
     redis_task = asyncio.create_task(listen_redis())
+    ws_task    = asyncio.create_task(listen_ws())
 
     try:
         done, pending = await asyncio.wait(
@@ -94,15 +113,8 @@ async def websocket_endpoint(
         for task in pending:
             task.cancel()
     finally:
+        active_ws_connections.dec()
+        log.info("ws_disconnected", user_id=user_id, conversation_id=conversation_id)
         await pubsub.unsubscribe(channel)
         await pubsub.aclose()
-
-
-#app/routers/websocket.py                                                                                                       
-#  - WS /ws/{conversation_id}?token=<JWT> endpoint                                                                                
-#  - Accepts the connection, then validates the JWT and participant membership                                                    
-#  - Subscribes to the Redis channel conversation:{id}                                                                            
-#  - Runs two concurrent tasks:                                                                                                   
-#    - listen_ws() — receives messages from the client, saves to DB via ChatService, publishes to Redis                           
-#    - listen_redis() — receives from Redis pub/sub and forwards to the WebSocket client                                          
-#  - When either task finishes (client disconnects), the other is cancelled and the pubsub is cleaned up 
+        await pubsub_client.aclose()
