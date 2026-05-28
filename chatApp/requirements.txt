@@ -9,6 +9,7 @@ redis
 bcrypt
 python-jose
 pydantic[email]
+python-multipart
 # observability
 opentelemetry-api
 opentelemetry-sdk

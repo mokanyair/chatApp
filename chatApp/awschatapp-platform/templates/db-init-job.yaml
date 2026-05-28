@@ -1,0 +1,72 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: {{ .Release.Name }}-db-init
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: db-init
+
+    spec:
+      restartPolicy: OnFailure
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+      {{- if .Values.db.ssl.enabled }}
+      volumes:
+        - name: rds-ca-cert
+          secret:
+            secretName: {{ .Values.db.ssl.secretName }}
+            items:
+              - key: global-bundle.pem
+                path: global-bundle.pem
+      {{- end }}
+
+      containers:
+        - name: db-init
+          image: mysql:8.0
+
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              SSL_OPTS="{{ if .Values.db.ssl.enabled }}--ssl-ca={{ .Values.db.ssl.mountPath }}/{{ .Values.db.ssl.certFile }} --ssl-mode=VERIFY_IDENTITY{{ end }}"
+              mysql -h {{ .Values.db.host }} -P {{ .Values.db.port }} \
+                -u {{ .Values.db.username }} -p"${DB_PASSWORD}" \
+                ${SSL_OPTS} \
+                -e "CREATE DATABASE IF NOT EXISTS \`{{ .Values.db.name }}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+              echo "Database '{{ .Values.db.name }}' ready."
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+
+          env:
+            - name: DB_PASSWORD
+              value: {{ .Values.db.password | quote }}
+
+          {{- if .Values.db.ssl.enabled }}
+          volumeMounts:
+            - name: rds-ca-cert
+              mountPath: {{ .Values.db.ssl.mountPath }}
+              readOnly: true
+          {{- end }}

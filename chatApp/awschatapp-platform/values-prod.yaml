@@ -1,0 +1,33 @@
+global:
+  environment: prod
+
+api:
+  replicaCount: 3
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+
+db:
+  name: "chatdb"
+  password: ""  # required — set in values-prod-secrets.yaml
+
+ingress:
+  enabled: true
+  host: "chat.deeptechexpertconsulting.com"
+
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-0e132fb27f601c9f1,subnet-0dc369f3486634022
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+
+  tls:
+    enabled: true
+    certificateArn: ""  # required — set in values-prod-secrets.yaml

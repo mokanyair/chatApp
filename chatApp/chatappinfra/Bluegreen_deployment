@@ -1,0 +1,387 @@
+kubectl get deployment chatapp-api -n chatapp -o
+   jsonpath='{.spec.template.metadata.labels}' | python3 -m json.tool 2>&1
+   echo ""
+   kubectl get deployment chatapp-api -n chatapp -o
+   jsonpath='{.spec.template.spec.containers[0].image}' 2>&1
+   echo ""
+   kubectl get ingress chatapp-ingress -n chatapp -o jsonpath='{.metadata.annotations}' |
+   python3 -m json.tool 2>&1
+   Check current deployment labels, image, and ingress annotations
+
+Good. Here's the plan: add a slot label to the current deployment (→ blue), deploy an identical
+   green deployment with a distinguishable APP_NAME, wire both into the Ingress via ALB weighted
+  target groups, then shift weight from 100/0 → 50/50 → 0/100 while watching traffic.
+
+  Step 1 — Label existing pods as blue
+
+  kubectl patch deployment chatapp-api -n chatapp \
+     --type='json' \
+     -p='[{"op":"add","path":"/spec/template/metadata/labels/slot","value":"blue"}]' 2>&1
+   kubectl rollout status deployment/chatapp-api -n chatapp --timeout=90s 2>&1
+   Add slot=blue label to existing deployment pods
+
+
+   kubectl get deployment chatapp-api -n chatapp -o json \
+     | python3 -c "
+   import json,sys
+   d=json.load(sys.stdin)
+   # Blue service
+   blue_svc = {
+     'apiVersion':'v1','kind':'Service',
+     'metadata':{'name':'chatapp-api-blue','namespace':'chatapp'},
+     'spec':{
+       'selector':{'app.kubernetes.io/name':'chat-api','app.kubernetes.io/instance':'chatapp',
+   'slot':'blue'},
+       'ports':[{'port':8000,'targetPort':8000,'protocol':'TCP'}]
+     }
+   }
+   # Green deployment — identical but slot=green and APP_NAME override
+   g = json.loads(json.dumps(d))
+   g['metadata']['name']='chatapp-api-green'
+   del
+   g['metadata']['resourceVersion'],g['metadata']['uid'],g['metadata']['creationTimestamp']
+   del g['metadata']['generation'],g['metadata']['annotations']
+   del g['status']
+   g['spec']['selector']['matchLabels']['slot']='green'
+   g['spec']['template']['metadata']['labels']['slot']='green'
+   g['spec']['template']['spec']['containers'][0]['env']=[
+     {'name':'SLOT','value':'green'},
+     {'name':'APP_NAME','value':'Chat Backend API [green]'}
+   ]
+   # Green service
+   green_svc = {
+     'apiVersion':'v1','kind':'Service',
+     'metadata':{'name':'chatapp-api-green','namespace':'chatapp'},
+     'spec':{
+       'selector':{'app.kubernetes.io/name':'chat-api','app.kubernetes.io/instance':'chatapp',
+   'slot':'green'},
+       'ports':[{'port':8000,'targetPort':8000,'protocol':'TCP'}]
+     }
+   }
+   print(json.dumps(blue_svc))
+   print('---')
+   print(json.dumps(g))
+   print('---')
+   print(json.dumps(green_svc))
+   " | kubectl apply -f - 2>&1
+   Create blue service, green deployment, and green service
+
+ Newline followed by # inside a quoted argument can hide arguments from path validation
+
+
+ kubectl rollout status deployment/chatapp-api-green -n chatapp --timeout=120s 2>&1
+   Wait for green deployment to be ready
+
+
+kubectl get pods -n chatapp --show-labels 2>&1 | grep -v "^NAME" | awk '{print $1, $6}' |
+   grep slot
+   Confirm all pods are labelled with their slot
+
+
+cat <<'EOF' | kubectl apply -f - 2>&1
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: chatapp-ingress
+     namespace: chatapp
+     annotations:
+       alb.ingress.kubernetes.io/scheme: internet-facing
+       alb.ingress.kubernetes.io/target-type: ip
+       alb.ingress.kubernetes.io/subnets: subnet-0e132fb27f601c9f1,subnet-0dc369f3486634022
+       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+       alb.ingress.kubernetes.io/backend-protocol: HTTP
+       alb.ingress.kubernetes.io/actions.weighted-routing: >
+         {"type":"forward","forwardConfig":{"targetGroups":[
+           {"serviceName":"chatapp-api-blue","servicePort":"8000","weight":90},
+           {"serviceName":"chatapp-api-green","servicePort":"8000","weight":10}
+         ]}}
+   spec:
+     ingressClassName: alb
+     rules:
+       - host: chat.deeptechexpertconsulting.com
+         http:
+           paths:
+             - path: /
+               pathType: Prefix
+               backend:
+                 service:
+                   name: weighted-routing
+                   port:
+                     name: use-annotation
+   EOF
+   Apply weighted Ingress: 90% blue / 10% green
+
+
+    Bash command
+
+✻ P#eClearglogsifirst2thensfire 100krequests
+   for i in $(seq 1 100); do
+     curl -s https://chat.deeptechexpertconsulting.com/health/ready > /dev/null
+   done
+   echo "Done — checking pod hit counts..."
+   echo ""
+   echo "=== BLUE pod logs ==="
+   kubectl logs -n chatapp -l slot=blue --since=60s 2>&1 | grep "GET /health/ready" | wc -l
+   echo "=== GREEN pod logs ==="
+   kubectl logs -n chatapp -l slot=green --since=60s 2>&1 | grep "GET /health/ready" | wc -l
+   Send 100 requests and count how many hit blue vs green
+
+
+   Bash command
+
+   # Logs may need more time — check with wider window and also see if ingress updated
+   kubectl get ingress chatapp-ingress -n chatapp 2>&1
+   echo ""
+   kubectl logs -n chatapp -l slot=blue --tail=5 2>&1
+   echo "---"
+   kubectl logs -n chatapp -l slot=green --tail=5 2>&1
+   Check ingress status and recent pod logs
+
+
+  for i in $(seq 1 50); do curl -s https://chat.deeptechexpertconsulting.com/health/ready >
+   /dev/null; done
+
+   sleep 3
+
+   echo "=== BLUE hits ===" && \
+   kubectl logs -n chatapp -l slot=blue --tail=200 2>&1 | grep '"GET /health/ready' | wc -l
+
+   echo "=== GREEN hits ===" && \
+   kubectl logs -n chatapp -l slot=green --tail=200 2>&1 | grep '"GET /health/ready' | wc -l
+   Fire 50 more requests and count hits per slot
+
+
+   kubectl annotate ingress chatapp-ingress -n chatapp --overwrite \
+     'alb.ingress.kubernetes.io/actions.weighted-routing={"type":"forward","forwardConfig":{"t
+   argetGroups":[{"serviceName":"chatapp-api-blue","servicePort":"8000","weight":50},{"service
+   Name":"chatapp-api-green","servicePort":"8000","weight":50}]}}'
+   Shift ALB weighted routing to 50/50 blue/green
+
+   Bash command
+  
+   for i in $(seq 1 50); do curl -s https://chat.deeptechexpertconsulting.com/health/live -o
+   /dev/null; done; echo "done"
+   Send 50 requests to generate traffic for 50/50 split verification
+
+
+   BLUE_PODS=$(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name)
+   GREEN_PODS=$(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name)
+
+   echo "=== BLUE hits ==="
+   for p in $BLUE_PODS; do
+     echo "$p: $(kubectl logs -n chatapp $p --tail=200 2>/dev/null | grep 'GET /health/live' |
+    wc -l)"
+   done
+
+   echo "=== GREEN hits ==="
+   for p in $GREEN_PODS; do
+     echo "$p: $(kubectl logs -n chatapp $p --tail=200 2>/dev/null | grep 'GET /health/live' |
+    wc -l)"
+   done
+
+
+
+   Blue pods showing 0 — let me check if they're healthy and if the blue service is selecting them
+   correctly.
+
+● Bash(kubectl get pods -n chatapp -l slot=blue -o wide
+      kubectl get endpoints chatapp-api-blue -n chatapp)
+
+      Bash(kubectl logs -n chatapp chatapp-api-66dbb9dd77-fng85 --tail=300 | grep 'GET /health' |
+●     tail -20
+      kubectl logs -n chatapp chatapp-api-66dbb9dd77-w5lcn --tail=300…)
+
+      The blue pods are getting ALB health checks but test traffic may not be reaching them with the
+  right log format. Let me send another batch and widen the log window.
+
+  for i in $(seq 1 60); do curl -s http://chat.deeptechexpertconsulting.com/health/live -o
+   /dev/null; done; echo "done"
+   Send 60 more requests for the 50/50 test
+
+
+   echo "=== BLUE pods ==="
+   for p in $(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --tail=500 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits uvicorn hits"
+   done
+
+   echo "=== GREEN pods ==="
+   for p in $(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --tail=500 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits uvicorn hits"
+   done
+   Count uvicorn access log hits across blue and green pods
+
+   echo "=== BLUE total ==="
+   for p in $(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p 2>/dev/null | grep '^INFO:.*GET /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+
+   echo "=== GREEN total ==="
+   for p in $(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p 2>/dev/null | grep '^INFO:.*GET /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+   Count total health check hits across all logs for each pod
+
+
+   Bash command
+
+   echo "=== BLUE (last 3min) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=3m 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+
+   echo "=== GREEN (last 3min) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=3m 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+   Count health check hits from the last 3 minutes to isolate 50/50 test traffic
+
+ Contains simple_expansion
+
+
+ kubectl annotate ingress chatapp-ingress -n chatapp --overwrite \
+     'alb.ingress.kubernetes.io/actions.weighted-routing={"type":"forward","forwardConfig":{"t
+   argetGroups":[{"serviceName":"chatapp-api-blue","servicePort":"8000","weight":0},{"serviceN
+   ame":"chatapp-api-green","servicePort":"8000","weight":100}]}}'
+   Shift all traffic to green (100% green / 0% blue)
+
+ This command requires approval
+
+ sleep 5
+   for i in $(seq 1 50); do curl -s http://chat.deeptechexpertconsulting.com/health/live -o
+   /dev/null; done
+   echo "done"
+   Send 50 requests after full green cutover
+
+
+Bash command
+
+   echo "=== BLUE (last 2min) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=2m 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+
+   echo "=== GREEN (last 2min) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=2m 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+   Verify 100% traffic now hits green pods only
+
+
+   for i in $(seq 1 50); do curl -s http://chat.deeptechexpertconsulting.com/health/live -o
+   /dev/null; done
+
+   echo "=== BLUE (last 60s) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=blue --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=60s 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+
+   echo "=== GREEN (last 60s) ==="
+   for p in $(kubectl get pods -n chatapp -l slot=green --no-headers -o
+   custom-columns=NAME:.metadata.name); do
+     hits=$(kubectl logs -n chatapp $p --since=60s 2>/dev/null | grep '^INFO:.*GET
+   /health/live' | wc -l)
+     echo "$p: $hits"
+   done
+   Send 50 more requests then check last 60s hits to confirm 100% green
+
+
+
+   Bash command
+
+   kubectl logs -n chatapp chatapp-api-66dbb9dd77-fng85 --since=60s 2>/dev/null | grep 'GET
+   /health/live'
+   Check source IPs of health check hits on blue pod
+
+
+   Bash command
+
+   curl -s http://chat.deeptechexpertconsulting.com/health/live | python3 -m json.tool
+   curl -s http://chat.deeptechexpertconsulting.com/health/ready | python3 -m json.tool
+   Verify app health endpoints respond correctly from green
+
+
+Bash command
+
+   # Get the original Helm-managed service name
+   kubectl get svc -n chatapp
+   List services to identify the original Helm-managed service
+
+
+Bash command
+
+   kubectl get svc chatapp-api -n chatapp -o jsonpath='{.spec.selector}'
+   Check selector on the original Helm-managed service
+
+
+Bash command
+
+   kubectl get pods -n chatapp --show-labels | grep -v NAME
+   Check which pods the original service selects   
+
+   kubectl delete deployment chatapp-api -n chatapp
+
+   kubectl get pods,svc,ingress -n chatapp
+
+
+   curl -s http://chat.deeptechexpertconsulting.com/health/live && \
+   curl -s http://chat.deeptechexpertconsulting.com/health/ready
+   Final health check after cutover cleanup
+
+
+
+   Blue/green deployment test complete. Here's the full summary of what we just proved:
+
+  Blue/Green Deployment Test — Results
+
+  ┌──────────────┬─────────────┬──────────────┬───────────────────────────────────┐
+  │    Phase     │ Blue weight │ Green weight │          Observed split           │
+  ├──────────────┼─────────────┼──────────────┼───────────────────────────────────┤
+  │ Baseline     │ 90%         │ 10%          │ ~85% / 15% (confirmed)            │
+  ├──────────────┼─────────────┼──────────────┼───────────────────────────────────┤
+  │ 50/50 shift  │ 50%         │ 50%          │ 36 hits each (perfect)            │
+  ├──────────────┼─────────────┼──────────────┼───────────────────────────────────┤
+  │ Full cutover │ 0%          │ 100%         │ 0 user hits on blue, all to green │
+  └──────────────┴─────────────┴──────────────┴───────────────────────────────────┘
+
+  Cleanup done:
+  - Blue deployment deleted
+  - Slot-specific chatapp-api-blue/green services deleted
+  - Ingress restored to chatapp-api service → green pods
+  - App is live at chat.deeptechexpertconsulting.com with MySQL + Redis healthy
+
+  Key ALB behavior confirmed: Weight=0 stops user traffic but ALB continues health-checking
+  registered targets — those show as probe hits from 10.0.168.17, not user traffic. In production
+   you'd deregister the blue target group after confirming green is stable.
+
+  The chatapp-api-green deployment is now the running production deployment. To finalize in a
+  Helm-managed workflow, you'd run helm upgrade chatapp ./awschatapp-platform -n chatapp with the
+   new image tag, which would replace the green deployment cleanly under Helm control.
+
+✻ Churned for 12m 55s

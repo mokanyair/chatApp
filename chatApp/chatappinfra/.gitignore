@@ -1,0 +1,18 @@
+.terraform/
+# .terraform.lock.hcl intentionally NOT gitignored — commit it to pin provider versions
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+*.tfvars
+!terraform.tfvars.example
+global-bundle.pem
+
+#####Important Terraform Concepts Used#####
+Terraform Concept	Meaning
+map	Key-value structure
+object	Structured configuration
+for_each	Dynamic resource creation
+each.key	Current map key
+each.value	Current map value
+list(string)	List of strings
+map(string)	Key-value string map

@@ -1,0 +1,119 @@
+global:
+  environment: dev
+
+api:
+  replicaCount: 2
+
+  image:
+    repository: morganokanyair/chat-api
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 8000
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+
+  probes:
+    liveness:
+      path: /health/live
+    readiness:
+      path: /health/ready
+
+  secretKey: "change-me-in-production-use-a-long-random-string"
+
+  # Leave empty to fall back to ConsoleSpanExporter (stdout).
+  otlpEndpoint: ""
+
+  # Set to the pre-created Kubernetes ServiceAccount name (created by Terraform k8s.tf).
+  # Leave empty to use the default SA.
+  serviceAccountName: ""
+
+  # Pod-level security context
+  securityContext: {}
+
+  # Container-level security context
+  containerSecurityContext: {}
+
+# ── AWS RDS (MySQL) ───────────────────────────────────────────────────────────
+db:
+  host: "chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com"
+  port: 3306
+  name: "chatdb"
+  username: "admin"
+  password: "" # set in values-*-secrets.yaml
+
+  ssl:
+    enabled: true
+    # Name of a pre-existing Kubernetes Secret containing global-bundle.pem.
+    # Create it once with:
+    #   kubectl create secret generic rds-ca-cert \
+    #     --from-file=global-bundle.pem=./global-bundle.pem -n <namespace>
+    secretName: "rds-ca-cert"
+    mountPath: "/etc/ssl/rds"
+    certFile: "global-bundle.pem"
+
+# ── AWS ElastiCache (Redis) ───────────────────────────────────────────────────
+redis:
+  # ElastiCache cluster configuration endpoint (cluster mode)
+  host: "clustercfg.redischatapp-db01.oh16mu.use1.cache.amazonaws.com"
+  port: 6379
+  # ElastiCache in-transit encryption enabled — uses rediss:// scheme
+  tls: true
+
+# ── Ingress (AWS Load Balancer Controller) ────────────────────────────────────
+ingress:
+  enabled: true
+
+  # AWS ALB — requires aws-load-balancer-controller installed in the cluster.
+  ingressClassName: alb
+
+  host: ""
+
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # public1-us-east-1a + public2-us-east-1b (both tagged kubernetes.io/role/elb=1)
+    alb.ingress.kubernetes.io/subnets: subnet-0334de28158e090b9,subnet-0acc752f7547c08fb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+
+  tls:
+    enabled: false
+    # Set certificateArn to an ACM cert ARN to enable HTTPS on the ALB.
+    # Also update listen-ports to '[{"HTTPS":443}]' and set enabled: true.
+    certificateArn: ""
+
+# ── Observability ────────────────────────────────────────────────────────────
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: "30s"
+    scrapeTimeout: "10s"
+    # Must match the Prometheus serviceMonitorSelector labels
+    additionalLabels:
+      release: kube-prometheus-stack
+
+  prometheusRule:
+    enabled: true
+    additionalLabels:
+      release: kube-prometheus-stack
+
+  grafana:
+    dashboards:
+      enabled: true
+
+# ── Pod Disruption Budget ─────────────────────────────────────────────────────
+pdb:
+  enabled: false
+  minAvailable: 1
+
+# ── NetworkPolicy ─────────────────────────────────────────────────────────────
+networkPolicy:
+  enabled: false

@@ -1,0 +1,37 @@
+# Copy to terraform.tfvars and fill in values.
+# terraform.tfvars is gitignored — never commit it.
+
+aws_region  = "us-east-1"
+project     = "chatapp"
+environment = "prod"
+
+# DNS
+domain_name      = "chat.deeptechexpertconsulting.com"
+hosted_zone_name = "deeptechexpertconsulting.com"
+
+# Cluster
+cluster_name       = "chatapp-prod-cluster"
+kubernetes_version = "1.31"
+
+# Nodes
+node_instance_types = ["t3.medium"]
+node_min_size       = 2
+node_max_size       = 10
+node_desired_size   = 2
+
+# Database
+db_name           = "chatdb"
+db_username       = "admin"
+db_instance_class = "db.t3.medium"
+
+# Redis
+redis_node_type    = "cache.t4g.small"
+redis_num_replicas = 1
+
+# App
+app_image_repository = "morganokanyair/chat-api"
+app_image_tag        = "latest"   # pin to a digest in production
+app_replica_count    = 3
+
+# Alerts
+alert_email = "ops@example.com"

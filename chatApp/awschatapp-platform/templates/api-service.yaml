@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ include "awschatapp.fullname" . }}
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+
+spec:
+  selector:
+    {{- include "awschatapp.selectorLabels" . | nindent 4 }}
+
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000

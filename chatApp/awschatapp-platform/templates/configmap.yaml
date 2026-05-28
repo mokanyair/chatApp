@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+
+data:
+  APP_NAME: "Chat Backend API"
+  DEBUG: "False"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+  OTEL_SERVICE_NAME: "chat-api"
+  OTLP_ENDPOINT: {{ .Values.api.otlpEndpoint | default "" | quote }}
+
+  {{- $scheme := ternary "https" "http" .Values.ingress.tls.enabled }}
+  {{- if .Values.ingress.host }}
+  CORS_ORIGINS: {{ printf "%s://%s" $scheme .Values.ingress.host | quote }}
+  {{- else }}
+  CORS_ORIGINS: ""
+  {{- end }}

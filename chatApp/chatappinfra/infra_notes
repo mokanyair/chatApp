@@ -1,0 +1,58 @@
+chatappinfra/ — 41 files across 10 modules
+
+  chatappinfra/
+  ├── versions.tf          providers + backend stub
+  ├── variables.tf         all inputs
+  ├── main.tf              module wiring + generated Helm values
+  ├── helm.tf              ALB controller, ESO, metrics-server (Helm releases)
+  ├── k8s.tf               namespaces, SAs, PDB, NetworkPolicy, ESO secrets
+  ├── outputs.tf           endpoints + ready-to-paste helm command
+  ├── terraform.tfvars.example
+  ├── templates/
+  │   └── helm-values.tftpl   auto-generated values-prod-infra.yaml
+  └── modules/
+      ├── vpc/             VPC, 6 subnets (public/app/data × 2 AZs), IGW, 2 NATs
+      ├── kms/             4 KMS keys: RDS, EKS, Secrets Manager, ElastiCache
+      ├── iam_bootstrap/   cluster + node roles (before EKS exists)
+      ├── iam/             IRSA roles: ALB controller, ESO, RDS monitoring
+      ├── security_groups/ ALB, EKS nodes, RDS, ElastiCache SGs (least-privilege)
+      ├── eks/             EKS 1.31, managed node group, OIDC, all control plane logs, KMS secret
+   encryption
+      ├── rds/             Aurora MySQL 8.0 writer+reader, encrypted, deletion-protected,
+  enhanced monitoring
+      ├── elasticache/     Redis 7.1, Multi-AZ, TLS+at-rest encryption
+      ├── acm/             ACM cert + Route53 DNS validation
+      ├── waf/             WAF WebACL (CommonRules, SQLi, KnownBad, rate-limit 2000/IP) + S3 ALB
+  logs bucket
+      └── secrets/         Secrets Manager: DB credentials + app secret key (KMS encrypted)
+
+  awschatapp-platform/ — Helm chart updates
+
+  - templates/pdb.yaml — PodDisruptionBudget (toggle via pdb.enabled)
+  - templates/networkpolicy.yaml — NetworkPolicy (toggle via networkPolicy.enabled)
+  - templates/serviceaccount.yaml — references Terraform-managed SA
+  - templates/api-deployment.yaml — pod + container securityContext blocks
+  - values.yaml — new fields: serviceAccountName, securityContext, containerSecurityContext, pdb,
+   networkPolicy
+
+  Deployment flow after terraform apply
+
+  cd chatappinfra
+  terraform init
+  # Bootstrap EKS first (Helm/k8s providers need the cluster)
+  terraform apply -target=module.iam_bootstrap -target=module.vpc -target=module.kms
+  -target=module.security_groups
+  terraform apply -target=module.eks
+  # Then everything else
+  terraform apply
+
+  # Deploy the app with the generated values file
+  helm upgrade --install chatapp ../awschatapp-platform \
+    --values ../awschatapp-platform/values.yaml \
+    --values ../awschatapp-platform/values-prod-infra.yaml \
+    -n chatapp --create-namespace
+
+  Every production gap from the audit is addressed: HTTPS (ACM+ALB), RDS encryption + MySQL 8.0 +
+   Multi-AZ + deletion protection, ElastiCache Multi-AZ + TLS, WAF, pod security context,
+  NetworkPolicy, PDB, KMS etcd encryption, IRSA roles, Secrets Manager (no plaintext passwords),
+  ALB access logs, and ALB idle timeout at 3600s for WebSockets.               

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: awschatapp-platform
+description: Chat Platform — AWS managed services (RDS + ElastiCache)
+type: application
+version: 0.1.0
+appVersion: "1.0"

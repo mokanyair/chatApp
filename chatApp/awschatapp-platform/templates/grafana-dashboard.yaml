@@ -1,0 +1,172 @@
+{{- if .Values.monitoring.grafana.dashboards.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "awschatapp.fullname" . }}-dashboards
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  chatapp-overview.json: |
+    {
+      "title": "ChatApp — Service Overview",
+      "uid": "chatapp-overview",
+      "timezone": "browser",
+      "refresh": "30s",
+      "time": { "from": "now-1h", "to": "now" },
+      "panels": [
+        {
+          "id": 1, "type": "row",
+          "title": "HTTP — Rate / Errors / Duration",
+          "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 }
+        },
+        {
+          "id": 2, "type": "timeseries",
+          "title": "Request Rate (req/s)",
+          "gridPos": { "x": 0, "y": 1, "w": 8, "h": 7 },
+          "targets": [{
+            "expr": "sum(rate(http_requests_total{job=\"chatapp-api\"}[5m]))",
+            "legendFormat": "req/s"
+          }],
+          "fieldConfig": { "defaults": { "unit": "reqps" } }
+        },
+        {
+          "id": 3, "type": "timeseries",
+          "title": "Error Rate (%)",
+          "gridPos": { "x": 8, "y": 1, "w": 8, "h": 7 },
+          "targets": [{
+            "expr": "100 * sum(rate(http_requests_total{job=\"chatapp-api\",status_code=~\"5..\"}[5m])) / sum(rate(http_requests_total{job=\"chatapp-api\"}[5m]))",
+            "legendFormat": "error %"
+          }],
+          "fieldConfig": {
+            "defaults": { "unit": "percent" },
+            "overrides": [{ "matcher": { "id": "byName", "options": "error %" }, "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }] }]
+          }
+        },
+        {
+          "id": 4, "type": "timeseries",
+          "title": "Latency (p50 / p95 / p99)",
+          "gridPos": { "x": 16, "y": 1, "w": 8, "h": 7 },
+          "targets": [
+            { "expr": "histogram_quantile(0.50, sum by(le)(rate(http_request_duration_seconds_bucket{job=\"chatapp-api\"}[5m])))", "legendFormat": "p50" },
+            { "expr": "histogram_quantile(0.95, sum by(le)(rate(http_request_duration_seconds_bucket{job=\"chatapp-api\"}[5m])))", "legendFormat": "p95" },
+            { "expr": "histogram_quantile(0.99, sum by(le)(rate(http_request_duration_seconds_bucket{job=\"chatapp-api\"}[5m])))", "legendFormat": "p99" }
+          ],
+          "fieldConfig": { "defaults": { "unit": "s" } }
+        },
+        {
+          "id": 10, "type": "row",
+          "title": "SLO — Availability (target 99.9%)",
+          "gridPos": { "x": 0, "y": 8, "w": 24, "h": 1 }
+        },
+        {
+          "id": 11, "type": "gauge",
+          "title": "Availability — last 1h",
+          "gridPos": { "x": 0, "y": 9, "w": 6, "h": 6 },
+          "targets": [{
+            "expr": "100 * job:http_availability:rate1h",
+            "legendFormat": "availability"
+          }],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "min": 99, "max": 100,
+              "thresholds": { "mode": "absolute", "steps": [
+                { "color": "red",    "value": 0   },
+                { "color": "yellow", "value": 99.5 },
+                { "color": "green",  "value": 99.9 }
+              ]}
+            }
+          }
+        },
+        {
+          "id": 12, "type": "timeseries",
+          "title": "Availability — 6h trend",
+          "gridPos": { "x": 6, "y": 9, "w": 18, "h": 6 },
+          "targets": [
+            { "expr": "100 * job:http_availability:rate1h",  "legendFormat": "1h" },
+            { "expr": "100 * job:http_availability:rate6h",  "legendFormat": "6h" }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "percent", "min": 98, "max": 100 },
+            "overrides": [{ "matcher": { "id": "byName", "options": "SLO 99.9%" }, "properties": [{ "id": "custom.lineStyle", "value": { "fill": "dash" } }] }]
+          }
+        },
+        {
+          "id": 20, "type": "row",
+          "title": "Business Metrics",
+          "gridPos": { "x": 0, "y": 15, "w": 24, "h": 1 }
+        },
+        {
+          "id": 21, "type": "timeseries",
+          "title": "Messages Sent (per/s)",
+          "gridPos": { "x": 0, "y": 16, "w": 8, "h": 7 },
+          "targets": [
+            { "expr": "rate(chat_messages_sent_total{conversation_type=\"direct\"}[5m])", "legendFormat": "direct" },
+            { "expr": "rate(chat_messages_sent_total{conversation_type=\"group\"}[5m])",  "legendFormat": "group"  }
+          ],
+          "fieldConfig": { "defaults": { "unit": "mps" } }
+        },
+        {
+          "id": 22, "type": "timeseries",
+          "title": "Active WebSocket Connections",
+          "gridPos": { "x": 8, "y": 16, "w": 8, "h": 7 },
+          "targets": [{
+            "expr": "sum(chat_websocket_connections_active)",
+            "legendFormat": "active connections"
+          }],
+          "fieldConfig": { "defaults": { "unit": "short" } }
+        },
+        {
+          "id": 23, "type": "timeseries",
+          "title": "Conversations Created (per/s)",
+          "gridPos": { "x": 16, "y": 16, "w": 8, "h": 7 },
+          "targets": [
+            { "expr": "rate(chat_conversations_created_total{type=\"direct\"}[5m])", "legendFormat": "direct" },
+            { "expr": "rate(chat_conversations_created_total{type=\"group\"}[5m])",  "legendFormat": "group"  }
+          ],
+          "fieldConfig": { "defaults": { "unit": "mps" } }
+        },
+        {
+          "id": 30, "type": "row",
+          "title": "Dependency Health",
+          "gridPos": { "x": 0, "y": 23, "w": 24, "h": 1 }
+        },
+        {
+          "id": 31, "type": "stat",
+          "title": "MySQL",
+          "gridPos": { "x": 0, "y": 24, "w": 4, "h": 4 },
+          "targets": [{ "expr": "dependency_healthy{dependency=\"mysql\"}", "legendFormat": "" }],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [{ "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }],
+              "thresholds": { "steps": [{ "color": "red", "value": 0 }, { "color": "green", "value": 1 }] }
+            }
+          }
+        },
+        {
+          "id": 32, "type": "stat",
+          "title": "Redis",
+          "gridPos": { "x": 4, "y": 24, "w": 4, "h": 4 },
+          "targets": [{ "expr": "dependency_healthy{dependency=\"redis\"}", "legendFormat": "" }],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [{ "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }],
+              "thresholds": { "steps": [{ "color": "red", "value": 0 }, { "color": "green", "value": 1 }] }
+            }
+          }
+        },
+        {
+          "id": 33, "type": "timeseries",
+          "title": "WebSocket Message Latency (p95) — recv → Redis publish",
+          "gridPos": { "x": 8, "y": 24, "w": 16, "h": 4 },
+          "targets": [
+            { "expr": "histogram_quantile(0.95, sum by(le)(rate(chat_ws_message_latency_seconds_bucket[5m])))", "legendFormat": "p95" },
+            { "expr": "histogram_quantile(0.99, sum by(le)(rate(chat_ws_message_latency_seconds_bucket[5m])))", "legendFormat": "p99" }
+          ],
+          "fieldConfig": { "defaults": { "unit": "s" } }
+        }
+      ]
+    }
+{{- end }}

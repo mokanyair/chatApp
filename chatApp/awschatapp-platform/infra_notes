@@ -1,0 +1,284 @@
+AWS Infrastructure
+
+  Compute
+  
+  ┌──────────┬─────────────────────┬──────────────────────────────────────────────────────┐
+  │ Service  │      Resource       │                       Details                        │
+  ├──────────┼─────────────────────┼──────────────────────────────────────────────────────┤
+  │ EKS      │ chatapp01-cluster   │ v1.35, ACTIVE                                        │
+  ├──────────┼─────────────────────┼──────────────────────────────────────────────────────┤
+  │ EC2 Node │ i-00e6749c5cf7f86ea │ c6g.large arm64, us-east-1b — system (Karpenter)     │
+  ├──────────┼─────────────────────┼──────────────────────────────────────────────────────┤
+  │ EC2 Node │ i-0dd0d861395869196 │ c6a.large x86, us-east-1a — app workload (Karpenter) │
+  └──────────┴─────────────────────┴──────────────────────────────────────────────────────┘
+
+  Networking
+
+  ┌─────────┬───────────────────────┬─────────────────────────────────────────┐
+  │ Service │       Resource        │                 Details                 │
+  ├─────────┼─────────────────────────────────┼──────────────────────────────────────────┤
+  │ VPC     │ chatapp-vpc                     │ vpc-035ef7d6e3f3e0dd0 — 10.0.0.0/16      │
+  ├──────────────┼─────────────────────────────────┼──────────────────────────────────────────┤
+  │ Subnets      │ public1-us-east-1a              │ subnet-0e132fb27f601c9f1, 10.0.0.0/20    │
+  Details: subnet-0e132fb27f601c9f1, 10.0.0.0/20
+  ────────────────────────────────────────         
+  Service:
+  Resource: public2-us-east-1b
+  Details: subnet-0dc369f3486634022, 10.0.16.0/20
+  ────────────────────────────────────────         
+  Service:
+  Resource: private1-us-east-1a
+  Details: subnet-025c8b2c0a5749096, 10.0.128.0/20
+  ────────────────────────────────────────         
+  Service:
+  Resource: private2-us-east-1a/b
+  Details: 10.0.32.0/20, 10.0.144.0/20
+  ────────────────────────────────────────
+  Service:
+  Resource: private3-us-east-1a/b
+  Details: 10.0.160.0/20, 10.0.48.0/24
+  ────────────────────────────────────────
+  Service:
+  Resource: private4-us-east-1b
+  Details: 10.0.176.0/20
+  ────────────────────────────────────────
+  Service: ALB
+  Resource: k8s-chatapp-chatappi-b5fd20a17f
+  Details: internet-facing, active, us-east-1a + 1b
+  ────────────────────────────────────────
+  Service: Target Group
+  Resource: k8s-chatapp-chatappa-2122fcd717
+  Details: port 8000, target-type: ip
+  ────────────────────────────────────────
+  Service: Route53 CNAME
+  Resource: chat.deeptechexpertconsulting.com
+  Details: → ALB hostname
+  ────────────────────────────────────────
+  Service: Security Groups
+  Resource: chatapp_alb_sg
+  Details: ALB inbound
+  ────────────────────────────────────────
+  Service:
+  Resource: chatapp-mysql
+  Details: RDS access
+  ────────────────────────────────────────
+  Service:
+  Resource: rediscache_sg
+  Details: ElastiCache access
+  ────────────────────────────────────────
+  Service:
+  Resource: eks-cluster-sg-chatapp01-cluster-*
+  Details: EKS control plane
+  ────────────────────────────────────────
+  Service:
+  Resource: k8s-traffic-*, k8s-chatapp-*
+  Details: Managed by LB controller
+
+  Data
+
+  ┌───────────────────┬──────────────────────┬────────────────────────────────────────────┐
+  │      Service      │       Resource       │                  Details                   │
+  ├───────────────────┼──────────────────────┼────────────────────────────────────────────┤
+  │ Aurora MySQL      │ chatapp-db01         │ v5.7, endpoint on port 3306, SSL           │
+  ├───────────────────┼──────────────────────┼────────────────────────────────────────────┤
+  │ ElastiCache Redis │ chatapp-rediscache01 │ cluster mode, TLS, config endpoint on 6379 │
+  └───────────────────┴──────────────────────┴────────────────────────────────────────────┘
+
+  IAM
+
+  ┌────────────────────────────────────────────────┬─────────────────────────────┐
+  │                    Resource                    │           Purpose           │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤
+  │ AmazonEKSAutoClusterRole                       │ EKS cluster control plane   │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤
+  │ AmazonEKSAutoNodeRole_chatapp                  │ EC2 node role (Karpenter)   │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤
+  │ AmazonEKSLoadBalancerControllerRole            │ IRSA for ALB controller pod │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤
+  │ AWSLoadBalancerControllerIAMPolicy             │ ALB controller permissions  │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤
+  │ OIDC Provider 0C6FDC371A7908E4289E0EDFDEFBC572 │ IRSA trust anchor           │
+  └────────────────────────────────────────────────┴─────────────────────────────┘
+
+  ---
+  Kubernetes Resources (chatapp namespace)
+
+  ┌────────────┬─────────────────┬──────────────────────────────────────────────────┐
+  │    Kind    │      Name       │                     Details                      │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ Deployment │ chatapp-api     │ 2/2 ready                                        │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ Service    │ chatapp-api     │ ClusterIP :8000                                  │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ Ingress    │ chatapp-ingress │ class alb, HTTP:80                               │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ HPA        │ chatapp-api-hpa │ 2–10 replicas, 70% CPU target                    │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ Secret     │ chatapp-secret  │ SECRET_KEY, DATABASE_URL, REDIS_URL, DB_PASSWORD │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ Secret     │ rds-ca-cert     │ global-bundle.pem for SSL                        │
+  ├────────────┼─────────────────┼──────────────────────────────────────────────────┤
+  │ ConfigMap  │ chatapp-config  │ app env vars, CORS, OTEL                         │
+  └────────────┴─────────────────┴──────────────────────────────────────────────────┘
+
+  Gaps:
+  Now I have a full picture. Here's the complete gap analysis organized by priority:
+
+  ---
+  🔴 Critical — Blockers for Production
+
+  1. No HTTPS
+  ALB only has an HTTP:80 listener. No ACM certificate exists in the account. All traffic —
+  including auth tokens — is sent in plaintext.
+  → Provision ACM cert for chat.deeptechexpertconsulting.com, add HTTPS:443 listener, redirect
+  HTTP→HTTPS.
+
+  2. RDS storage not encrypted at rest
+  StorageEncrypted: False on chatapp-db01. AWS cannot enable encryption on a running cluster —
+  requires snapshot → restore into a new encrypted cluster.
+
+  3. RDS deletion protection off
+  DeletionProtection: False. One accidental aws rds delete-db-cluster drops the production
+  database permanently.
+  → One CLI call: aws rds modify-db-cluster --deletion-protection.
+
+  4. Plaintext secrets in values files
+  db.password: password01 is in values-dev.yaml in plaintext. values-prod-secrets.yaml sits on
+  disk unencrypted. No AWS Secrets Manager or External Secrets Operator in use.
+
+  5. Aurora MySQL 5.7 — EOL
+  Running aurora-mysql 2.11.1 (MySQL 5.7 compatible). MySQL 5.7 reached end-of-life October 2025.
+   No security patches. Must upgrade to Aurora MySQL 3.x (MySQL 8.0 compatible).
+
+  ---
+  🟠 Security Gaps
+
+  6. No WAF on the ALB
+  No WebACL attached. The app is exposed directly to the internet with no rate limiting, SQL
+  injection protection, or bot filtering.
+
+  7. No pod security context
+  Containers run as root with full privileges. No runAsNonRoot, no readOnlyRootFilesystem, no
+  allowPrivilegeEscalation: false.
+
+  8. No Kubernetes NetworkPolicy
+  All pods can talk to all other pods across all namespaces. No ingress/egress restrictions
+  enforced at the network layer.
+
+  9. No KMS envelope encryption for etcd
+  cluster.encryptionConfig: null — Kubernetes Secrets (including chatapp-secret with DATABASE_URL
+   and SECRET_KEY) are stored unencrypted in etcd.
+
+  10. No dedicated pod ServiceAccount
+  Pods use the default ServiceAccount. Best practice is a dedicated SA with minimal IRSA
+  permissions so a compromised pod can't escalate.
+
+  11. ALB deletion protection off
+  deletion_protection.enabled: false — the ALB can be deleted accidentally.
+
+  ---
+  🟡 Reliability Gaps
+
+  12. RDS single-AZ, single instance
+  MultiAZ: False, one instance (db.t3.small) in us-east-1a only. Any AZ failure or instance
+  failure = full outage with no automatic failover.
+  → Add an Aurora Replica in us-east-1b.
+
+  13. ElastiCache single-AZ
+  MultiAZ: disabled despite AutoFailover: enabled. Failover has nowhere to fail over to.
+  → Enable Multi-AZ on the replication group.
+
+  14. No Pod Disruption Budget
+  With 2 replicas and Karpenter consolidating every 30 seconds, both pods can be evicted
+  simultaneously during a node drain.
+  → Add PodDisruptionBudget with minAvailable: 1.
+
+  15. ALB idle timeout too short for WebSockets
+  idle_timeout: 60s. The app has WebSocket routes. A 60-second idle timeout will silently drop
+  long-lived WS connections.
+  → Increase to 3600s (matches the nginx annotations that were there originally).
+
+  16. Container image pinned to latest
+  morganokanyair/chat-api:latest is not reproducible — a bad push can silently roll out a broken
+  image. Deployments cannot be reliably rolled back.
+  → Pin to a digest or semver tag in CI/CD.
+
+  ---
+  🔵 Observability Gaps
+
+  17. ALB access logs disabled
+  No HTTP request logs. Cannot audit traffic, debug errors, or detect abuse after the fact.
+  → Enable to an S3 bucket with lifecycle policy.
+
+  18. No centralized log aggregation
+  Pod logs exist only in kubelet memory. Node replacement (every 14 days via Karpenter
+  expireAfter) destroys them.
+  → CloudWatch Container Insights, Fluent Bit, or similar.
+
+  19. No alerting
+  Prometheus metrics are exposed and scraped but there is no Alertmanager and no CloudWatch
+  alarms — nobody gets paged on pod crashes, OOM, or latency spikes.
+
+  ---
+  ⚪ Operational / Hygiene
+
+  20. No CI/CD pipeline
+  Deployments are manual Helm CLI invocations from a local machine. No reproducible, auditable
+  deploy process.
+
+  21. ElastiCache cache.t4g.micro undersized
+  Fine for dev, not for production traffic. Needs capacity planning.
+
+  22. No container image vulnerability scanning
+  No ECR image scan or Trivy in the pipeline — known CVEs in base image ship to prod undetected.
+
+  ---
+  Summary table
+
+  ┌─────┬─────────────────────────┬──────────────────┬──────────────────────────┐
+  │  #  │           Gap           │      Effort      │     Risk if ignored      │
+  ├─────┼─────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 1   │ HTTPS / ACM cert        │ Low              │ Auth tokens in plaintext │
+  ├─────┼──────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 2   │ RDS encryption at rest   │ High (migration) │ Compliance failure       │
+  ├─────┼──────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 3   │ RDS deletion protection  │ Trivial          │ Accidental data loss     │
+  ├─────┼──────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 4   │ Secrets Manager / ESO    │ Medium           │ Credentials on disk      │
+  ├─────┼──────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 5   │ Aurora MySQL 5.7 EOL     │ High (migration) │ Unpatched CVEs           │
+  ├─────┼──────────────────────────┼──────────────────┼──────────────────────────┤
+  │ 6   │ WAF                      │ Low              │ DDoS / injection         │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 7   │ Pod security context     │ Low              │ Container escape           │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 8   │ NetworkPolicy            │ Low              │ Lateral movement           │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 9   │ KMS etcd encryption      │ Medium           │ Secret exfiltration        │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 10  │ Dedicated ServiceAccount │ Low              │ Privilege escalation       │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 11  │ ALB deletion protection  │ Trivial          │ Accidental outage          │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 12  │ RDS Multi-AZ replica     │ Medium           │ AZ failure = full outage   │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 13  │ ElastiCache Multi-AZ     │ Low              │ AZ failure = cache loss    │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 14  │ PodDisruptionBudget      │ Trivial          │ Rolling deploys → downtime │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 15  │ ALB idle timeout (WS)    │ Trivial          │ WebSocket drops            │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 16  │ Pin image to digest      │ Low              │ Bad image ships silently   │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 17  │ ALB access logs          │ Low              │ No audit trail             │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 18  │ Centralized logging      │ Medium           │ Logs lost on node cycle    │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 19  │ Alerting                 │ Medium           │ Silent failures            │
+  ├─────┼──────────────────────────┼──────────────────┼────────────────────────────┤
+  │ 20  │ CI/CD pipeline           │ High             │ Unreproducible deploys     │
+  └─────┴──────────────────────────┴──────────────────┴────────────────────────────┘
+
+  Want me to start working through these? The quick wins (3, 11, 13, 14, 15) can all be done in
+  minutes.

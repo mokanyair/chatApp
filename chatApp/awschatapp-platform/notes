@@ -1,0 +1,858 @@
+## Pre-requisites (install once per cluster)
+
+# 1. AWS Load Balancer Controller
+#    Requires an IAM role with the AWS managed policy AWSLoadBalancerControllerIAMPolicy
+#    bound to the controller's ServiceAccount via IRSA (IAM Roles for Service Accounts).
+#
+#    a) Create IAM policy (one-time):
+curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+aws iam create-policy \
+  --policy-name AWSLoadBalancerControllerIAMPolicy \
+  --policy-document file://iam-policy.json
+
+#    b) Create IRSA service account:
+eksctl create iamserviceaccount \
+  --cluster=<CLUSTER_NAME> \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --attach-policy-arn=arn:aws:iam::<ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve
+
+#    c) Install controller via Helm:
+helm repo add eks https://aws.github.io/eks-charts
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=<CLUSTER_NAME> \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+
+# 2. Subnet tags (must be set on VPC subnets in AWS console / CLI — done once)
+#
+#    Internet-facing ALB discovery:
+#      Subnet: chatapp-subnet-public1-us-east-1a
+#      Tag:    kubernetes.io/role/elb = 1
+#
+#    Internal ALB discovery:
+#      Subnet: chatapp-subnet-private3-us-east-1a
+#      Tag:    kubernetes.io/role/internal-elb = 1
+#
+#    Both subnets also need: kubernetes.io/cluster/<CLUSTER_NAME> = shared
+
+# 3. RDS CA certificate — upload once per namespace before deploying
+#    Download global-bundle.pem from:
+#    https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+kubectl create secret generic rds-ca-cert \
+  --from-file=global-bundle.pem=./global-bundle.pem \
+  -n chatapp --dry-run=client -o yaml | kubectl apply -f -
+
+
+## Secret file
+
+cp values-prod-secrets.yaml.example values-prod-secrets.yaml
+# Fill in:
+#   api.secretKey        (openssl rand -hex 32)
+#   db.password          (RDS master password — "password01")
+#   ingress.tls.certificateArn  (ACM cert ARN for HTTPS, if applicable)
+
+
+## Deploy commands
+
+# Dev
+helm upgrade --install chatapp . \
+  --values values.yaml \
+  --values values-dev.yaml \
+  -n chatapp --create-namespace
+
+# Prod
+helm upgrade --install chatapp . \
+  --values values.yaml \
+  --values values-prod.yaml \
+  --values values-prod-secrets.yaml \
+  -n chatapp-prod --create-namespace
+
+
+## AWS connection strings
+
+# RDS MySQL
+#   Host:    chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com
+#   Port:    3306
+#   User:    admin
+#   DB:      chatdb
+#   SSL:     VERIFY_IDENTITY with global-bundle.pem
+#
+# ElastiCache Redis (cluster mode — config endpoint)
+#   Host:    clustercfg.chatapp-rediscache01.oh16mu.use1.cache.amazonaws.com
+#   Port:    6379
+
+
+## ALB Ingress subnet layout
+
+# The Ingress deploys an internet-facing ALB using:
+#   alb.ingress.kubernetes.io/scheme: internet-facing
+#   alb.ingress.kubernetes.io/subnets: chatapp-subnet-public1-us-east-1a
+#   alb.ingress.kubernetes.io/target-type: ip   (routes directly to pod IPs)
+#
+# For HTTPS, set in values-prod-secrets.yaml:
+#   ingress.tls.certificateArn: arn:aws:acm:us-east-1:<ACCOUNT_ID>:certificate/<ID>
+# And in values-prod.yaml the listen-ports annotation is already set to HTTPS:443.
+
+
+## Useful diagnostics
+
+# Check pods and migration logs
+kubectl get pods -n chatapp
+kubectl logs -n chatapp -l app.kubernetes.io/name=chat-api -c migrate --tail=15
+
+# Check ALB Ingress status (hostname assigned by AWS)
+kubectl get ingress -n chatapp
+kubectl describe ingress chatapp-ingress -n chatapp
+
+# Test Redis connectivity from a pod
+kubectl run redis-test --image=redis:7-alpine --restart=Never --rm -i \
+  -n chatapp \
+  --command -- redis-cli \
+  -h clustercfg.chatapp-rediscache01.oh16mu.use1.cache.amazonaws.com \
+  -p 6379 PING
+# redischatapp-db.oh16mu.0001.use1.cache.amazonaws.com 11211  memcache redis aws
+# Test MySQL connectivity from a pod
+kubectl run mysql-test --image=mysql:8.0 --restart=Never --rm -i \
+  -n chatapp \
+  --env="MYSQL_PWD=password01" \
+  --command -- mysql \
+  -h chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com \
+  -P 3306 -u admin \
+  --ssl-mode=VERIFY_IDENTITY \
+  -e "SHOW DATABASES;"
+
+# Restart deployment
+kubectl rollout restart deployment/chatapp-api -n chatapp
+kubectl rollout status deployment/chatapp-api -n chatapp --timeout=180s
+
+# Access without a hostname (port-forward)
+kubectl port-forward svc/chatapp-api 8000:8000 -n chatapp
+# Then open http://localhost:8000/docs
+
+
+##################################################################################
+# AWS Load Balancer Controller (alternative to nginx)
+# If using ALB instead of nginx, override in your values file:
+#
+#   ingress:
+#     ingressClassName: alb
+#     annotations:
+#       kubernetes.io/ingress.class: alb
+#       alb.ingress.kubernetes.io/scheme: internet-facing
+#       alb.ingress.kubernetes.io/target-type: ip
+#       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+#       alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:...
+#       alb.ingress.kubernetes.io/backend-protocol: HTTP
+
+
+## ElastiCache TLS
+# If ElastiCache in-transit encryption is enabled, set in values:
+#   redis:
+#     tls: true
+# This switches REDIS_URL from redis:// to rediss://
+
+
+## Access the app (no ingress hostname set)
+# kubectl port-forward svc/<release>-api 8000:8000 -n chatapp
+# Then open http://localhost:8000/docs
+
+
+
+
+kubectl get pods -n chatapp 2>&1 && echo "---" && \                                                 
+kubectl logs -n chatapp -l app.kubernetes.io/name=chat-api -c migrate --tail=15 2>&1  
+
+unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN && \                                
+   kubectl run db-init --image=python:3.11-slim --restart=Never --rm -i \                              
+     -n chatapp \
+     --command -- python3 - << 'EOF'
+   import subprocess, sys, urllib.request
+
+   subprocess.check_call([sys.executable, "-m", "pip", "install", "pymysql", "cryptography",
+   "--quiet"])
+   import pymysql
+
+   urllib.request.urlretrieve(
+     "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem",
+     "/tmp/global-bundle.pem"
+   )
+
+   conn = pymysql.connect(
+       host="chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com",
+       port=3306, user="admin", passwd="password01",
+       ssl_ca="/tmp/global-bundle.pem", ssl_verify_cert=True,
+       connect_timeout=10,
+   )
+   cur = conn.cursor()
+   cur.execute("CREATE DATABASE IF NOT EXISTS chatdb CHARACTER SET utf8mb4 COLLATE
+   utf8mb4_unicode_ci")
+   conn.commit()
+   cur.execute("SHOW DATABASES")
+   dbs = [r[0] for r in cur.fetchall()]
+   conn.close()
+   print(f"Done. Databases: {', '.join(dbs)}")
+   EOF
+
+   unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN && \
+   kubectl rollout restart deployment/chatapp-api -n chatapp 2>&1 && \
+   kubectl rollout status deployment/chatapp-api -n chatapp --timeout=180s 2>&1
+
+   kubectl run redis-test --image=redis:7-alpine --restart=Never --rm -i \
+     -n chatapp \
+     --command -- redis-cli \
+     -h chatapp-rediscache-01.oh16mu.ng.0001.use1.cache.amazonaws.com \
+     -p 6379 PING 2>&1
+redis6-cli --tls -h clustercfg.redischatapp-db01.oh16mu.use1.cache.amazonaws.com -p 6379 -c
+
+  unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN && \
+   POD=$(kubectl get pod -n chatapp -l app.kubernetes.io/name=chat-api -o
+   jsonpath='{.items[0].metadata.name}') && \
+   kubectl exec -n chatapp $POD -c chat-api -- python3 -c "
+   import socket
+   host = 'chatapp-rediscache-01.oh16mu.ng.0001.use1.cache.amazonaws.com'
+   try:
+       s = socket.create_connection((host, 6379), timeout=5)
+       s.close()
+       print('TCP OK — port 6379 reachable')
+   except Exception as e:
+       print(f'FAILED: {e}')
+   " 2>&1   
+
+
+ unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN && \                                
+   kubectl rollout status deployment/ingress-nginx-controller -n ingress-nginx --timeout=120s 2>&1
+   && \                                                                                                
+   kubectl get svc ingress-nginx-controller -n ingress-nginx 2>&1  
+
+
+ unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN && \                                
+   until kubectl get svc ingress-nginx-controller -n ingress-nginx \                                   
+     -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null | grep -q '.'; do            
+     echo "waiting for NLB hostname..."; sleep 10
+   done && \
+   LB=$(kubectl get svc ingress-nginx-controller -n ingress-nginx \
+     -o jsonpath='{.status.loadBalancer.ingress[0].hostname}') && \
+   echo "LoadBalancer: $LB"
+   Poll until AWS NLB hostname is assigned   
+
+
+   # Download RDS CA bundle first for the MySQL SSL test
+   curl -sL https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -o /tmp/global-bundle.pem && echo
+   "Downloaded global-bundle.pem ($(wc -c < /tmp/global-bundle.pem) bytes)"
+
+
+   kubectl describe pod redis-tls-test -n chatapp 2>&1 | grep -A 20 "Events:"
+   Bash(kubectl describe pod redis-tls-test -n chatapp 2>&1 | tail -30)
+   kubectl get events -n chatapp --sort-by='.lastTimestamp' 2>&1 | tail -20
+
+   kubectl run redis-tls-test \
+     --image=redis:6-alpine \
+     --restart=Never \
+     -n chatapp \
+     --command -- redis-cli \
+       --tls \
+       --insecure \
+       -h clustercfg.chatapp-rediscache01.oh16mu.use1.cache.amazonaws.com \
+       -p 6379 \
+       -c \
+       PING 2>&1
+
+until kubectl get pod redis-tls-test -n chatapp -o jsonpath='{.status.phase}' 2>/dev/null |
+    grep -qE '^(Succeeded|Failed)$'; do sleep 3; done && kubectl get pod redis-tls-test -n
+   chatapp && kubectl logs redis-tls-test -n chatapp 2>&1       
+
+
+ kubectl delete pod redis-tls-test -n chatapp 2>&1
+
+   kubectl run mysql-test \
+     --image=mysql:8.0 \
+     --restart=Never \
+     -n chatapp \
+     --overrides='{
+       "spec": {
+         "containers": [{
+           "name": "mysql-test",
+           "image": "mysql:8.0",
+           "command": ["/bin/sh","-c"],
+           "args": ["mysql -h chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com -P
+    3306 -u admin -p\"${MYSQL_PWD}\" --ssl-ca=/ssl/global-bundle.pem
+   --ssl-mode=VERIFY_IDENTITY -e \"SHOW DATABASES;\""],
+           "env": [{"name":"MYSQL_PWD","value":"password01"}],
+           "volumeMounts": [{"name":"rds-ca","mountPath":"/ssl","readOnly":true}]
+         }],
+         "volumes": [{"name":"rds-ca","secret":{"secretName":"rds-ca-cert"}}]
+       }
+     }' 2>&1   
+
+until kubectl get pod mysql-test -n chatapp -o jsonpath='{.status.phase}' 2>/dev/null |
+   grep -qE '^(Succeeded|Failed)$'; do sleep 3; done && kubectl get pod mysql-test -n chatapp
+   && kubectl logs mysql-test -n chatapp 2>&1     
+
+
+   kubectl get pod mysql-test -n chatapp 2>&1 && kubectl logs mysql-test -n chatapp 2>&1
+   kubectl get events -n chatapp --sort-by='.lastTimestamp' 2>&1 | grep mysql | tail -15
+   kubectl get nodes 2>&1 && kubectl get pods -n chatapp -A 2>&1
+
+   kubectl get node i-00e6749c5cf7f86ea -o jsonpath='{.metadata.labels}' 2>&1 | python3 -m
+   json.tool 2>/dev/null | grep -E 'node|instance|arch|os' | head -20
+
+
+   kubectl run mysql-test \
+     --image=mysql:8.0 \
+     --restart=Never \
+     -n chatapp \
+     --overrides='{
+       "spec": {
+         "nodeName": "i-00e6749c5cf7f86ea",
+         "containers": [{
+           "name": "mysql-test",
+           "image": "mysql:8.0",
+           "command": ["/bin/sh","-c"],
+           "args": ["mysql -h chatapp-db01.cluster-cknio6ek2ah3.us-east-1.rds.amazonaws.com -P
+    3306 -u admin -p\"${MYSQL_PWD}\" --ssl-ca=/ssl/global-bundle.pem
+   --ssl-mode=VERIFY_IDENTITY -e \"SHOW DATABASES;\""],
+           "env": [{"name":"MYSQL_PWD","value":"password01"}],
+           "volumeMounts": [{"name":"rds-ca","mountPath":"/ssl","readOnly":true}]
+         }],
+         "volumes": [{"name":"rds-ca","secret":{"secretName":"rds-ca-cert"}}]
+       }
+     }' 2>&1
+
+
+     until kubectl get pod mysql-test -n chatapp -o jsonpath='{.status.phase}' 2>/dev/null |
+   grep -qE '^(Succeeded|Failed)$'; do sleep 3; done && kubectl get pod mysql-test -n chatapp
+   && kubectl logs mysql-test -n chatapp 2>&1
+
+   deployment commands:
+   kubectl get pods -n kube-system 2>&1 && echo "---" && kubectl get ingressclass 2>&1 && echo
+    "---" && kubectl get secret rds-ca-cert -n chatapp 2>&1 && echo "---" && kubectl get
+   serviceaccount -n kube-system | grep lb 2>&1
+
+   aws iam list-policies --scope Local --query
+   "Policies[?PolicyName=='AWSLoadBalancerControllerIAMPolicy'].{Name:PolicyName,Arn:Arn}"
+   --output table 2>&1 && echo "---" && aws eks describe-cluster --name chatapp01-cluster
+   --region us-east-1 --query "cluster.{version:version,oidc:identity.oidc.issuer,vpcId:resour
+   cesVpcConfig.vpcId,subnets:resourcesVpcConfig.subnetIds}" 2>&1
+
+   # Check OIDC provider exists in IAM
+   aws iam list-open-id-connect-providers --query "OpenIDConnectProviderList[*].Arn" --output
+   table 2>&1 && echo "---"
+   ###Explanation:
+   | Component     | Purpose            |
+| ------------- | ------------------ |
+| OIDC Provider | trust relationship |
+| IAM Role      | permissions        | AWSLoadBalancerControllerIAMPolicy
+| Kubernetes SA | identity           |
+
+
+   # Check subnet tags
+   aws ec2 describe-subnets \
+     --filters "Name=vpc-id,Values=vpc-035ef7d6e3f3e0dd0" \
+     --query "Subnets[*].{Name:Tags[?Key=='Name']|[0].Value,SubnetId:SubnetId,AZ:AvailabilityZ
+   one,Tags:Tags[?Key=='kubernetes.io/role/elb'||Key=='kubernetes.io/role/internal-elb'||Key==
+   'kubernetes.io/cluster/chatapp01-cluster']}" \
+     --output json 2>&1
+
+
+     # Check if eks OIDC provider is registered
+   aws iam list-open-id-connect-providers 2>&1 | grep "0C6FDC371A7908E4289E0EDFDEFBC572" &&
+   echo "EKS OIDC registered" || echo "EKS OIDC NOT registered"
+
+   # Check if LB controller IAM policy exists (local account policies)
+   aws iam list-policies --scope Local --query
+   "Policies[?contains(PolicyName,'LoadBalancer')].{Name:PolicyName,Arn:Arn}" --output table
+   2>&1
+
+   # Check if Helm eks charts repo is present
+   helm repo list 2>&1
+   Check OIDC provider, IAM policy, and Helm repos
+
+   Ready
+  - chatapp namespace exists
+  - rds-ca-cert secret uploaded to chatapp namespace
+  - RDS (MySQL) and ElastiCache (Redis TLS) connectivity both verified
+  - Subnet role tags already applied: kubernetes.io/role/elb=1 on
+  chatapp-subnet-public1-us-east-1a, kubernetes.io/role/internal-elb=1 on
+  chatapp-subnet-private3-us-east-1a 
+  - Helm chart values fully configured
+
+  Blockers — must be done before helm install
+
+  1. Register the EKS OIDC provider in IAM — the cluster has an OIDC issuer
+  (0C6FDC371A7908E4289E0EDFDEFBC572) but it is not registered as an IAM identity provider yet.
+  IRSA (pod-level IAM roles) won't work without this.
+  2. Create the AWSLoadBalancerControllerIAMPolicy IAM policy — not present in the account yet.
+  3. Create IRSA IAM role + Kubernetes ServiceAccount for the LB controller — ties the IAM policy
+   to the controller pod via the OIDC provider.
+  4. Install aws-load-balancer-controller — not running in the cluster; no eks Helm repo added
+  yet. Without it, ingressClassName: alb Ingress objects will be created but never acted on (no
+  ALB will appear).
+  5. Update subnet annotation to use subnet ID — the annotation currently says
+  chatapp-subnet-public1-us-east-1a (name). The LB controller is more reliable with the actual
+  ID. From the VPC lookup: chatapp-subnet-public1-us-east-1a = subnet-0e132fb27f601c9f1. I'll
+  update the chart.
+  6. Generate and set api.secretKey in values-dev.yaml (or values file) — currently the default
+  placeholder "change-me-in-production…" is used. Fine to do now before deploying.
+
+Actual deployment:
+# Get the TLS thumbprint from the OIDC endpoint
+   THUMBPRINT=$(echo | openssl s_client \
+     -servername oidc.eks.us-east-1.amazonaws.com \
+     -connect oidc.eks.us-east-1.amazonaws.com:443 2>/dev/null \
+     | openssl x509 -fingerprint -noout -sha1 \
+     | sed 's/SHA1 Fingerprint=//' \
+     | tr -d ':' \
+     | tr '[:upper:]' '[:lower:]')
+   echo "Thumbprint: $THUMBPRINT"
+
+   aws iam create-open-id-connect-provider \
+     --url https://oidc.eks.us-east-1.amazonaws.com/id/0C6FDC371A7908E4289E0EDFDEFBC572 \
+     --client-id-list sts.amazonaws.com \
+     --thumbprint-list "$THUMBPRINT" 2>&1
+   Register EKS OIDC provider in IAM
+
+
+   curl -sL https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/mai
+   n/docs/install/iam_policy.json \
+     -o /tmp/alb-iam-policy.json && echo "Downloaded $(wc -c < /tmp/alb-iam-policy.json)
+   bytes"
+
+   aws iam create-policy \
+     --policy-name AWSLoadBalancerControllerIAMPolicy \
+     --policy-document file:///tmp/alb-iam-policy.json \
+     --query "Policy.{Arn:Arn,Name:PolicyName}" \
+     --output table 2>&1
+   Download and create ALB controller IAM policy
+
+
+   Bash command
+  
+   cat > /tmp/alb-trust-policy.json << 'EOF'
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": {
+           "Federated": "arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.
+   com/id/FABE8D4516C57785E724775331AA0733"
+         },
+         "Action": "sts:AssumeRoleWithWebIdentity",
+         "Condition": {
+           "StringEquals": {
+             "oidc.eks.us-east-1.amazonaws.com/id/FABE8D4516C57785E724775331AA0733:aud":
+   "sts.amazonaws.com",
+             "oidc.eks.us-east-1.amazonaws.com/id/FABE8D4516C57785E724775331AA0733:sub":
+   "system:serviceaccount:kube-system:aws-load-balancer-controller"
+           }
+         }
+       }
+     ]
+   }
+   EOF
+
+   aws iam create-role \
+     --role-name AmazonEKSLoadBalancerControllerRole \
+     --assume-role-policy-document file:///tmp/alb-trust-policy.json \
+     --query "Role.{Arn:Arn,Name:RoleName}" \
+     --output table 2>&1
+   Create IRSA IAM role with OIDC trust policy
+
+
+
+   aws iam attach-role-policy \
+     --role-name AmazonEKSLoadBalancerControllerRole \
+     --policy-arn arn:aws:iam::866317130608:policy/AWSLoadBalancerControllerIAMPolicy 2>&1 &&
+   echo "Policy attached"
+
+   kubectl create serviceaccount aws-load-balancer-controller \
+     -n kube-system \
+     --dry-run=client -o yaml \
+     | kubectl annotate -f - \
+       eks.amazonaws.com/role-arn=arn:aws:iam::866317130608:role/AmazonEKSLoadBalancerControll
+   erRole \
+       --local -o yaml \
+     | kubectl apply -f - 2>&1
+   Attach IAM policy to role and create annotated ServiceAccount
+
+ helm repo add eks https://aws.github.io/eks-charts 2>&1 && helm repo update eks 2>&1 | tail
+    -3
+   Add EKS Helm repo and update
+
+    helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+     -n kube-system \
+     --set clusterName=$cluster \
+     --set serviceAccount.create=false \
+     --set serviceAccount.name=aws-load-balancer-controller \
+     --set region=us-east-1 \
+     --set vpcId=$vpcId 2>&1
+   Install AWS Load Balancer Controller via Helm
+
+ This command requires approval
+
+ until kubectl get pods -n kube-system -l
+   app.kubernetes.io/name=aws-load-balancer-controller \
+     -o jsonpath='{.items[*].status.conditions[?(@.type=="Ready")].status}' 2>/dev/null \
+     | grep -q "True"; do sleep 5; done
+   kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller 2>&1
+
+   Step 5 — Update subnet annotation to use subnet ID
+annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # Public subnet tagged kubernetes.io/role/elb=1 for internet-facing ALB.
+    alb.ingress.kubernetes.io/subnets: chatapp-subnet-public1-us-east-1a
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+
+
+nnotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # subnet-0e132fb27f601c9f1 = chatapp-subnet-public1-us-east-1a (tagged kubernetes.io/role/elb=1)
+    alb.ingress.kubernetes.io/subnets: subnet-0e132fb27f601c9f1  --> this
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+
+    Step 6 — Generate and set api.secretKey in values-dev.yaml
+
+● Bash(openssl rand -hex 32)
+  ⎿  e9bbede5a03b935b024c3c4a92e1e9093e089c91af3876d5313803249e3cf4a4
+
+
+  kubectl get ingressclass 2>&1 && echo "---" && \
+   helm template chatapp . \
+     --values values.yaml \
+     --values values-dev.yaml 2>&1 | grep -E
+   'REDIS_URL|DATABASE_URL|subnets|ingressClassName|secretKey'
+   Verify IngressClass exists and key rendered values
+
+ Do you want to proceed?
+ ❯ 1. Yes
+   2. Yes, and don't ask again for kubectl get and helm template commands in
+      /home/ubuntu/kcad/python_projects/fastAPI/chatApp/chatApp
+   3. No
+
+
+
+   Everything is green. Here's the summary:
+
+  Step: 1
+  What was done: Registered EKS OIDC provider in IAM (0C6FDC371A7908E4289E0EDFDEFBC572)
+  Status: ✅
+  ────────────────────────────────────────
+  Step: 2
+  What was done: Created AWSLoadBalancerControllerIAMPolicy
+  Status: ✅
+  ────────────────────────────────────────
+  Step: 3
+  What was done: Created IRSA role AmazonEKSLoadBalancerControllerRole + annotated ServiceAccount
+  Status: ✅
+  ────────────────────────────────────────
+  Step: 4
+  What was done: Installed aws-load-balancer-controller — 2 pods Running, alb IngressClass
+    registered
+  Status: ✅
+  ────────────────────────────────────────
+  Step: 5
+  What was done: Subnet annotation updated to ID subnet-0e132fb27f601c9f1 in both values.yaml and
+
+    values-prod.yaml
+  Status: ✅
+  ────────────────────────────────────────
+  Step: 6
+  What was done: api.secretKey generated and set in values-dev.yaml
+  Status: ✅
+
+  Ready to deploy. The command is:
+
+  cd awschatapp-platform
+  helm upgrade --install chatapp . \
+    --values values.yaml \
+    --values values-dev.yaml \
+    -n chatapp --create-namespace
+
+
+Troubleshooting:
+kubectl get pods -n chatapp 2>&1 && echo "---" && kubectl get jobs -n chatapp 2>&1
+
+kubectl delete job chatapp-db-init -n chatapp 2>&1
+   kubectl delete pod chatapp-db-init-7v4zs -n chatapp --ignore-not-found 2>&1
+
+   helm upgrade --install chatapp . \
+    --values values.yaml \
+    --values values-dev.yaml \
+    -n chatapp --create-namespace
+
+kubectl get pods -n chatapp 2>&1 && echo "---" && kubectl get jobs -n chatapp 2>&1    
+
+kubectl logs -n chatapp -l app.kubernetes.io/name=chat-api -c migrate --tail=20 2>&1 &&
+   echo "---" && kubectl get ingress -n chatapp 2>&1
+
+
+until kubectl get ingress chatapp-ingress -n chatapp \
+     -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null | grep -q '.'; do
+     sleep 10
+   done
+   ALB=$(kubectl get ingress chatapp-ingress -n chatapp -o
+   jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+   echo "ALB: $ALB"
+   kubectl get ingress chatapp-ingress -n chatapp 2>&1
+   Wait for ALB hostname to be assigned
+
+Rollout depoyment checks:
+kubectl rollout restart deployment chatapp-api -n chatapp
+kubectl rollout status deployment/chatapp-api -n chatapp
+
+   # Tag the second public subnet so LB controller knows it's eligible
+   aws ec2 create-tags \
+     --resources subnet-0dc369f3486634022 \
+     --tags Key=kubernetes.io/role/elb,Value=1 2>&1 && echo "Tagged subnet-0dc369f3486634022"
+   Tag second public subnet for internet-facing ALB discovery
+
+   until kubectl get ingress chatapp-ingress -n chatapp \
+     -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null | grep -q '.'; do
+     echo "waiting..."; sleep 10
+   done
+   echo "ALB: $(kubectl get ingress chatapp-ingress -n chatapp -o
+   jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+   kubectl get ingress chatapp-ingress -n chatapp 2>&1
+
+Test:
+ALB="k8s-chatapp-chatappi-b5fd20a17f-319697898.us-east-1.elb.amazonaws.com"
+
+   echo "=== Pods ===" && kubectl get pods -n chatapp 2>&1
+   echo ""
+   echo "=== HPA ===" && kubectl get hpa -n chatapp 2>&1
+   echo ""
+   echo "=== Health check ===" && curl -s --max-time 10 http://$ALB/health/live 2>&1
+   echo ""
+   echo "=== Ready check ===" && curl -s --max-time 10 http://$ALB/health/ready 2>&1
+=== Pods ===
+
+   POD=$(kubectl get pod -n chatapp -l app.kubernetes.io/name=chat-api -o
+   jsonpath='{.items[0].metadata.name}')
+   echo "Pod: $POD"
+   kubectl exec -n chatapp $POD -- curl -s http://localhost:8000/health/live 2>&1
+   echo ""
+   kubectl exec -n chatapp $POD -- curl -s http://localhost:8000/health/ready 2>&1
+   Hit health endpoints from inside the pod
+
+
+ echo "=== Docs ===" && curl -s -o /dev/null -w "%{http_code}"
+   http://chat.deeptechexpertconsulting.com/docs
+   echo ""
+   echo "=== OpenAPI schema ===" && curl -s -o /dev/null -w "%{http_code}"
+   http://chat.deeptechexpertconsulting.com/openapi.json
+   echo ""
+   echo "=== Metrics ===" && curl -s http://chat.deeptechexpertconsulting.com/metrics 2>&1 |
+   head -5
+
+  Todo:
+   The app is fully reachable at http://chat.deeptechexpertconsulting.com. When you're ready to
+  add HTTPS, provision an ACM certificate for that domain, set ingress.tls.certificateArn in
+  values-prod-secrets.yaml, and redeploy.
+
+
+
+
+  Infra resources:
+
+
+  echo "=== EC2 Nodes ===" && \
+   aws ec2 describe-instances \
+     --filters "Name=tag:eks:cluster-name,Values=chatapp01-cluster"
+   "Name=instance-state-name,Values=running" \
+     --query "Reservations[*].Instances[*].{ID:InstanceId,Type:InstanceType,AZ:Placement.Avail
+   abilityZone,State:State.Name,PrivateIP:PrivateIpAddress}" \
+     --output table 2>&1
+   Query EC2 nodes tagged for EKS cluster
+
+   echo "=== RDS Instances ===" && \
+   aws rds describe-db-clusters \
+     --query "DBClusters[*].{Identifier:DBClusterIdentifier,Engine:Engine,EngineVersion:Engine
+   Version,Status:Status,Endpoint:Endpoint,Port:Port,MasterUser:MasterUsername}" \
+     --output table 2>&1
+   Query RDS clusters
+
+   echo "=== ElastiCache ===" && \
+   aws elasticache describe-replication-groups \
+     --query "ReplicationGroups[*].{ID:ReplicationGroupId,Status:Status,Description:Descriptio
+   n,ConfigEndpoint:ConfigurationEndpoint.Address}" \
+     --output table 2>&1
+   Query ElastiCache replication groups
+
+   aws elbv2 describe-load-balancers \
+     --query "LoadBalancers[*].{Name:LoadBalancerName,DNS:DNSName,Scheme:Scheme,State:State.Co
+   de,Type:Type,AZ:AvailabilityZones[*].ZoneName}" \
+     --output table 2>&1
+   Query ALB load balancers
+
+   echo "=== VPC ===" && \
+   aws ec2 describe-vpcs \
+     --filters "Name=vpc-id,Values=vpc-035ef7d6e3f3e0dd0" \
+     --query "Vpcs[*].{VpcId:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}" \
+     --output table 2>&1 && \
+   echo "" && echo "=== Subnets ===" && \
+   aws ec2 describe-subnets \
+     --filters "Name=vpc-id,Values=vpc-035ef7d6e3f3e0dd0" \
+     --query "Subnets[*].{Name:Tags[?Key=='Name']|[0].Value,SubnetId:SubnetId,AZ:AvailabilityZ
+   one,CIDR:CidrBlock,Public:MapPublicIpOnLaunch}" \
+     --output table 2>&1
+
+     echo "=== IAM Roles (project) ===" && \
+   aws iam list-roles \
+     --query "Roles[?contains(RoleName,'chatapp')||contains(RoleName,'LoadBalancer')||contains
+   (RoleName,'EKS')].{Name:RoleName,Arn:Arn}" \
+     --output table 2>&1 && \
+   echo "" && echo "=== IAM Policies (local) ===" && \
+   aws iam list-policies --scope Local \
+     --query "Policies[*].{Name:PolicyName,Arn:Arn}" \
+     --output table 2>&1
+   Query IAM roles and policies
+
+
+   echo "=== Security Groups ===" && \
+   aws ec2 describe-security-groups \
+     --filters "Name=vpc-id,Values=vpc-035ef7d6e3f3e0dd0" \
+     --query "SecurityGroups[*].{Name:GroupName,ID:GroupId,Description:Description}" \
+     --output table 2>&1
+   Query security groups in VPC
+
+   echo "=== Route53 Record ===" && \
+   HOSTED_ZONE=$(aws route53 list-hosted-zones \
+     --query "HostedZones[?contains(Name,'deeptechexpertconsulting')].Id" \
+     --output text | cut -d/ -f3) && \
+   echo "Zone: $HOSTED_ZONE" && \
+   aws route53 list-resource-record-sets \
+     --hosted-zone-id "$HOSTED_ZONE" \
+     --query "ResourceRecordSets[?contains(Name,'chat')].{Name:Name,Type:Type,Value:ResourceRe
+   cords[0].Value||AliasTarget.DNSName}" \
+     --output table 2>&1
+   Query Route53 CNAME record for the app domain
+
+   echo "=== ALB Target Groups ===" && \
+   aws elbv2 describe-target-groups \
+     --query "TargetGroups[?contains(LoadBalancerArns[0],'chatapp')].{Name:TargetGroupName,Pro
+   tocol:Protocol,Port:Port,TargetType:TargetType,HealthPath:HealthCheckPath,Healthy:HealthyTh
+   resholdCount}" \
+     --output table 2>&1 || \
+   aws elbv2 describe-target-groups \
+     --query "TargetGroups[*].{Name:TargetGroupName,Protocol:Protocol,Port:Port,TargetType:Tar
+   getType,HealthPath:HealthCheckPath}" \
+     --output table 2>&1
+
+     echo "=== OIDC Provider ===" && \
+   aws iam list-open-id-connect-providers \
+     --query "OpenIDConnectProviderList[*].Arn" --output table 2>&1 && \
+   echo "" && echo "=== Karpenter NodeClaims ===" && \
+   kubectl get nodeclaims 2>&1 && \
+   echo "" && echo "=== Kubernetes Resources (chatapp ns) ===" && \
+   kubectl get deploy,svc,ingress,hpa,secret,configmap -n chatapp 2>&1
+   Query OIDC providers, node claims, and Kubernetes resources
+
+   echo "=== ElastiCache encryption + config ===" && \
+   aws elasticache describe-replication-groups --replication-group-id chatapp-rediscache01 \
+     --query "ReplicationGroups[0].{AtRestEncryption:AtRestEncryptionEnabled,TransitEncryption
+   :TransitEncryptionEnabled,AutoFailover:AutomaticFailover,MultiAZ:MultiAZ,NodeType:CacheNode
+   Type,NumNodeGroups:NodeGroups|length(@)}" \
+     --output table 2>&1
+
+     echo "=== ALB access logs ===" && \
+   ALB_ARN=$(aws elbv2 describe-load-balancers \
+     --query "LoadBalancers[?contains(LoadBalancerName,'chatapp')].LoadBalancerArn" \
+     --output text) && \
+   echo "ALB ARN: $ALB_ARN" && \
+   aws elbv2 describe-load-balancer-attributes \
+     --load-balancer-arn "$ALB_ARN" \
+     --query "Attributes[?Key=='access_logs.s3.enabled'||Key=='deletion_protection.enabled'||K
+   ey=='idle_timeout.timeout_seconds']" \
+     --output table 2>&1
+   Check ALB access logs and deletion protection
+
+
+   echo "=== Security group rules - ALB ===" && \
+   aws ec2 describe-security-group-rules \
+     --filters "Name=group-id,Values=sg-0e000ca5b51efb108" \
+     --query "SecurityGroupRules[*].{Direction:IsEgress,Protocol:IpProtocol,Port:ToPort,CIDR:C
+   idrIpv4,Description:Description}" \
+     --output table 2>&1
+
+   echo "" && echo "=== Security group rules - MySQL ===" && \
+   aws ec2 describe-security-group-rules \
+     --filters "Name=group-id,Values=sg-0c0d5fe698ee49844" \
+     --query "SecurityGroupRules[*].{Direction:IsEgress,Protocol:IpProtocol,Port:ToPort,CIDR:C
+   idrIpv4,SourceSG:ReferencedGroupInfo.GroupId}" \
+     --output table 2>&1
+   Check ALB and MySQL security group rules
+
+   echo "=== Pod security context ===" && \
+   kubectl get deployment chatapp-api -n chatapp -o
+   jsonpath='{.spec.template.spec.securityContext}' 2>&1 && echo "" && \
+   kubectl get deployment chatapp-api -n chatapp -o
+   jsonpath='{.spec.template.spec.containers[0].securityContext}' 2>&1 && echo ""
+
+   echo "" && echo "=== Pod Disruption Budget ===" && \
+   kubectl get pdb -n chatapp 2>&1
+
+   echo "" && echo "=== Network Policy ===" && \
+   kubectl get networkpolicy -n chatapp 2>&1
+
+   echo "" && echo "=== ServiceAccount ===" && \
+   kubectl get serviceaccount -n chatapp 2>&1
+   Check pod security, PDB, network policy, service accounts
+
+
+echo "=== Karpenter NodePool config ===" && \
+   kubectl get nodepool -o yaml 2>&1 | grep -E
+   'name:|instanceCategory|instanceGeneration|capacityType|ttlSecond|expireAfter|consolidat' |
+    head -30
+
+   echo "" && echo "=== EKS control plane logging ===" && \
+   aws eks describe-cluster --name chatapp01-cluster \
+     --query "cluster.logging.clusterLogging" --output table 2>&1
+
+   echo "" && echo "=== EKS secrets encryption ===" && \
+   aws eks describe-cluster --name chatapp01-cluster \
+     --query "cluster.encryptionConfig" --output table 2>&1
+   Check Karpenter config, EKS control plane logging, secrets encryption
+
+echo "=== ACM certificates ===" && \
+   aws acm list-certificates --region us-east-1 \
+     --query "CertificateSummaryList[*].{Domain:DomainName,Status:Status,Arn:CertificateArn}"
+   \
+     --output table 2>&1
+
+   echo "" && echo "=== WAF WebACL on ALB ===" && \
+   ALB_ARN=$(aws elbv2 describe-load-balancers \
+     --query "LoadBalancers[?contains(LoadBalancerName,'chatapp')].LoadBalancerArn" --output
+   text) && \
+   aws wafv2 get-web-acl-for-resource \
+     --resource-arn "$ALB_ARN" --scope REGIONAL 2>&1 | head -5
+   Check ACM certificates and WAF association
+
+
+   echo "=== RDS read replicas ===" && \
+   aws rds describe-db-instances \
+     --query "DBInstances[?DBClusterIdentifier=='chatapp-db01'].{ID:DBInstanceIdentifier,Class
+   :DBInstanceClass,Role:PromotionTier,AZ:AvailabilityZone,StorageEncrypted:StorageEncrypted}"
+    \
+     --output table 2>&1
+
+   echo "" && echo "=== ALB HTTPS listener ===" && \
+   ALB_ARN=$(aws elbv2 describe-load-balancers \
+     --query "LoadBalancers[?contains(LoadBalancerName,'chatapp')].LoadBalancerArn" --output
+   text) && \
+   aws elbv2 describe-listeners --load-balancer-arn "$ALB_ARN" \
+     --query "Listeners[*].{Port:Port,Protocol:Protocol,SSL:SslPolicy}" \
+     --output table 2>&1
+
+   echo "" && echo "=== EKS envelope encryption (KMS) ===" && \
+   aws eks describe-cluster --name chatapp01-cluster \
+     --query "cluster.encryptionConfig[0]" --output json 2>&1
+   Check RDS replicas, ALB listeners, KMS encryption
+
+ Contains shell syntax (string) that cannot be statically analyzed

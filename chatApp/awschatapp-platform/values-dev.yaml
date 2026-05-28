@@ -1,0 +1,17 @@
+global:
+  environment: dev
+
+api:
+  replicaCount: 1
+  secretKey: "2c578930d4a1bfe502b70cee9e07d70c1c0a1edcfa30e51571db71421dbc4786"
+
+db:
+  name: "chatdb"
+  password: "password01"  # dev only — for prod use values-prod-secrets.yaml
+
+ingress:
+  enabled: true
+  host: "chat.deeptechexpertconsulting.com"  # set to your dev hostname or leave empty for kubectl port-forward
+
+  tls:
+    enabled: false

@@ -1,0 +1,2992 @@
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mDeprecated Parameter[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe parameter "dynamodb_table" is deprecated. Use parameter "use_lockfile"
+[33m│[0m [0minstead.
+[33m╵[0m[0m
+[0m[1mmodule.acm.data.aws_route53_zone.this: Reading...[0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.eks: Refreshing state... [id=/aws/eks/chatapp-prod-cluster/cluster][0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_logs: Refreshing state... [id=/aws/vpc/chatapp-prod-flow-logs][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role.eks_node: Refreshing state... [id=chatapp-prod-eks-node-role][0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Refreshing state... [id=eipalloc-022ee9f4e47e6b1e7][0m
+[0m[1mmodule.vpc.aws_eip.nat[1]: Refreshing state... [id=eipalloc-08e1053ae9bf68125][0m
+[0m[1mdata.aws_eks_cluster.cluster[0]: Reading...[0m[0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role.eks_cluster: Refreshing state... [id=chatapp-prod-eks-cluster-role][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=866317130608][0m
+[0m[1mmodule.vpc.aws_vpc.this: Refreshing state... [id=vpc-07f61fb37477f7e6a][0m
+[0m[1mmodule.waf.data.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_iam_role.flow_logs: Refreshing state... [id=chatapp-prod-vpc-flow-logs-role][0m
+[0m[1mmodule.waf.data.aws_caller_identity.current: Read complete after 0s [id=866317130608][0m
+[0m[1mmodule.kms.data.aws_iam_policy_document.kms: Reading...[0m[0m
+[0m[1mmodule.kms.data.aws_iam_policy_document.kms: Read complete after 0s [id=1707013534][0m
+[0m[1mmodule.kms.aws_kms_key.secrets: Refreshing state... [id=60874524-870a-4a57-aacc-4c8c7b77820c][0m
+[0m[1mdata.aws_eks_cluster.cluster[0]: Read complete after 1s [id=chatapp-prod-cluster][0m
+[0m[1mmodule.kms.aws_kms_key.rds: Refreshing state... [id=3634565e-3e0f-4b87-88ed-42cd7f09e52e][0m
+[0m[1mmodule.acm.data.aws_route53_zone.this: Read complete after 1s [id=Z00059733M4NJCLBQJPRL][0m
+[0m[1mmodule.kms.aws_kms_key.eks: Refreshing state... [id=26d2dadf-53a8-4b7f-b49c-810287442ce0][0m
+[0m[1mmodule.kms.aws_kms_key.elasticache: Refreshing state... [id=7483b970-fde1-442c-90b4-d0cdf8a78739][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role_policy_attachment.eks_cluster: Refreshing state... [id=chatapp-prod-eks-cluster-role-20260527230331672300000001][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role_policy_attachment.node_worker: Refreshing state... [id=chatapp-prod-eks-node-role-20260527230331894900000003][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role_policy_attachment.node_ecr: Refreshing state... [id=chatapp-prod-eks-node-role-20260527230331757500000002][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role_policy_attachment.node_cni: Refreshing state... [id=chatapp-prod-eks-node-role-20260527230332007300000004][0m
+[0m[1mmodule.vpc.aws_iam_role_policy.flow_logs: Refreshing state... [id=chatapp-prod-vpc-flow-logs-role:chatapp-prod-vpc-flow-logs-policy][0m
+[0m[1mmodule.vpc.aws_internet_gateway.this: Refreshing state... [id=igw-04b4bed5a23cacc85][0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Refreshing state... [id=subnet-09936ac9fcd400de6][0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Refreshing state... [id=subnet-0252538be2a0949e2][0m
+[0m[1mmodule.vpc.aws_subnet.private_data[0]: Refreshing state... [id=subnet-01d932b8460df2f45][0m
+[0m[1mmodule.vpc.aws_flow_log.this: Refreshing state... [id=fl-0de05e9ff77ead87b][0m
+[0m[1mmodule.vpc.aws_subnet.private_data[1]: Refreshing state... [id=subnet-0747012980d7073fc][0m
+[0m[1mmodule.security_groups.aws_security_group.alb: Refreshing state... [id=sg-0d124cba2f989a9fb][0m
+[0m[1mmodule.vpc.aws_subnet.private_app[0]: Refreshing state... [id=subnet-019c954fc8fea069c][0m
+[0m[1mmodule.vpc.aws_subnet.private_app[1]: Refreshing state... [id=subnet-0eba1fc0bcbf9d22d][0m
+[0m[1mmodule.kms.aws_kms_alias.rds: Refreshing state... [id=alias/chatapp-prod-rds][0m
+[0m[1mmodule.kms.aws_kms_alias.secrets: Refreshing state... [id=alias/chatapp-prod-secrets][0m
+[0m[1mmodule.kms.aws_kms_alias.elasticache: Refreshing state... [id=alias/chatapp-prod-elasticache][0m
+[0m[1mmodule.kms.aws_kms_alias.eks: Refreshing state... [id=alias/chatapp-prod-eks][0m
+[0m[1mmodule.vpc.aws_route_table.public: Refreshing state... [id=rtb-0ce71e6d809043955][0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Refreshing state... [id=nat-0d57b23799791e00b][0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[1]: Refreshing state... [id=nat-08189162d7d73104e][0m
+[0m[1mmodule.security_groups.aws_security_group.eks_nodes: Refreshing state... [id=sg-07d995f04c3945189][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-0c3b11a9af00bfcab][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-0ca414bc4ca822376][0m
+[0m[1mmodule.vpc.aws_route_table.private_data[1]: Refreshing state... [id=rtb-0ae513fe82fe8bc5a][0m
+[0m[1mmodule.vpc.aws_route_table.private_data[0]: Refreshing state... [id=rtb-0d8d6cdc984115d2f][0m
+[0m[1mmodule.vpc.aws_route_table.private_app[0]: Refreshing state... [id=rtb-0c6fde99d27c791b0][0m
+[0m[1mmodule.vpc.aws_route_table.private_app[1]: Refreshing state... [id=rtb-0e2a39d1d1532116d][0m
+[0m[1mmodule.security_groups.aws_security_group.rds: Refreshing state... [id=sg-043e9e25edda836d2][0m
+[0m[1mmodule.security_groups.aws_security_group.elasticache: Refreshing state... [id=sg-0087496e1eea63824][0m
+[0m[1mmodule.eks.aws_eks_cluster.this: Refreshing state... [id=chatapp-prod-cluster][0m
+[0m[1mmodule.vpc.aws_route_table_association.private_data[1]: Refreshing state... [id=rtbassoc-00b0e1fcfebb480c8][0m
+[0m[1mmodule.vpc.aws_route_table_association.private_data[0]: Refreshing state... [id=rtbassoc-0a1ac9bc64c7a5731][0m
+[0m[1mmodule.vpc.aws_route_table_association.private_app[1]: Refreshing state... [id=rtbassoc-0bbe186498334be36][0m
+[0m[1mmodule.vpc.aws_route_table_association.private_app[0]: Refreshing state... [id=rtbassoc-062c79aefb37a27c0][0m
+[0m[1mmodule.eks.data.tls_certificate.eks: Reading...[0m[0m
+[0m[1mmodule.eks.aws_eks_node_group.app: Refreshing state... [id=chatapp-prod-cluster:chatapp-prod-app-nodes][0m
+[0m[1mmodule.eks.aws_eks_addon.coredns: Refreshing state... [id=chatapp-prod-cluster:coredns][0m
+[0m[1mmodule.eks.aws_eks_addon.vpc_cni: Refreshing state... [id=chatapp-prod-cluster:vpc-cni][0m
+[0m[1mmodule.eks.aws_eks_addon.pod_identity: Refreshing state... [id=chatapp-prod-cluster:eks-pod-identity-agent][0m
+[0m[1mmodule.eks.aws_eks_addon.kube_proxy: Refreshing state... [id=chatapp-prod-cluster:kube-proxy][0m
+[0m[1mmodule.eks.data.tls_certificate.eks: Read complete after 0s [id=b1b539daa206035ae3c3e28288b0681fa1b462f3][0m
+[0m[1mmodule.eks.aws_iam_openid_connect_provider.eks: Refreshing state... [id=arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F][0m
+[0m[1mkubernetes_namespace.external_secrets: Refreshing state... [id=external-secrets][0m
+[0m[1mmodule.iam.aws_iam_policy.external_secrets: Refreshing state... [id=arn:aws:iam::866317130608:policy/chatapp-prod-external-secrets-policy][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.cluster_autoscaler_trust: Reading...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.chatapp: Refreshing state... [id=arn:aws:iam::866317130608:policy/chatapp-prod-chatapp-policy][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.alb_controller_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.chatapp_trust: Reading...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.alb_controller: Refreshing state... [id=arn:aws:iam::866317130608:policy/chatapp-prod-alb-controller-policy][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.cluster_autoscaler_trust: Read complete after 0s [id=1371493068][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.chatapp_trust: Read complete after 0s [id=3326542077][0m
+[0m[1mmodule.iam.aws_iam_policy.cluster_autoscaler: Refreshing state... [id=arn:aws:iam::866317130608:policy/chatapp-prod-cluster-autoscaler-policy][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.alb_controller_trust: Read complete after 0s [id=3563853886][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.external_secrets_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.external_secrets_trust: Read complete after 0s [id=730462504][0m
+[0m[1mmodule.iam.aws_iam_role.cluster_autoscaler: Refreshing state... [id=chatapp-prod-cluster-autoscaler-role][0m
+[0m[1mmodule.iam.aws_iam_role.chatapp: Refreshing state... [id=chatapp-prod-chatapp-role][0m
+[0m[1mmodule.iam.aws_iam_role.alb_controller: Refreshing state... [id=chatapp-prod-alb-controller-role][0m
+[0m[1mmodule.iam.aws_iam_role.external_secrets: Refreshing state... [id=chatapp-prod-external-secrets-role][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.chatapp: Refreshing state... [id=chatapp-prod-chatapp-role-20260528001133292500000004][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.alb_controller: Refreshing state... [id=chatapp-prod-alb-controller-role-20260528001133238400000003][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.cluster_autoscaler: Refreshing state... [id=chatapp-prod-cluster-autoscaler-role-20260528001133212000000001][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.external_secrets: Refreshing state... [id=chatapp-prod-external-secrets-role-20260528001133237900000002][0m
+[0m[1mkubernetes_service_account.external_secrets: Refreshing state... [id=external-secrets/external-secrets][0m
+[0m[1mhelm_release.external_secrets: Refreshing state... [id=external-secrets][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_security_group_rule.eks_cluster_to_rds[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "eks_cluster_to_rds" {
+      [32m+[0m[0m description              = "MySQL from EKS cluster SG"
+      [32m+[0m[0m from_port                = 3306
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = "sg-043e9e25edda836d2"
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = "sg-0f9e29d7d03055541"
+      [32m+[0m[0m to_port                  = 3306
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # aws_security_group_rule.eks_cluster_to_redis[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "eks_cluster_to_redis" {
+      [32m+[0m[0m description              = "Redis from EKS cluster SG"
+      [32m+[0m[0m from_port                = 6379
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = "sg-0087496e1eea63824"
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = "sg-0f9e29d7d03055541"
+      [32m+[0m[0m to_port                  = 6379
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # helm_release.aws_lb_controller[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "aws_lb_controller" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "aws-load-balancer-controller"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = false
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "aws-load-balancer-controller"
+      [32m+[0m[0m namespace                  = "kube-system"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://aws.github.io/eks-charts"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "1.8.3"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "clusterName"
+          [32m+[0m[0m value = "chatapp-prod-cluster"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "region"
+          [32m+[0m[0m value = "us-east-1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "serviceAccount.create"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "serviceAccount.name"
+          [32m+[0m[0m value = "aws-load-balancer-controller"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "vpcId"
+          [32m+[0m[0m value = "vpc-07f61fb37477f7e6a"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # helm_release.cluster_autoscaler[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "cluster_autoscaler" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "cluster-autoscaler"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = false
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "cluster-autoscaler"
+      [32m+[0m[0m namespace                  = "kube-system"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://kubernetes.github.io/autoscaler"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "9.37.0"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "autoDiscovery.clusterName"
+          [32m+[0m[0m value = "chatapp-prod-cluster"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "awsRegion"
+          [32m+[0m[0m value = "us-east-1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "extraArgs.balance-similar-node-groups"
+          [32m+[0m[0m value = "true"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "extraArgs.skip-nodes-with-system-pods"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "rbac.serviceAccount.create"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "rbac.serviceAccount.name"
+          [32m+[0m[0m value = "cluster-autoscaler"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # helm_release.metrics_server[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "metrics_server" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "metrics-server"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = false
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "metrics-server"
+      [32m+[0m[0m namespace                  = "kube-system"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://kubernetes-sigs.github.io/metrics-server/"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "3.12.1"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1m  # kubernetes_limit_range_v1.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_limit_range_v1" "chatapp" {
+      [32m+[0m[0m id = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "chatapp-limits"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+
+      [32m+[0m[0m spec {
+          [32m+[0m[0m limit {
+              [32m+[0m[0m default         = {
+                  [32m+[0m[0m "cpu"    = "500m"
+                  [32m+[0m[0m "memory" = "512Mi"
+                }
+              [32m+[0m[0m default_request = {
+                  [32m+[0m[0m "cpu"    = "100m"
+                  [32m+[0m[0m "memory" = "128Mi"
+                }
+              [32m+[0m[0m max             = {
+                  [32m+[0m[0m "cpu"    = "2"
+                  [32m+[0m[0m "memory" = "2Gi"
+                }
+              [32m+[0m[0m type            = "Container"
+            }
+        }
+    }
+
+[1m  # kubernetes_manifest.cluster_secret_store[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_manifest" "cluster_secret_store" {
+      [32m+[0m[0m manifest = {
+          [32m+[0m[0m apiVersion = "external-secrets.io/v1beta1"
+          [32m+[0m[0m kind       = "ClusterSecretStore"
+          [32m+[0m[0m metadata   = {
+              [32m+[0m[0m name = "aws-secrets-manager"
+            }
+          [32m+[0m[0m spec       = {
+              [32m+[0m[0m provider = {
+                  [32m+[0m[0m aws = {
+                      [32m+[0m[0m auth    = {
+                          [32m+[0m[0m jwt = {
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m name      = "external-secrets"
+                                  [32m+[0m[0m namespace = "external-secrets"
+                                }
+                            }
+                        }
+                      [32m+[0m[0m region  = "us-east-1"
+                      [32m+[0m[0m service = "SecretsManager"
+                    }
+                }
+            }
+        }
+      [32m+[0m[0m object   = {
+          [32m+[0m[0m apiVersion = "external-secrets.io/v1beta1"
+          [32m+[0m[0m kind       = "ClusterSecretStore"
+          [32m+[0m[0m metadata   = {
+              [32m+[0m[0m annotations                = (known after apply)
+              [32m+[0m[0m creationTimestamp          = (known after apply)
+              [32m+[0m[0m deletionGracePeriodSeconds = (known after apply)
+              [32m+[0m[0m deletionTimestamp          = (known after apply)
+              [32m+[0m[0m finalizers                 = (known after apply)
+              [32m+[0m[0m generateName               = (known after apply)
+              [32m+[0m[0m generation                 = (known after apply)
+              [32m+[0m[0m labels                     = (known after apply)
+              [32m+[0m[0m managedFields              = (known after apply)
+              [32m+[0m[0m name                       = "aws-secrets-manager"
+              [32m+[0m[0m namespace                  = (known after apply)
+              [32m+[0m[0m ownerReferences            = (known after apply)
+              [32m+[0m[0m resourceVersion            = (known after apply)
+              [32m+[0m[0m selfLink                   = (known after apply)
+              [32m+[0m[0m uid                        = (known after apply)
+            }
+          [32m+[0m[0m spec       = {
+              [32m+[0m[0m conditions      = (known after apply)
+              [32m+[0m[0m controller      = (known after apply)
+              [32m+[0m[0m provider        = {
+                  [32m+[0m[0m akeyless                 = {
+                      [32m+[0m[0m akeylessGWApiURL = (known after apply)
+                      [32m+[0m[0m authSecretRef    = {
+                          [32m+[0m[0m kubernetesAuth = {
+                              [32m+[0m[0m accessID          = (known after apply)
+                              [32m+[0m[0m k8sConfName       = (known after apply)
+                              [32m+[0m[0m secretRef         = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m audiences = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m secretRef      = {
+                              [32m+[0m[0m accessID        = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m accessType      = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m accessTypeParam = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m caBundle         = (known after apply)
+                      [32m+[0m[0m caProvider       = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                          [32m+[0m[0m type      = (known after apply)
+                        }
+                    }
+                  [32m+[0m[0m alibaba                  = {
+                      [32m+[0m[0m auth     = {
+                          [32m+[0m[0m rrsa      = {
+                              [32m+[0m[0m oidcProviderArn   = (known after apply)
+                              [32m+[0m[0m oidcTokenFilePath = (known after apply)
+                              [32m+[0m[0m roleArn           = (known after apply)
+                              [32m+[0m[0m sessionName       = (known after apply)
+                            }
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m accessKeyIDSecretRef     = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m accessKeySecretSecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m regionID = (known after apply)
+                    }
+                  [32m+[0m[0m aws                      = {
+                      [32m+[0m[0m additionalRoles   = (known after apply)
+                      [32m+[0m[0m auth              = {
+                          [32m+[0m[0m jwt       = {
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m audiences = (known after apply)
+                                  [32m+[0m[0m name      = "external-secrets"
+                                  [32m+[0m[0m namespace = "external-secrets"
+                                }
+                            }
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m accessKeyIDSecretRef     = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m secretAccessKeySecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m sessionTokenSecretRef    = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m externalID        = (known after apply)
+                      [32m+[0m[0m region            = "us-east-1"
+                      [32m+[0m[0m role              = (known after apply)
+                      [32m+[0m[0m secretsManager    = {
+                          [32m+[0m[0m forceDeleteWithoutRecovery = (known after apply)
+                          [32m+[0m[0m recoveryWindowInDays       = (known after apply)
+                        }
+                      [32m+[0m[0m service           = "SecretsManager"
+                      [32m+[0m[0m sessionTags       = (known after apply)
+                      [32m+[0m[0m transitiveTagKeys = (known after apply)
+                    }
+                  [32m+[0m[0m azurekv                  = {
+                      [32m+[0m[0m authSecretRef     = {
+                          [32m+[0m[0m clientCertificate = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m clientId          = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m clientSecret      = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m tenantId          = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m authType          = (known after apply)
+                      [32m+[0m[0m environmentType   = (known after apply)
+                      [32m+[0m[0m identityId        = (known after apply)
+                      [32m+[0m[0m serviceAccountRef = {
+                          [32m+[0m[0m audiences = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                        }
+                      [32m+[0m[0m tenantId          = (known after apply)
+                      [32m+[0m[0m vaultUrl          = (known after apply)
+                    }
+                  [32m+[0m[0m bitwardensecretsmanager  = {
+                      [32m+[0m[0m apiURL                = (known after apply)
+                      [32m+[0m[0m auth                  = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m credentials = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m bitwardenServerSDKURL = (known after apply)
+                      [32m+[0m[0m caBundle              = (known after apply)
+                      [32m+[0m[0m identityURL           = (known after apply)
+                      [32m+[0m[0m organizationID        = (known after apply)
+                      [32m+[0m[0m projectID             = (known after apply)
+                    }
+                  [32m+[0m[0m chef                     = {
+                      [32m+[0m[0m auth      = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m privateKeySecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m serverUrl = (known after apply)
+                      [32m+[0m[0m username  = (known after apply)
+                    }
+                  [32m+[0m[0m conjur                   = {
+                      [32m+[0m[0m auth       = {
+                          [32m+[0m[0m apikey = {
+                              [32m+[0m[0m account   = (known after apply)
+                              [32m+[0m[0m apiKeyRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m userRef   = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m jwt    = {
+                              [32m+[0m[0m account           = (known after apply)
+                              [32m+[0m[0m hostId            = (known after apply)
+                              [32m+[0m[0m secretRef         = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m audiences = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m serviceID         = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m caBundle   = (known after apply)
+                      [32m+[0m[0m caProvider = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                          [32m+[0m[0m type      = (known after apply)
+                        }
+                      [32m+[0m[0m url        = (known after apply)
+                    }
+                  [32m+[0m[0m delinea                  = {
+                      [32m+[0m[0m clientId     = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m value     = (known after apply)
+                        }
+                      [32m+[0m[0m clientSecret = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m value     = (known after apply)
+                        }
+                      [32m+[0m[0m tenant       = (known after apply)
+                      [32m+[0m[0m tld          = (known after apply)
+                      [32m+[0m[0m urlTemplate  = (known after apply)
+                    }
+                  [32m+[0m[0m device42                 = {
+                      [32m+[0m[0m auth = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m credentials = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m host = (known after apply)
+                    }
+                  [32m+[0m[0m doppler                  = {
+                      [32m+[0m[0m auth            = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m dopplerToken = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m config          = (known after apply)
+                      [32m+[0m[0m format          = (known after apply)
+                      [32m+[0m[0m nameTransformer = (known after apply)
+                      [32m+[0m[0m project         = (known after apply)
+                    }
+                  [32m+[0m[0m fake                     = {
+                      [32m+[0m[0m data = (known after apply)
+                    }
+                  [32m+[0m[0m fortanix                 = {
+                      [32m+[0m[0m apiKey = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m apiUrl = (known after apply)
+                    }
+                  [32m+[0m[0m gcpsm                    = {
+                      [32m+[0m[0m auth      = {
+                          [32m+[0m[0m secretRef        = {
+                              [32m+[0m[0m secretAccessKeySecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m workloadIdentity = {
+                              [32m+[0m[0m clusterLocation   = (known after apply)
+                              [32m+[0m[0m clusterName       = (known after apply)
+                              [32m+[0m[0m clusterProjectID  = (known after apply)
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m audiences = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m location  = (known after apply)
+                      [32m+[0m[0m projectID = (known after apply)
+                    }
+                  [32m+[0m[0m gitlab                   = {
+                      [32m+[0m[0m auth              = {
+                          [32m+[0m[0m SecretRef = {
+                              [32m+[0m[0m accessToken = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m environment       = (known after apply)
+                      [32m+[0m[0m groupIDs          = (known after apply)
+                      [32m+[0m[0m inheritFromGroups = (known after apply)
+                      [32m+[0m[0m projectID         = (known after apply)
+                      [32m+[0m[0m url               = (known after apply)
+                    }
+                  [32m+[0m[0m ibm                      = {
+                      [32m+[0m[0m auth       = {
+                          [32m+[0m[0m containerAuth = {
+                              [32m+[0m[0m iamEndpoint   = (known after apply)
+                              [32m+[0m[0m profile       = (known after apply)
+                              [32m+[0m[0m tokenLocation = (known after apply)
+                            }
+                          [32m+[0m[0m secretRef     = {
+                              [32m+[0m[0m secretApiKeySecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m serviceUrl = (known after apply)
+                    }
+                  [32m+[0m[0m infisical                = {
+                      [32m+[0m[0m auth         = {
+                          [32m+[0m[0m universalAuthCredentials = {
+                              [32m+[0m[0m clientId     = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m clientSecret = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m hostAPI      = (known after apply)
+                      [32m+[0m[0m secretsScope = {
+                          [32m+[0m[0m environmentSlug = (known after apply)
+                          [32m+[0m[0m projectSlug     = (known after apply)
+                          [32m+[0m[0m secretsPath     = (known after apply)
+                        }
+                    }
+                  [32m+[0m[0m keepersecurity           = {
+                      [32m+[0m[0m authRef  = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                        }
+                      [32m+[0m[0m folderID = (known after apply)
+                    }
+                  [32m+[0m[0m kubernetes               = {
+                      [32m+[0m[0m auth            = {
+                          [32m+[0m[0m cert           = {
+                              [32m+[0m[0m clientCert = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m clientKey  = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m serviceAccount = {
+                              [32m+[0m[0m audiences = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m token          = {
+                              [32m+[0m[0m bearerToken = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m authRef         = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                        }
+                      [32m+[0m[0m remoteNamespace = (known after apply)
+                      [32m+[0m[0m server          = {
+                          [32m+[0m[0m caBundle   = (known after apply)
+                          [32m+[0m[0m caProvider = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                              [32m+[0m[0m type      = (known after apply)
+                            }
+                          [32m+[0m[0m url        = (known after apply)
+                        }
+                    }
+                  [32m+[0m[0m onboardbase              = {
+                      [32m+[0m[0m apiHost     = (known after apply)
+                      [32m+[0m[0m auth        = {
+                          [32m+[0m[0m apiKeyRef   = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m passcodeRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m environment = (known after apply)
+                      [32m+[0m[0m project     = (known after apply)
+                    }
+                  [32m+[0m[0m onepassword              = {
+                      [32m+[0m[0m auth        = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m connectTokenSecretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m connectHost = (known after apply)
+                      [32m+[0m[0m vaults      = (known after apply)
+                    }
+                  [32m+[0m[0m oracle                   = {
+                      [32m+[0m[0m auth              = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m fingerprint = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m privatekey  = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m tenancy   = (known after apply)
+                          [32m+[0m[0m user      = (known after apply)
+                        }
+                      [32m+[0m[0m compartment       = (known after apply)
+                      [32m+[0m[0m encryptionKey     = (known after apply)
+                      [32m+[0m[0m principalType     = (known after apply)
+                      [32m+[0m[0m region            = (known after apply)
+                      [32m+[0m[0m serviceAccountRef = {
+                          [32m+[0m[0m audiences = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                        }
+                      [32m+[0m[0m vault             = (known after apply)
+                    }
+                  [32m+[0m[0m passbolt                 = {
+                      [32m+[0m[0m auth = {
+                          [32m+[0m[0m passwordSecretRef   = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m privateKeySecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m host = (known after apply)
+                    }
+                  [32m+[0m[0m passworddepot            = {
+                      [32m+[0m[0m auth     = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m credentials = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                        }
+                      [32m+[0m[0m database = (known after apply)
+                      [32m+[0m[0m host     = (known after apply)
+                    }
+                  [32m+[0m[0m pulumi                   = {
+                      [32m+[0m[0m accessToken  = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m apiUrl       = (known after apply)
+                      [32m+[0m[0m environment  = (known after apply)
+                      [32m+[0m[0m organization = (known after apply)
+                    }
+                  [32m+[0m[0m scaleway                 = {
+                      [32m+[0m[0m accessKey = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m value     = (known after apply)
+                        }
+                      [32m+[0m[0m apiUrl    = (known after apply)
+                      [32m+[0m[0m projectId = (known after apply)
+                      [32m+[0m[0m region    = (known after apply)
+                      [32m+[0m[0m secretKey = {
+                          [32m+[0m[0m secretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m value     = (known after apply)
+                        }
+                    }
+                  [32m+[0m[0m senhasegura              = {
+                      [32m+[0m[0m auth                 = {
+                          [32m+[0m[0m clientId              = (known after apply)
+                          [32m+[0m[0m clientSecretSecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m ignoreSslCertificate = (known after apply)
+                      [32m+[0m[0m module               = (known after apply)
+                      [32m+[0m[0m url                  = (known after apply)
+                    }
+                  [32m+[0m[0m vault                    = {
+                      [32m+[0m[0m auth                = {
+                          [32m+[0m[0m appRole        = {
+                              [32m+[0m[0m path      = (known after apply)
+                              [32m+[0m[0m roleId    = (known after apply)
+                              [32m+[0m[0m roleRef   = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m secretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m cert           = {
+                              [32m+[0m[0m clientCert = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m secretRef  = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m iam            = {
+                              [32m+[0m[0m externalID          = (known after apply)
+                              [32m+[0m[0m jwt                 = {
+                                  [32m+[0m[0m serviceAccountRef = {
+                                      [32m+[0m[0m audiences = (known after apply)
+                                      [32m+[0m[0m name      = (known after apply)
+                                      [32m+[0m[0m namespace = (known after apply)
+                                    }
+                                }
+                              [32m+[0m[0m path                = (known after apply)
+                              [32m+[0m[0m region              = (known after apply)
+                              [32m+[0m[0m role                = (known after apply)
+                              [32m+[0m[0m secretRef           = {
+                                  [32m+[0m[0m accessKeyIDSecretRef     = {
+                                      [32m+[0m[0m key       = (known after apply)
+                                      [32m+[0m[0m name      = (known after apply)
+                                      [32m+[0m[0m namespace = (known after apply)
+                                    }
+                                  [32m+[0m[0m secretAccessKeySecretRef = {
+                                      [32m+[0m[0m key       = (known after apply)
+                                      [32m+[0m[0m name      = (known after apply)
+                                      [32m+[0m[0m namespace = (known after apply)
+                                    }
+                                  [32m+[0m[0m sessionTokenSecretRef    = {
+                                      [32m+[0m[0m key       = (known after apply)
+                                      [32m+[0m[0m name      = (known after apply)
+                                      [32m+[0m[0m namespace = (known after apply)
+                                    }
+                                }
+                              [32m+[0m[0m vaultAwsIamServerID = (known after apply)
+                              [32m+[0m[0m vaultRole           = (known after apply)
+                            }
+                          [32m+[0m[0m jwt            = {
+                              [32m+[0m[0m kubernetesServiceAccountToken = {
+                                  [32m+[0m[0m audiences         = (known after apply)
+                                  [32m+[0m[0m expirationSeconds = (known after apply)
+                                  [32m+[0m[0m serviceAccountRef = {
+                                      [32m+[0m[0m audiences = (known after apply)
+                                      [32m+[0m[0m name      = (known after apply)
+                                      [32m+[0m[0m namespace = (known after apply)
+                                    }
+                                }
+                              [32m+[0m[0m path                          = (known after apply)
+                              [32m+[0m[0m role                          = (known after apply)
+                              [32m+[0m[0m secretRef                     = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m kubernetes     = {
+                              [32m+[0m[0m mountPath         = (known after apply)
+                              [32m+[0m[0m role              = (known after apply)
+                              [32m+[0m[0m secretRef         = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m serviceAccountRef = {
+                                  [32m+[0m[0m audiences = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                            }
+                          [32m+[0m[0m ldap           = {
+                              [32m+[0m[0m path      = (known after apply)
+                              [32m+[0m[0m secretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m username  = (known after apply)
+                            }
+                          [32m+[0m[0m namespace      = (known after apply)
+                          [32m+[0m[0m tokenSecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m userPass       = {
+                              [32m+[0m[0m path      = (known after apply)
+                              [32m+[0m[0m secretRef = {
+                                  [32m+[0m[0m key       = (known after apply)
+                                  [32m+[0m[0m name      = (known after apply)
+                                  [32m+[0m[0m namespace = (known after apply)
+                                }
+                              [32m+[0m[0m username  = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m caBundle            = (known after apply)
+                      [32m+[0m[0m caProvider          = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                          [32m+[0m[0m type      = (known after apply)
+                        }
+                      [32m+[0m[0m forwardInconsistent = (known after apply)
+                      [32m+[0m[0m namespace           = (known after apply)
+                      [32m+[0m[0m path                = (known after apply)
+                      [32m+[0m[0m readYourWrites      = (known after apply)
+                      [32m+[0m[0m server              = (known after apply)
+                      [32m+[0m[0m tls                 = {
+                          [32m+[0m[0m certSecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                          [32m+[0m[0m keySecretRef  = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m version             = (known after apply)
+                    }
+                  [32m+[0m[0m webhook                  = {
+                      [32m+[0m[0m body       = (known after apply)
+                      [32m+[0m[0m caBundle   = (known after apply)
+                      [32m+[0m[0m caProvider = {
+                          [32m+[0m[0m key       = (known after apply)
+                          [32m+[0m[0m name      = (known after apply)
+                          [32m+[0m[0m namespace = (known after apply)
+                          [32m+[0m[0m type      = (known after apply)
+                        }
+                      [32m+[0m[0m headers    = (known after apply)
+                      [32m+[0m[0m method     = (known after apply)
+                      [32m+[0m[0m result     = {
+                          [32m+[0m[0m jsonPath = (known after apply)
+                        }
+                      [32m+[0m[0m secrets    = (known after apply)
+                      [32m+[0m[0m timeout    = (known after apply)
+                      [32m+[0m[0m url        = (known after apply)
+                    }
+                  [32m+[0m[0m yandexcertificatemanager = {
+                      [32m+[0m[0m apiEndpoint = (known after apply)
+                      [32m+[0m[0m auth        = {
+                          [32m+[0m[0m authorizedKeySecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m caProvider  = {
+                          [32m+[0m[0m certSecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                    }
+                  [32m+[0m[0m yandexlockbox            = {
+                      [32m+[0m[0m apiEndpoint = (known after apply)
+                      [32m+[0m[0m auth        = {
+                          [32m+[0m[0m authorizedKeySecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                      [32m+[0m[0m caProvider  = {
+                          [32m+[0m[0m certSecretRef = {
+                              [32m+[0m[0m key       = (known after apply)
+                              [32m+[0m[0m name      = (known after apply)
+                              [32m+[0m[0m namespace = (known after apply)
+                            }
+                        }
+                    }
+                }
+              [32m+[0m[0m refreshInterval = (known after apply)
+              [32m+[0m[0m retrySettings   = {
+                  [32m+[0m[0m maxRetries    = (known after apply)
+                  [32m+[0m[0m retryInterval = (known after apply)
+                }
+            }
+        }
+    }
+
+[1m  # kubernetes_manifest.external_secret_chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_manifest" "external_secret_chatapp" {
+      [32m+[0m[0m manifest = {
+          [32m+[0m[0m apiVersion = "external-secrets.io/v1beta1"
+          [32m+[0m[0m kind       = "ExternalSecret"
+          [32m+[0m[0m metadata   = {
+              [32m+[0m[0m name      = "chatapp-external-secret"
+              [32m+[0m[0m namespace = "chatapp"
+            }
+          [32m+[0m[0m spec       = {
+              [32m+[0m[0m data            = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m remoteRef = {
+                          [32m+[0m[0m key      = "chatapp/prod/db-credentials"
+                          [32m+[0m[0m property = "password"
+                        }
+                      [32m+[0m[0m secretKey = "DB_PASSWORD"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m remoteRef = {
+                          [32m+[0m[0m key      = "chatapp/prod/app-config"
+                          [32m+[0m[0m property = "secret_key"
+                        }
+                      [32m+[0m[0m secretKey = "SECRET_KEY"
+                    },
+                ]
+              [32m+[0m[0m refreshInterval = "1h"
+              [32m+[0m[0m secretStoreRef  = {
+                  [32m+[0m[0m kind = "ClusterSecretStore"
+                  [32m+[0m[0m name = "aws-secrets-manager"
+                }
+              [32m+[0m[0m target          = {
+                  [32m+[0m[0m creationPolicy = "Owner"
+                  [32m+[0m[0m name           = "chatapp-aws-credentials"
+                }
+            }
+        }
+      [32m+[0m[0m object   = {
+          [32m+[0m[0m apiVersion = "external-secrets.io/v1beta1"
+          [32m+[0m[0m kind       = "ExternalSecret"
+          [32m+[0m[0m metadata   = {
+              [32m+[0m[0m annotations                = (known after apply)
+              [32m+[0m[0m creationTimestamp          = (known after apply)
+              [32m+[0m[0m deletionGracePeriodSeconds = (known after apply)
+              [32m+[0m[0m deletionTimestamp          = (known after apply)
+              [32m+[0m[0m finalizers                 = (known after apply)
+              [32m+[0m[0m generateName               = (known after apply)
+              [32m+[0m[0m generation                 = (known after apply)
+              [32m+[0m[0m labels                     = (known after apply)
+              [32m+[0m[0m managedFields              = (known after apply)
+              [32m+[0m[0m name                       = "chatapp-external-secret"
+              [32m+[0m[0m namespace                  = "chatapp"
+              [32m+[0m[0m ownerReferences            = (known after apply)
+              [32m+[0m[0m resourceVersion            = (known after apply)
+              [32m+[0m[0m selfLink                   = (known after apply)
+              [32m+[0m[0m uid                        = (known after apply)
+            }
+          [32m+[0m[0m spec       = {
+              [32m+[0m[0m data            = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m remoteRef = {
+                          [32m+[0m[0m conversionStrategy = (known after apply)
+                          [32m+[0m[0m decodingStrategy   = (known after apply)
+                          [32m+[0m[0m key                = "chatapp/prod/db-credentials"
+                          [32m+[0m[0m metadataPolicy     = (known after apply)
+                          [32m+[0m[0m property           = "password"
+                          [32m+[0m[0m version            = (known after apply)
+                        }
+                      [32m+[0m[0m secretKey = "DB_PASSWORD"
+                      [32m+[0m[0m sourceRef = {
+                          [32m+[0m[0m generatorRef = {
+                              [32m+[0m[0m apiVersion = (known after apply)
+                              [32m+[0m[0m kind       = (known after apply)
+                              [32m+[0m[0m name       = (known after apply)
+                            }
+                          [32m+[0m[0m storeRef     = {
+                              [32m+[0m[0m kind = (known after apply)
+                              [32m+[0m[0m name = (known after apply)
+                            }
+                        }
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m remoteRef = {
+                          [32m+[0m[0m conversionStrategy = (known after apply)
+                          [32m+[0m[0m decodingStrategy   = (known after apply)
+                          [32m+[0m[0m key                = "chatapp/prod/app-config"
+                          [32m+[0m[0m metadataPolicy     = (known after apply)
+                          [32m+[0m[0m property           = "secret_key"
+                          [32m+[0m[0m version            = (known after apply)
+                        }
+                      [32m+[0m[0m secretKey = "SECRET_KEY"
+                      [32m+[0m[0m sourceRef = {
+                          [32m+[0m[0m generatorRef = {
+                              [32m+[0m[0m apiVersion = (known after apply)
+                              [32m+[0m[0m kind       = (known after apply)
+                              [32m+[0m[0m name       = (known after apply)
+                            }
+                          [32m+[0m[0m storeRef     = {
+                              [32m+[0m[0m kind = (known after apply)
+                              [32m+[0m[0m name = (known after apply)
+                            }
+                        }
+                    },
+                ]
+              [32m+[0m[0m dataFrom        = (known after apply)
+              [32m+[0m[0m refreshInterval = "1h"
+              [32m+[0m[0m secretStoreRef  = {
+                  [32m+[0m[0m kind = "ClusterSecretStore"
+                  [32m+[0m[0m name = "aws-secrets-manager"
+                }
+              [32m+[0m[0m target          = {
+                  [32m+[0m[0m creationPolicy = "Owner"
+                  [32m+[0m[0m deletionPolicy = (known after apply)
+                  [32m+[0m[0m immutable      = (known after apply)
+                  [32m+[0m[0m name           = "chatapp-aws-credentials"
+                  [32m+[0m[0m template       = {
+                      [32m+[0m[0m data          = (known after apply)
+                      [32m+[0m[0m engineVersion = (known after apply)
+                      [32m+[0m[0m mergePolicy   = (known after apply)
+                      [32m+[0m[0m metadata      = {
+                          [32m+[0m[0m annotations = (known after apply)
+                          [32m+[0m[0m labels      = (known after apply)
+                        }
+                      [32m+[0m[0m templateFrom  = (known after apply)
+                      [32m+[0m[0m type          = (known after apply)
+                    }
+                }
+            }
+        }
+    }
+
+[1m  # kubernetes_namespace.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_namespace" "chatapp" {
+      [32m+[0m[0m id                               = (known after apply)
+      [32m+[0m[0m wait_for_default_service_account = false
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m labels           = {
+              [32m+[0m[0m "pod-security.kubernetes.io/enforce" = "restricted"
+              [32m+[0m[0m "pod-security.kubernetes.io/warn"    = "restricted"
+            }
+          [32m+[0m[0m name             = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # kubernetes_network_policy.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_network_policy" "chatapp" {
+      [32m+[0m[0m id = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "chatapp-netpol"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+
+      [32m+[0m[0m spec {
+          [32m+[0m[0m policy_types = [
+              [32m+[0m[0m "Ingress",
+              [32m+[0m[0m "Egress",
+            ]
+
+          [32m+[0m[0m egress {
+              [32m+[0m[0m ports {
+                  [32m+[0m[0m port     = "53"
+                  [32m+[0m[0m protocol = "UDP"
+                }
+            }
+          [32m+[0m[0m egress {
+              [32m+[0m[0m ports {
+                  [32m+[0m[0m port     = "3306"
+                  [32m+[0m[0m protocol = "TCP"
+                }
+            }
+          [32m+[0m[0m egress {
+              [32m+[0m[0m ports {
+                  [32m+[0m[0m port     = "6379"
+                  [32m+[0m[0m protocol = "TCP"
+                }
+            }
+          [32m+[0m[0m egress {
+              [32m+[0m[0m ports {
+                  [32m+[0m[0m port     = "443"
+                  [32m+[0m[0m protocol = "TCP"
+                }
+            }
+
+          [32m+[0m[0m ingress {
+              [32m+[0m[0m ports {
+                  [32m+[0m[0m port     = "8000"
+                  [32m+[0m[0m protocol = "TCP"
+                }
+            }
+
+          [32m+[0m[0m pod_selector {
+              [32m+[0m[0m match_labels = {
+                  [32m+[0m[0m "app.kubernetes.io/name" = "chat-api"
+                }
+            }
+        }
+    }
+
+[1m  # kubernetes_pod_disruption_budget_v1.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_pod_disruption_budget_v1" "chatapp" {
+      [32m+[0m[0m id = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "chatapp-pdb"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+
+      [32m+[0m[0m spec {
+          [32m+[0m[0m min_available = "1"
+
+          [32m+[0m[0m selector {
+              [32m+[0m[0m match_labels = {
+                  [32m+[0m[0m "app.kubernetes.io/name" = "chat-api"
+                }
+            }
+        }
+    }
+
+[1m  # kubernetes_resource_quota_v1.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_resource_quota_v1" "chatapp" {
+      [32m+[0m[0m id = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "chatapp-quota"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+
+      [32m+[0m[0m spec {
+          [32m+[0m[0m hard = {
+              [32m+[0m[0m "limits.cpu"      = "8"
+              [32m+[0m[0m "limits.memory"   = "8Gi"
+              [32m+[0m[0m "pods"            = "20"
+              [32m+[0m[0m "requests.cpu"    = "4"
+              [32m+[0m[0m "requests.memory" = "4Gi"
+            }
+        }
+    }
+
+[1m  # kubernetes_secret.rds_ca_cert[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_secret" "rds_ca_cert" {
+      [32m+[0m[0m binary_data_wo                 = (write-only attribute)
+      [32m+[0m[0m data                           = (sensitive value)
+      [32m+[0m[0m data_wo                        = (write-only attribute)
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m type                           = "Opaque"
+      [32m+[0m[0m wait_for_service_account_token = true
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "rds-ca-cert"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # kubernetes_service_account.alb_controller[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_service_account" "alb_controller" {
+      [32m+[0m[0m automount_service_account_token = true
+      [32m+[0m[0m default_secret_name             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m annotations      = {
+              [32m+[0m[0m "eks.amazonaws.com/role-arn" = "arn:aws:iam::866317130608:role/chatapp-prod-alb-controller-role"
+            }
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "aws-load-balancer-controller"
+          [32m+[0m[0m namespace        = "kube-system"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # kubernetes_service_account.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_service_account" "chatapp" {
+      [32m+[0m[0m automount_service_account_token = true
+      [32m+[0m[0m default_secret_name             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m annotations      = {
+              [32m+[0m[0m "eks.amazonaws.com/role-arn" = "arn:aws:iam::866317130608:role/chatapp-prod-chatapp-role"
+            }
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "chatapp"
+          [32m+[0m[0m namespace        = "chatapp"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # kubernetes_service_account.cluster_autoscaler[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_service_account" "cluster_autoscaler" {
+      [32m+[0m[0m automount_service_account_token = true
+      [32m+[0m[0m default_secret_name             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m annotations      = {
+              [32m+[0m[0m "eks.amazonaws.com/role-arn" = "arn:aws:iam::866317130608:role/chatapp-prod-cluster-autoscaler-role"
+            }
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "cluster-autoscaler"
+          [32m+[0m[0m namespace        = "kube-system"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # local_file.helm_values_infra[0m will be created
+[0m  [32m+[0m[0m resource "local_file" "helm_values_infra" {
+      [32m+[0m[0m content              = (known after apply)
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0600"
+      [32m+[0m[0m filename             = "./../awschatapp-platform/values-prod-infra.yaml"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1m  # local_file.helm_values_secrets[0m will be created
+[0m  [32m+[0m[0m resource "local_file" "helm_values_secrets" {
+      [32m+[0m[0m content              = (sensitive value)
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0600"
+      [32m+[0m[0m filename             = "./../awschatapp-platform/values-prod-secrets.yaml"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1m  # random_password.db[0m will be created
+[0m  [32m+[0m[0m resource "random_password" "db" {
+      [32m+[0m[0m bcrypt_hash = (sensitive value)
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m length      = 32
+      [32m+[0m[0m lower       = true
+      [32m+[0m[0m min_lower   = 0
+      [32m+[0m[0m min_numeric = 0
+      [32m+[0m[0m min_special = 0
+      [32m+[0m[0m min_upper   = 0
+      [32m+[0m[0m number      = true
+      [32m+[0m[0m numeric     = true
+      [32m+[0m[0m result      = (sensitive value)
+      [32m+[0m[0m special     = false
+      [32m+[0m[0m upper       = true
+    }
+
+[1m  # random_password.redis_auth_token[0m will be created
+[0m  [32m+[0m[0m resource "random_password" "redis_auth_token" {
+      [32m+[0m[0m bcrypt_hash = (sensitive value)
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m length      = 32
+      [32m+[0m[0m lower       = true
+      [32m+[0m[0m min_lower   = 0
+      [32m+[0m[0m min_numeric = 0
+      [32m+[0m[0m min_special = 0
+      [32m+[0m[0m min_upper   = 0
+      [32m+[0m[0m number      = true
+      [32m+[0m[0m numeric     = true
+      [32m+[0m[0m result      = (sensitive value)
+      [32m+[0m[0m special     = false
+      [32m+[0m[0m upper       = true
+    }
+
+[1m  # module.acm.aws_acm_certificate.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_acm_certificate" "this" {
+      [32m+[0m[0m arn                       = (known after apply)
+      [32m+[0m[0m domain_name               = "chat.deeptechexpertconsulting.com"
+      [32m+[0m[0m domain_validation_options = [
+          [32m+[0m[0m {
+              [32m+[0m[0m domain_name           = "chat.deeptechexpertconsulting.com"
+              [32m+[0m[0m resource_record_name  = (known after apply)
+              [32m+[0m[0m resource_record_type  = (known after apply)
+              [32m+[0m[0m resource_record_value = (known after apply)
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m domain_name           = "www.chat.deeptechexpertconsulting.com"
+              [32m+[0m[0m resource_record_name  = (known after apply)
+              [32m+[0m[0m resource_record_type  = (known after apply)
+              [32m+[0m[0m resource_record_value = (known after apply)
+            },
+        ]
+      [32m+[0m[0m id                        = (known after apply)
+      [32m+[0m[0m key_algorithm             = (known after apply)
+      [32m+[0m[0m not_after                 = (known after apply)
+      [32m+[0m[0m not_before                = (known after apply)
+      [32m+[0m[0m pending_renewal           = (known after apply)
+      [32m+[0m[0m renewal_eligibility       = (known after apply)
+      [32m+[0m[0m renewal_summary           = (known after apply)
+      [32m+[0m[0m status                    = (known after apply)
+      [32m+[0m[0m subject_alternative_names = [
+          [32m+[0m[0m "chat.deeptechexpertconsulting.com",
+          [32m+[0m[0m "www.chat.deeptechexpertconsulting.com",
+        ]
+      [32m+[0m[0m tags                      = {
+          [32m+[0m[0m "Name" = "chat.deeptechexpertconsulting.com"
+        }
+      [32m+[0m[0m tags_all                  = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chat.deeptechexpertconsulting.com"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m type                      = (known after apply)
+      [32m+[0m[0m validation_emails         = (known after apply)
+      [32m+[0m[0m validation_method         = "DNS"
+
+      [32m+[0m[0m options (known after apply)
+    }
+
+[1m  # module.acm.aws_acm_certificate_validation.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_acm_certificate_validation" "this" {
+      [32m+[0m[0m certificate_arn         = (known after apply)
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m validation_record_fqdns = (known after apply)
+    }
+
+[1m  # module.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"][0m will be created
+[0m  [32m+[0m[0m resource "aws_route53_record" "cert_validation" {
+      [32m+[0m[0m allow_overwrite = true
+      [32m+[0m[0m fqdn            = (known after apply)
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m name            = (known after apply)
+      [32m+[0m[0m records         = (known after apply)
+      [32m+[0m[0m ttl             = 60
+      [32m+[0m[0m type            = (known after apply)
+      [32m+[0m[0m zone_id         = "Z00059733M4NJCLBQJPRL"
+    }
+
+[1m  # module.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"][0m will be created
+[0m  [32m+[0m[0m resource "aws_route53_record" "cert_validation" {
+      [32m+[0m[0m allow_overwrite = true
+      [32m+[0m[0m fqdn            = (known after apply)
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m name            = (known after apply)
+      [32m+[0m[0m records         = (known after apply)
+      [32m+[0m[0m ttl             = 60
+      [32m+[0m[0m type            = (known after apply)
+      [32m+[0m[0m zone_id         = "Z00059733M4NJCLBQJPRL"
+    }
+
+[1m  # module.elasticache.aws_elasticache_parameter_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_elasticache_parameter_group" "this" {
+      [32m+[0m[0m arn         = (known after apply)
+      [32m+[0m[0m description = "Managed by Terraform"
+      [32m+[0m[0m family      = "redis7"
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "chatapp-prod-redis7-pg"
+      [32m+[0m[0m tags_all    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m name  = "maxmemory-policy"
+          [32m+[0m[0m value = "allkeys-lru"
+        }
+    }
+
+[1m  # module.elasticache.aws_elasticache_replication_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_elasticache_replication_group" "this" {
+      [32m+[0m[0m apply_immediately              = false
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m at_rest_encryption_enabled     = "true"
+      [32m+[0m[0m auth_token                     = (sensitive value)
+      [32m+[0m[0m auth_token_update_strategy     = "ROTATE"
+      [32m+[0m[0m auto_minor_version_upgrade     = "true"
+      [32m+[0m[0m automatic_failover_enabled     = true
+      [32m+[0m[0m cluster_enabled                = (known after apply)
+      [32m+[0m[0m cluster_mode                   = (known after apply)
+      [32m+[0m[0m configuration_endpoint_address = (known after apply)
+      [32m+[0m[0m data_tiering_enabled           = (known after apply)
+      [32m+[0m[0m description                    = "chatapp-prod Redis cluster"
+      [32m+[0m[0m engine                         = "redis"
+      [32m+[0m[0m engine_version                 = "7.1"
+      [32m+[0m[0m engine_version_actual          = (known after apply)
+      [32m+[0m[0m global_replication_group_id    = (known after apply)
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m ip_discovery                   = (known after apply)
+      [32m+[0m[0m kms_key_id                     = "arn:aws:kms:us-east-1:866317130608:key/7483b970-fde1-442c-90b4-d0cdf8a78739"
+      [32m+[0m[0m maintenance_window             = "sun:06:00-sun:07:00"
+      [32m+[0m[0m member_clusters                = (known after apply)
+      [32m+[0m[0m multi_az_enabled               = true
+      [32m+[0m[0m network_type                   = (known after apply)
+      [32m+[0m[0m node_type                      = "cache.t4g.small"
+      [32m+[0m[0m num_cache_clusters             = 2
+      [32m+[0m[0m num_node_groups                = (known after apply)
+      [32m+[0m[0m parameter_group_name           = "chatapp-prod-redis7-pg"
+      [32m+[0m[0m port                           = 6379
+      [32m+[0m[0m preferred_cache_cluster_azs    = [
+          [32m+[0m[0m "us-east-1a",
+          [32m+[0m[0m "us-east-1b",
+        ]
+      [32m+[0m[0m primary_endpoint_address       = (known after apply)
+      [32m+[0m[0m reader_endpoint_address        = (known after apply)
+      [32m+[0m[0m replicas_per_node_group        = (known after apply)
+      [32m+[0m[0m replication_group_id           = "chatapp-prod-redis"
+      [32m+[0m[0m security_group_ids             = [
+          [32m+[0m[0m "sg-0087496e1eea63824",
+        ]
+      [32m+[0m[0m security_group_names           = (known after apply)
+      [32m+[0m[0m snapshot_retention_limit       = 30
+      [32m+[0m[0m snapshot_window                = "04:00-05:00"
+      [32m+[0m[0m subnet_group_name              = "chatapp-prod-redis-subnet-group"
+      [32m+[0m[0m tags                           = {
+          [32m+[0m[0m "Name" = "chatapp-prod-redis"
+        }
+      [32m+[0m[0m tags_all                       = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-redis"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m transit_encryption_enabled     = true
+      [32m+[0m[0m transit_encryption_mode        = (known after apply)
+    }
+
+[1m  # module.elasticache.aws_elasticache_subnet_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_elasticache_subnet_group" "this" {
+      [32m+[0m[0m arn         = (known after apply)
+      [32m+[0m[0m description = "ElastiCache Redis subnet group"
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "chatapp-prod-redis-subnet-group"
+      [32m+[0m[0m subnet_ids  = [
+          [32m+[0m[0m "subnet-01d932b8460df2f45",
+          [32m+[0m[0m "subnet-0747012980d7073fc",
+        ]
+      [32m+[0m[0m tags        = {
+          [32m+[0m[0m "Name" = "chatapp-prod-redis-subnet-group"
+        }
+      [32m+[0m[0m tags_all    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-redis-subnet-group"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m vpc_id      = (known after apply)
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.eks_node_cpu[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "eks_node_cpu" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "EKS node average CPU above 80% for 10 minutes"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-eks-node-cpu-high"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "AutoScalingGroupName" = "eks-chatapp-prod-app-nodes-5ecf35e6-319d-68e6-0280-b51cb1b4f501"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "CPUUtilization"
+      [32m+[0m[0m namespace                             = "AWS/EC2"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 80
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.eks_nodes_in_service[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "eks_nodes_in_service" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "EKS in-service node count dropped below configured minimum"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-eks-nodes-below-minimum"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "LessThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "AutoScalingGroupName" = "eks-chatapp-prod-app-nodes-5ecf35e6-319d-68e6-0280-b51cb1b4f501"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "GroupInServiceInstances"
+      [32m+[0m[0m namespace                             = "AWS/AutoScaling"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 60
+      [32m+[0m[0m statistic                             = "Minimum"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 2
+      [32m+[0m[0m treat_missing_data                    = "breaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.rds_connections[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "rds_connections" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "RDS cluster connections above 200"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-rds-connections-high"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "DBClusterIdentifier" = "chatapp-prod-db"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "DatabaseConnections"
+      [32m+[0m[0m namespace                             = "AWS/RDS"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 200
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.rds_cpu[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "rds_cpu" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "RDS writer CPU utilisation above 80%"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-rds-cpu-high"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "DBInstanceIdentifier" = "chatapp-prod-db-writer"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "CPUUtilization"
+      [32m+[0m[0m namespace                             = "AWS/RDS"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 80
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.rds_free_storage[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "rds_free_storage" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "RDS writer free local storage below 10 GiB"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-rds-storage-low"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "LessThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "DBInstanceIdentifier" = "chatapp-prod-db-writer"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 1
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "FreeLocalStorage"
+      [32m+[0m[0m namespace                             = "AWS/RDS"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 10737418240
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.redis_cpu[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "redis_cpu" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "Redis CPU utilisation above 75%"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-redis-cpu-high"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = (known after apply)
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "CPUUtilization"
+      [32m+[0m[0m namespace                             = "AWS/ElastiCache"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 75
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.redis_evictions[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "redis_evictions" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "Redis evictions above 100 — memory pressure"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-redis-evictions"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = (known after apply)
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "Evictions"
+      [32m+[0m[0m namespace                             = "AWS/ElastiCache"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Sum"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 100
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.redis_replication_lag[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "redis_replication_lag" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "Redis replica lag above 60 seconds"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-redis-replication-lag"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = (known after apply)
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 3
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "ReplicationLag"
+      [32m+[0m[0m namespace                             = "AWS/ElastiCache"
+      [32m+[0m[0m ok_actions                            = (known after apply)
+      [32m+[0m[0m period                                = 60
+      [32m+[0m[0m statistic                             = "Maximum"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 60
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.waf_blocked_requests[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "waf_blocked_requests" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "WAF blocked request rate above 1000 in 5 minutes"
+      [32m+[0m[0m alarm_name                            = "chatapp-prod-waf-blocked-spike"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "Region" = "us-east-1"
+          [32m+[0m[0m "Rule"   = "ALL"
+          [32m+[0m[0m "WebACL" = "chatapp-prod-waf"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 1
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "BlockedRequests"
+      [32m+[0m[0m namespace                             = "AWS/WAFV2"
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Sum"
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m threshold                             = 1000
+      [32m+[0m[0m treat_missing_data                    = "notBreaching"
+    }
+
+[1m  # module.monitoring.aws_sns_topic.alerts[0m will be created
+[0m  [32m+[0m[0m resource "aws_sns_topic" "alerts" {
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m beginning_archive_time      = (known after apply)
+      [32m+[0m[0m content_based_deduplication = false
+      [32m+[0m[0m fifo_throughput_scope       = (known after apply)
+      [32m+[0m[0m fifo_topic                  = false
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m name                        = "chatapp-prod-alerts"
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m owner                       = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m signature_version           = (known after apply)
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Name" = "chatapp-prod-alerts"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-alerts"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m tracing_config              = (known after apply)
+    }
+
+[1m  # module.monitoring.aws_sns_topic_subscription.email[0m will be created
+[0m  [32m+[0m[0m resource "aws_sns_topic_subscription" "email" {
+      [32m+[0m[0m arn                             = (known after apply)
+      [32m+[0m[0m confirmation_timeout_in_minutes = 1
+      [32m+[0m[0m confirmation_was_authenticated  = (known after apply)
+      [32m+[0m[0m endpoint                        = "morganokanyair@gmail.com"
+      [32m+[0m[0m endpoint_auto_confirms          = false
+      [32m+[0m[0m filter_policy_scope             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+      [32m+[0m[0m owner_id                        = (known after apply)
+      [32m+[0m[0m pending_confirmation            = (known after apply)
+      [32m+[0m[0m protocol                        = "email"
+      [32m+[0m[0m raw_message_delivery            = false
+      [32m+[0m[0m topic_arn                       = (known after apply)
+    }
+
+[1m  # module.rds.aws_db_parameter_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_db_parameter_group" "this" {
+      [32m+[0m[0m arn          = (known after apply)
+      [32m+[0m[0m description  = "Managed by Terraform"
+      [32m+[0m[0m family       = "aurora-mysql8.0"
+      [32m+[0m[0m id           = (known after apply)
+      [32m+[0m[0m name         = "chatapp-prod-aurora-mysql8-db-pg"
+      [32m+[0m[0m name_prefix  = (known after apply)
+      [32m+[0m[0m skip_destroy = false
+      [32m+[0m[0m tags_all     = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+    }
+
+[1m  # module.rds.aws_db_subnet_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_db_subnet_group" "this" {
+      [32m+[0m[0m arn                     = (known after apply)
+      [32m+[0m[0m description             = "Aurora MySQL subnet group"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m name                    = "chatapp-prod-rds-subnet-group"
+      [32m+[0m[0m name_prefix             = (known after apply)
+      [32m+[0m[0m subnet_ids              = [
+          [32m+[0m[0m "subnet-01d932b8460df2f45",
+          [32m+[0m[0m "subnet-0747012980d7073fc",
+        ]
+      [32m+[0m[0m supported_network_types = (known after apply)
+      [32m+[0m[0m tags                    = {
+          [32m+[0m[0m "Name" = "chatapp-prod-rds-subnet-group"
+        }
+      [32m+[0m[0m tags_all                = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-rds-subnet-group"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m vpc_id                  = (known after apply)
+    }
+
+[1m  # module.rds.aws_iam_role.rds_monitoring[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "rds_monitoring" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "monitoring.rds.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "chatapp-prod-rds-monitoring"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.rds.aws_iam_role_policy_attachment.rds_monitoring[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "rds_monitoring" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+      [32m+[0m[0m role       = "chatapp-prod-rds-monitoring"
+    }
+
+[1m  # module.rds.aws_rds_cluster.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_rds_cluster" "this" {
+      [32m+[0m[0m allocated_storage                     = (known after apply)
+      [32m+[0m[0m apply_immediately                     = false
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m availability_zones                    = (known after apply)
+      [32m+[0m[0m backup_retention_period               = 30
+      [32m+[0m[0m ca_certificate_identifier             = (known after apply)
+      [32m+[0m[0m ca_certificate_valid_till             = (known after apply)
+      [32m+[0m[0m cluster_identifier                    = "chatapp-prod-db"
+      [32m+[0m[0m cluster_identifier_prefix             = (known after apply)
+      [32m+[0m[0m cluster_members                       = (known after apply)
+      [32m+[0m[0m cluster_resource_id                   = (known after apply)
+      [32m+[0m[0m cluster_scalability_type              = (known after apply)
+      [32m+[0m[0m copy_tags_to_snapshot                 = true
+      [32m+[0m[0m database_insights_mode                = (known after apply)
+      [32m+[0m[0m database_name                         = "chatdb"
+      [32m+[0m[0m db_cluster_parameter_group_name       = "chatapp-prod-aurora-mysql8-cluster-pg"
+      [32m+[0m[0m db_subnet_group_name                  = "chatapp-prod-rds-subnet-group"
+      [32m+[0m[0m db_system_id                          = (known after apply)
+      [32m+[0m[0m delete_automated_backups              = true
+      [32m+[0m[0m deletion_protection                   = false
+      [32m+[0m[0m enable_global_write_forwarding        = false
+      [32m+[0m[0m enable_http_endpoint                  = false
+      [32m+[0m[0m enable_local_write_forwarding         = false
+      [32m+[0m[0m enabled_cloudwatch_logs_exports       = [
+          [32m+[0m[0m "audit",
+          [32m+[0m[0m "error",
+          [32m+[0m[0m "slowquery",
+        ]
+      [32m+[0m[0m endpoint                              = (known after apply)
+      [32m+[0m[0m engine                                = "aurora-mysql"
+      [32m+[0m[0m engine_lifecycle_support              = (known after apply)
+      [32m+[0m[0m engine_mode                           = "provisioned"
+      [32m+[0m[0m engine_version                        = "8.0.mysql_aurora.3.08.2"
+      [32m+[0m[0m engine_version_actual                 = (known after apply)
+      [32m+[0m[0m final_snapshot_identifier             = "chatapp-prod-db-final-snapshot"
+      [32m+[0m[0m hosted_zone_id                        = (known after apply)
+      [32m+[0m[0m iam_roles                             = (known after apply)
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m kms_key_id                            = "arn:aws:kms:us-east-1:866317130608:key/3634565e-3e0f-4b87-88ed-42cd7f09e52e"
+      [32m+[0m[0m master_password                       = (sensitive value)
+      [32m+[0m[0m master_password_wo                    = (write-only attribute)
+      [32m+[0m[0m master_user_secret                    = (known after apply)
+      [32m+[0m[0m master_user_secret_kms_key_id         = (known after apply)
+      [32m+[0m[0m master_username                       = "admin"
+      [32m+[0m[0m monitoring_interval                   = (known after apply)
+      [32m+[0m[0m monitoring_role_arn                   = (known after apply)
+      [32m+[0m[0m network_type                          = (known after apply)
+      [32m+[0m[0m performance_insights_kms_key_id       = (known after apply)
+      [32m+[0m[0m performance_insights_retention_period = (known after apply)
+      [32m+[0m[0m port                                  = (known after apply)
+      [32m+[0m[0m preferred_backup_window               = "03:00-04:00"
+      [32m+[0m[0m preferred_maintenance_window          = "sun:05:00-sun:06:00"
+      [32m+[0m[0m reader_endpoint                       = (known after apply)
+      [32m+[0m[0m skip_final_snapshot                   = true
+      [32m+[0m[0m storage_encrypted                     = true
+      [32m+[0m[0m storage_type                          = (known after apply)
+      [32m+[0m[0m tags                                  = {
+          [32m+[0m[0m "Name" = "chatapp-prod-db"
+        }
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-db"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m vpc_security_group_ids                = [
+          [32m+[0m[0m "sg-043e9e25edda836d2",
+        ]
+    }
+
+[1m  # module.rds.aws_rds_cluster_instance.reader[0m will be created
+[0m  [32m+[0m[0m resource "aws_rds_cluster_instance" "reader" {
+      [32m+[0m[0m apply_immediately                     = (known after apply)
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m auto_minor_version_upgrade            = true
+      [32m+[0m[0m availability_zone                     = "us-east-1b"
+      [32m+[0m[0m ca_cert_identifier                    = (known after apply)
+      [32m+[0m[0m cluster_identifier                    = (known after apply)
+      [32m+[0m[0m copy_tags_to_snapshot                 = false
+      [32m+[0m[0m db_parameter_group_name               = "chatapp-prod-aurora-mysql8-db-pg"
+      [32m+[0m[0m db_subnet_group_name                  = "chatapp-prod-rds-subnet-group"
+      [32m+[0m[0m dbi_resource_id                       = (known after apply)
+      [32m+[0m[0m endpoint                              = (known after apply)
+      [32m+[0m[0m engine                                = "aurora-mysql"
+      [32m+[0m[0m engine_version                        = "8.0.mysql_aurora.3.08.2"
+      [32m+[0m[0m engine_version_actual                 = (known after apply)
+      [32m+[0m[0m force_destroy                         = false
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m identifier                            = "chatapp-prod-db-reader"
+      [32m+[0m[0m identifier_prefix                     = (known after apply)
+      [32m+[0m[0m instance_class                        = "db.t3.medium"
+      [32m+[0m[0m kms_key_id                            = (known after apply)
+      [32m+[0m[0m monitoring_interval                   = 60
+      [32m+[0m[0m monitoring_role_arn                   = (known after apply)
+      [32m+[0m[0m network_type                          = (known after apply)
+      [32m+[0m[0m performance_insights_enabled          = false
+      [32m+[0m[0m performance_insights_kms_key_id       = (known after apply)
+      [32m+[0m[0m performance_insights_retention_period = (known after apply)
+      [32m+[0m[0m port                                  = (known after apply)
+      [32m+[0m[0m preferred_backup_window               = (known after apply)
+      [32m+[0m[0m preferred_maintenance_window          = (known after apply)
+      [32m+[0m[0m promotion_tier                        = 0
+      [32m+[0m[0m publicly_accessible                   = (known after apply)
+      [32m+[0m[0m storage_encrypted                     = (known after apply)
+      [32m+[0m[0m tags                                  = {
+          [32m+[0m[0m "Name" = "chatapp-prod-db-reader"
+        }
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-db-reader"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m writer                                = (known after apply)
+    }
+
+[1m  # module.rds.aws_rds_cluster_instance.writer[0m will be created
+[0m  [32m+[0m[0m resource "aws_rds_cluster_instance" "writer" {
+      [32m+[0m[0m apply_immediately                     = (known after apply)
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m auto_minor_version_upgrade            = true
+      [32m+[0m[0m availability_zone                     = "us-east-1a"
+      [32m+[0m[0m ca_cert_identifier                    = (known after apply)
+      [32m+[0m[0m cluster_identifier                    = (known after apply)
+      [32m+[0m[0m copy_tags_to_snapshot                 = false
+      [32m+[0m[0m db_parameter_group_name               = "chatapp-prod-aurora-mysql8-db-pg"
+      [32m+[0m[0m db_subnet_group_name                  = "chatapp-prod-rds-subnet-group"
+      [32m+[0m[0m dbi_resource_id                       = (known after apply)
+      [32m+[0m[0m endpoint                              = (known after apply)
+      [32m+[0m[0m engine                                = "aurora-mysql"
+      [32m+[0m[0m engine_version                        = "8.0.mysql_aurora.3.08.2"
+      [32m+[0m[0m engine_version_actual                 = (known after apply)
+      [32m+[0m[0m force_destroy                         = false
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m identifier                            = "chatapp-prod-db-writer"
+      [32m+[0m[0m identifier_prefix                     = (known after apply)
+      [32m+[0m[0m instance_class                        = "db.t3.medium"
+      [32m+[0m[0m kms_key_id                            = (known after apply)
+      [32m+[0m[0m monitoring_interval                   = 60
+      [32m+[0m[0m monitoring_role_arn                   = (known after apply)
+      [32m+[0m[0m network_type                          = (known after apply)
+      [32m+[0m[0m performance_insights_enabled          = false
+      [32m+[0m[0m performance_insights_kms_key_id       = (known after apply)
+      [32m+[0m[0m performance_insights_retention_period = (known after apply)
+      [32m+[0m[0m port                                  = (known after apply)
+      [32m+[0m[0m preferred_backup_window               = (known after apply)
+      [32m+[0m[0m preferred_maintenance_window          = (known after apply)
+      [32m+[0m[0m promotion_tier                        = 0
+      [32m+[0m[0m publicly_accessible                   = (known after apply)
+      [32m+[0m[0m storage_encrypted                     = (known after apply)
+      [32m+[0m[0m tags                                  = {
+          [32m+[0m[0m "Name" = "chatapp-prod-db-writer"
+        }
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-db-writer"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m writer                                = (known after apply)
+    }
+
+[1m  # module.rds.aws_rds_cluster_parameter_group.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_rds_cluster_parameter_group" "this" {
+      [32m+[0m[0m arn         = (known after apply)
+      [32m+[0m[0m description = "Aurora MySQL 8.0 cluster parameter group"
+      [32m+[0m[0m family      = "aurora-mysql8.0"
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "chatapp-prod-aurora-mysql8-cluster-pg"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m tags_all    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m apply_method = "immediate"
+          [32m+[0m[0m name         = "character_set_server"
+          [32m+[0m[0m value        = "utf8mb4"
+        }
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m apply_method = "immediate"
+          [32m+[0m[0m name         = "collation_server"
+          [32m+[0m[0m value        = "utf8mb4_unicode_ci"
+        }
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m apply_method = "immediate"
+          [32m+[0m[0m name         = "general_log"
+          [32m+[0m[0m value        = "0"
+        }
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m apply_method = "immediate"
+          [32m+[0m[0m name         = "long_query_time"
+          [32m+[0m[0m value        = "2"
+        }
+      [32m+[0m[0m parameter {
+          [32m+[0m[0m apply_method = "immediate"
+          [32m+[0m[0m name         = "slow_query_log"
+          [32m+[0m[0m value        = "1"
+        }
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret.app[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret" "app" {
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m description                    = "chatapp-prod application secret key"
+      [32m+[0m[0m force_overwrite_replica_secret = false
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m kms_key_id                     = "arn:aws:kms:us-east-1:866317130608:key/60874524-870a-4a57-aacc-4c8c7b77820c"
+      [32m+[0m[0m name                           = "chatapp/prod/app-config"
+      [32m+[0m[0m name_prefix                    = (known after apply)
+      [32m+[0m[0m policy                         = (known after apply)
+      [32m+[0m[0m recovery_window_in_days        = 7
+      [32m+[0m[0m tags                           = {
+          [32m+[0m[0m "Name" = "chatapp-prod-app-secret"
+        }
+      [32m+[0m[0m tags_all                       = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-app-secret"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m replica (known after apply)
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret.db[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret" "db" {
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m description                    = "chatapp-prod Aurora MySQL credentials"
+      [32m+[0m[0m force_overwrite_replica_secret = false
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m kms_key_id                     = "arn:aws:kms:us-east-1:866317130608:key/60874524-870a-4a57-aacc-4c8c7b77820c"
+      [32m+[0m[0m name                           = "chatapp/prod/db-credentials"
+      [32m+[0m[0m name_prefix                    = (known after apply)
+      [32m+[0m[0m policy                         = (known after apply)
+      [32m+[0m[0m recovery_window_in_days        = 7
+      [32m+[0m[0m tags                           = {
+          [32m+[0m[0m "Name" = "chatapp-prod-db-secret"
+        }
+      [32m+[0m[0m tags_all                       = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-db-secret"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m replica (known after apply)
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret.redis[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret" "redis" {
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m description                    = "chatapp-prod ElastiCache Redis AUTH token"
+      [32m+[0m[0m force_overwrite_replica_secret = false
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m kms_key_id                     = "arn:aws:kms:us-east-1:866317130608:key/60874524-870a-4a57-aacc-4c8c7b77820c"
+      [32m+[0m[0m name                           = "chatapp/prod/redis-auth-token"
+      [32m+[0m[0m name_prefix                    = (known after apply)
+      [32m+[0m[0m policy                         = (known after apply)
+      [32m+[0m[0m recovery_window_in_days        = 7
+      [32m+[0m[0m tags                           = {
+          [32m+[0m[0m "Name" = "chatapp-prod-redis-secret"
+        }
+      [32m+[0m[0m tags_all                       = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-redis-secret"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m replica (known after apply)
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret_version.app[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret_version" "app" {
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m has_secret_string_wo = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m secret_id            = (known after apply)
+      [32m+[0m[0m secret_string        = (sensitive value)
+      [32m+[0m[0m secret_string_wo     = (write-only attribute)
+      [32m+[0m[0m version_id           = (known after apply)
+      [32m+[0m[0m version_stages       = (known after apply)
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret_version.db[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret_version" "db" {
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m has_secret_string_wo = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m secret_id            = (known after apply)
+      [32m+[0m[0m secret_string        = (sensitive value)
+      [32m+[0m[0m secret_string_wo     = (write-only attribute)
+      [32m+[0m[0m version_id           = (known after apply)
+      [32m+[0m[0m version_stages       = (known after apply)
+    }
+
+[1m  # module.secrets.aws_secretsmanager_secret_version.redis[0m will be created
+[0m  [32m+[0m[0m resource "aws_secretsmanager_secret_version" "redis" {
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m has_secret_string_wo = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m secret_id            = (known after apply)
+      [32m+[0m[0m secret_string        = (sensitive value)
+      [32m+[0m[0m secret_string_wo     = (write-only attribute)
+      [32m+[0m[0m version_id           = (known after apply)
+      [32m+[0m[0m version_stages       = (known after apply)
+    }
+
+[1m  # module.secrets.random_password.app_secret_key[0m will be created
+[0m  [32m+[0m[0m resource "random_password" "app_secret_key" {
+      [32m+[0m[0m bcrypt_hash = (sensitive value)
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m length      = 64
+      [32m+[0m[0m lower       = true
+      [32m+[0m[0m min_lower   = 0
+      [32m+[0m[0m min_numeric = 0
+      [32m+[0m[0m min_special = 0
+      [32m+[0m[0m min_upper   = 0
+      [32m+[0m[0m number      = true
+      [32m+[0m[0m numeric     = true
+      [32m+[0m[0m result      = (sensitive value)
+      [32m+[0m[0m special     = false
+      [32m+[0m[0m upper       = true
+    }
+
+[1m  # module.waf.aws_s3_bucket.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket" "alb_logs" {
+      [32m+[0m[0m acceleration_status         = (known after apply)
+      [32m+[0m[0m acl                         = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m bucket                      = "chatapp-prod-alb-logs-866317130608"
+      [32m+[0m[0m bucket_domain_name          = (known after apply)
+      [32m+[0m[0m bucket_prefix               = (known after apply)
+      [32m+[0m[0m bucket_regional_domain_name = (known after apply)
+      [32m+[0m[0m force_destroy               = true
+      [32m+[0m[0m hosted_zone_id              = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m object_lock_enabled         = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m region                      = (known after apply)
+      [32m+[0m[0m request_payer               = (known after apply)
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Name" = "chatapp-prod-alb-logs"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-alb-logs"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m website_domain              = (known after apply)
+      [32m+[0m[0m website_endpoint            = (known after apply)
+
+      [32m+[0m[0m cors_rule (known after apply)
+
+      [32m+[0m[0m grant (known after apply)
+
+      [32m+[0m[0m lifecycle_rule (known after apply)
+
+      [32m+[0m[0m logging (known after apply)
+
+      [32m+[0m[0m object_lock_configuration (known after apply)
+
+      [32m+[0m[0m replication_configuration (known after apply)
+
+      [32m+[0m[0m server_side_encryption_configuration (known after apply)
+
+      [32m+[0m[0m versioning (known after apply)
+
+      [32m+[0m[0m website (known after apply)
+    }
+
+[1m  # module.waf.aws_s3_bucket_lifecycle_configuration.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_lifecycle_configuration" "alb_logs" {
+      [32m+[0m[0m bucket                                 = (known after apply)
+      [32m+[0m[0m expected_bucket_owner                  = (known after apply)
+      [32m+[0m[0m id                                     = (known after apply)
+      [32m+[0m[0m transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m id     = "expire-logs-30d"
+          [32m+[0m[0m status = "Enabled"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [32m+[0m[0m expiration {
+              [32m+[0m[0m days                         = 30
+              [32m+[0m[0m expired_object_delete_marker = false
+            }
+
+          [32m+[0m[0m filter {
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+    }
+
+[1m  # module.waf.aws_s3_bucket_policy.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_policy" "alb_logs" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+      [32m+[0m[0m policy = (known after apply)
+    }
+
+[1m  # module.waf.aws_s3_bucket_public_access_block.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_public_access_block" "alb_logs" {
+      [32m+[0m[0m block_public_acls       = true
+      [32m+[0m[0m block_public_policy     = true
+      [32m+[0m[0m bucket                  = (known after apply)
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m ignore_public_acls      = true
+      [32m+[0m[0m restrict_public_buckets = true
+    }
+
+[1m  # module.waf.aws_s3_bucket_server_side_encryption_configuration.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_server_side_encryption_configuration" "alb_logs" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m apply_server_side_encryption_by_default {
+              [32m+[0m[0m sse_algorithm     = "AES256"
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+    }
+
+[1m  # module.waf.aws_s3_bucket_versioning.alb_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_versioning" "alb_logs" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+
+      [32m+[0m[0m versioning_configuration {
+          [32m+[0m[0m mfa_delete = (known after apply)
+          [32m+[0m[0m status     = "Enabled"
+        }
+    }
+
+[1m  # module.waf.aws_wafv2_web_acl.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_wafv2_web_acl" "this" {
+      [32m+[0m[0m application_integration_url = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m capacity                    = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m lock_token                  = (known after apply)
+      [32m+[0m[0m name                        = "chatapp-prod-waf"
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m scope                       = "REGIONAL"
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Name" = "chatapp-prod-waf"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "chatapp-prod-waf"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+
+      [32m+[0m[0m default_action {
+          [32m+[0m[0m allow {
+            }
+        }
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "RateLimitPerIP"
+          [32m+[0m[0m priority = 6
+
+          [32m+[0m[0m action {
+              [32m+[0m[0m block {
+                }
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m rate_based_statement {
+                  [32m+[0m[0m aggregate_key_type    = "IP"
+                  [32m+[0m[0m evaluation_window_sec = 300
+                  [32m+[0m[0m limit                 = 2000
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-ratelimit"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "BotControl"
+          [32m+[0m[0m priority = 5
+
+          [32m+[0m[0m override_action {
+              [32m+[0m[0m count {}
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m managed_rule_group_statement {
+                  [32m+[0m[0m name        = "AWSManagedRulesBotControlRuleSet"
+                  [32m+[0m[0m vendor_name = "AWS"
+                    [90m# (1 unchanged attribute hidden)[0m[0m
+
+                  [32m+[0m[0m managed_rule_group_configs {
+                        [90m# (2 unchanged attributes hidden)[0m[0m
+
+                      [32m+[0m[0m aws_managed_rules_bot_control_rule_set {
+                          [32m+[0m[0m enable_machine_learning = true
+                          [32m+[0m[0m inspection_level        = "COMMON"
+                        }
+                    }
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-botcontrol"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "CommonRuleSet"
+          [32m+[0m[0m priority = 2
+
+          [32m+[0m[0m override_action {
+              [32m+[0m[0m none {}
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m managed_rule_group_statement {
+                  [32m+[0m[0m name        = "AWSManagedRulesCommonRuleSet"
+                  [32m+[0m[0m vendor_name = "AWS"
+                    [90m# (1 unchanged attribute hidden)[0m[0m
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-common"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "IPReputationList"
+          [32m+[0m[0m priority = 1
+
+          [32m+[0m[0m override_action {
+              [32m+[0m[0m none {}
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m managed_rule_group_statement {
+                  [32m+[0m[0m name        = "AWSManagedRulesAmazonIpReputationList"
+                  [32m+[0m[0m vendor_name = "AWS"
+                    [90m# (1 unchanged attribute hidden)[0m[0m
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-iprep"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "KnownBadInputs"
+          [32m+[0m[0m priority = 3
+
+          [32m+[0m[0m override_action {
+              [32m+[0m[0m none {}
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m managed_rule_group_statement {
+                  [32m+[0m[0m name        = "AWSManagedRulesKnownBadInputsRuleSet"
+                  [32m+[0m[0m vendor_name = "AWS"
+                    [90m# (1 unchanged attribute hidden)[0m[0m
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-badinputs"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m name     = "SQLiRuleSet"
+          [32m+[0m[0m priority = 4
+
+          [32m+[0m[0m override_action {
+              [32m+[0m[0m none {}
+            }
+
+          [32m+[0m[0m statement {
+              [32m+[0m[0m managed_rule_group_statement {
+                  [32m+[0m[0m name        = "AWSManagedRulesSQLiRuleSet"
+                  [32m+[0m[0m vendor_name = "AWS"
+                    [90m# (1 unchanged attribute hidden)[0m[0m
+                }
+            }
+
+          [32m+[0m[0m visibility_config {
+              [32m+[0m[0m cloudwatch_metrics_enabled = true
+              [32m+[0m[0m metric_name                = "chatapp-prod-waf-sqli"
+              [32m+[0m[0m sampled_requests_enabled   = true
+            }
+        }
+
+      [32m+[0m[0m visibility_config {
+          [32m+[0m[0m cloudwatch_metrics_enabled = true
+          [32m+[0m[0m metric_name                = "chatapp-prod-waf"
+          [32m+[0m[0m sampled_requests_enabled   = true
+        }
+    }
+
+[1mPlan:[0m [0m60 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m acm_certificate_arn          = (known after apply)
+  [32m+[0m[0m alb_logs_bucket              = (known after apply)
+  [32m+[0m[0m app_secret_arn               = (known after apply)
+  [32m+[0m[0m db_secret_arn                = (known after apply)
+  [32m+[0m[0m rds_reader_endpoint          = (known after apply)
+  [32m+[0m[0m rds_writer_endpoint          = (known after apply)
+  [32m+[0m[0m redis_configuration_endpoint = (known after apply)
+  [32m+[0m[0m waf_web_acl_arn              = (known after apply)
+[0m[1mmodule.secrets.random_password.app_secret_key: Creating...[0m[0m
+[0m[1mrandom_password.db: Creating...[0m[0m
+[0m[1mrandom_password.redis_auth_token: Creating...[0m[0m
+[0m[1mmodule.secrets.random_password.app_secret_key: Creation complete after 0s [id=none][0m
+[0m[1mrandom_password.db: Creation complete after 0s [id=none][0m
+[0m[1mrandom_password.redis_auth_token: Creation complete after 0s [id=none][0m
+[0m[1mlocal_file.helm_values_secrets: Creating...[0m[0m
+[0m[1mlocal_file.helm_values_secrets: Creation complete after 0s [id=b4d7e6f603dfa3940020d68794e65414cc5adf6a][0m
+[0m[1mmodule.elasticache.aws_elasticache_parameter_group.this: Creating...[0m[0m
+[0m[1mmodule.acm.aws_acm_certificate.this: Creating...[0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_parameter_group.this: Creating...[0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_subnet_group.this: Creating...[0m[0m
+[0m[1mmodule.rds.aws_db_parameter_group.this: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_sns_topic.alerts: Creating...[0m[0m
+[0m[1mmodule.rds.aws_iam_role.rds_monitoring: Creating...[0m[0m
+[0m[1mmodule.waf.aws_s3_bucket.alb_logs: Creating...[0m[0m
+[0m[1mmodule.rds.aws_db_subnet_group.this: Creating...[0m[0m
+[0m[1mmodule.rds.aws_iam_role.rds_monitoring: Creation complete after 1s [id=chatapp-prod-rds-monitoring][0m
+[0m[1mmodule.rds.aws_iam_role_policy_attachment.rds_monitoring: Creating...[0m[0m
+[0m[1mmodule.rds.aws_iam_role_policy_attachment.rds_monitoring: Creation complete after 0s [id=chatapp-prod-rds-monitoring-20260528003856678800000002][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.app: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_sns_topic.alerts: Creation complete after 1s [id=arn:aws:sns:us-east-1:866317130608:chatapp-prod-alerts][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.redis: Creating...[0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_parameter_group.this: Creation complete after 1s [id=chatapp-prod-redis7-pg][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Creating...[0m[0m
+[0m[1mmodule.rds.aws_db_parameter_group.this: Creation complete after 1s [id=chatapp-prod-aurora-mysql8-db-pg][0m
+[0m[1mmodule.monitoring.aws_sns_topic_subscription.email: Creating...[0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.app: Creation complete after 0s [id=arn:aws:secretsmanager:us-east-1:866317130608:secret:chatapp/prod/app-config-NaqVWz][0m
+[0m[1maws_security_group_rule.eks_cluster_to_rds: Creating...[0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.redis: Creation complete after 0s [id=arn:aws:secretsmanager:us-east-1:866317130608:secret:chatapp/prod/redis-auth-token-W8oOY4][0m
+[0m[1maws_security_group_rule.eks_cluster_to_redis: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_sns_topic_subscription.email: Creation complete after 1s [id=arn:aws:sns:us-east-1:866317130608:chatapp-prod-alerts:e8219438-95a6-4c46-80e8-1e4b5df69647][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret_version.app: Creating...[0m[0m
+[0m[1mmodule.rds.aws_db_subnet_group.this: Creation complete after 2s [id=chatapp-prod-rds-subnet-group][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret_version.redis: Creating...[0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_parameter_group.this: Creation complete after 2s [id=chatapp-prod-aurora-mysql8-cluster-pg][0m
+[0m[1mkubernetes_namespace.chatapp: Creating...[0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_subnet_group.this: Creation complete after 2s [id=chatapp-prod-redis-subnet-group][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret_version.app: Creation complete after 0s [id=arn:aws:secretsmanager:us-east-1:866317130608:secret:chatapp/prod/app-config-NaqVWz|terraform-20260528003857689100000006][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.eks_node_cpu: Creating...[0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret_version.redis: Creation complete after 0s [id=arn:aws:secretsmanager:us-east-1:866317130608:secret:chatapp/prod/redis-auth-token-W8oOY4|terraform-20260528003857695000000007][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.eks_nodes_in_service: Creating...[0m[0m
+[0m[1maws_security_group_rule.eks_cluster_to_rds: Creation complete after 1s [id=sgrule-861126474][0m
+[0m[1mmodule.rds.aws_rds_cluster.this: Creating...[0m[0m
+[0m[1maws_security_group_rule.eks_cluster_to_redis: Creation complete after 1s [id=sgrule-1554551878][0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Creating...[0m[0m
+[0m[1mmodule.waf.aws_s3_bucket.alb_logs: Creation complete after 2s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mmodule.waf.aws_s3_bucket_versioning.alb_logs: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.eks_node_cpu: Creation complete after 0s [id=chatapp-prod-eks-node-cpu-high][0m
+[0m[1mmodule.waf.aws_s3_bucket_public_access_block.alb_logs: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.eks_nodes_in_service: Creation complete after 1s [id=chatapp-prod-eks-nodes-below-minimum][0m
+[0m[1mmodule.waf.aws_s3_bucket_server_side_encryption_configuration.alb_logs: Creating...[0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_public_access_block.alb_logs: Creation complete after 1s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Creating...[0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_server_side_encryption_configuration.alb_logs: Creation complete after 0s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mmodule.waf.aws_s3_bucket_policy.alb_logs: Creating...[0m[0m
+[0m[1mkubernetes_namespace.chatapp: Creation complete after 1s [id=chatapp][0m
+[0m[1mkubernetes_secret.rds_ca_cert: Creating...[0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_policy.alb_logs: Creation complete after 0s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mkubernetes_limit_range_v1.chatapp: Creating...[0m[0m
+[0m[1mmodule.waf.aws_wafv2_web_acl.this: Creating...[0m[0m
+[0m[1mkubernetes_limit_range_v1.chatapp: Creation complete after 1s [id=chatapp/chatapp-limits][0m
+[0m[1mkubernetes_pod_disruption_budget_v1.chatapp: Creating...[0m[0m
+[0m[1mkubernetes_pod_disruption_budget_v1.chatapp: Creation complete after 0s [id=chatapp/chatapp-pdb][0m
+[0m[1mkubernetes_resource_quota_v1.chatapp: Creating...[0m[0m
+[0m[1mkubernetes_secret.rds_ca_cert: Creation complete after 1s [id=chatapp/rds-ca-cert][0m
+[0m[1mmodule.waf.aws_s3_bucket_versioning.alb_logs: Creation complete after 2s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mkubernetes_network_policy.chatapp: Creating...[0m[0m
+[0m[1mkubernetes_service_account.alb_controller: Creating...[0m[0m
+[0m[1mkubernetes_network_policy.chatapp: Creation complete after 0s [id=chatapp/chatapp-netpol][0m
+[0m[1mkubernetes_resource_quota_v1.chatapp: Creation complete after 0s [id=chatapp/chatapp-quota][0m
+[0m[1mkubernetes_service_account.chatapp: Creating...[0m[0m
+[0m[1mkubernetes_service_account.alb_controller: Creation complete after 0s [id=kube-system/aws-load-balancer-controller][0m
+[0m[1mkubernetes_service_account.cluster_autoscaler: Creating...[0m[0m
+[0m[1mkubernetes_service_account.chatapp: Creation complete after 0s [id=chatapp/chatapp][0m
+[0m[1mkubernetes_service_account.cluster_autoscaler: Creation complete after 1s [id=kube-system/cluster-autoscaler][0m
+[0m[1mkubernetes_manifest.cluster_secret_store: Creating...[0m[0m
+[0m[1mkubernetes_manifest.cluster_secret_store: Creation complete after 0s[0m
+[0m[1mmodule.waf.aws_wafv2_web_acl.this: Creation complete after 2s [id=93e795dc-47d5-44c0-9b8d-e7a4bced53ee][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.waf_blocked_requests: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.waf_blocked_requests: Creation complete after 1s [id=chatapp-prod-waf-blocked-spike][0m
+[0m[1mhelm_release.metrics_server: Creating...[0m[0m
+[0m[1mmodule.acm.aws_acm_certificate.this: Creation complete after 8s [id=arn:aws:acm:us-east-1:866317130608:certificate/411e1f27-ff40-4e9d-a421-1feccc2070fe][0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"]: Creating...[0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"]: Creating...[0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.aws_lb_controller: Creating...[0m[0m
+[0m[1mmodule.rds.aws_rds_cluster.this: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.metrics_server: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"]: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"]: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.cluster_autoscaler: Creating...[0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.aws_lb_controller: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster.this: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.metrics_server: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"]: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"]: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.cluster_autoscaler: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.aws_lb_controller: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster.this: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster.this: Creation complete after 32s [id=chatapp-prod-db][0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Creating...[0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_connections: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_connections: Creation complete after 1s [id=chatapp-prod-rds-connections-high][0m
+[0m[1mhelm_release.metrics_server: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"]: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"]: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["www.chat.deeptechexpertconsulting.com"]: Creation complete after 31s [id=Z00059733M4NJCLBQJPRL__2b73d90ccbd2ba84147c60670d6a24db.www.chat.deeptechexpertconsulting.com._CNAME][0m
+[0m[1mmodule.acm.aws_route53_record.cert_validation["chat.deeptechexpertconsulting.com"]: Creation complete after 31s [id=Z00059733M4NJCLBQJPRL__31d84adb06f47225d32e314a03f2a0a9.chat.deeptechexpertconsulting.com._CNAME][0m
+[0m[1mmodule.acm.aws_acm_certificate_validation.this: Creating...[0m[0m
+[0m[1mmodule.acm.aws_acm_certificate_validation.this: Creation complete after 1s [id=2026-05-28 00:39:16.494 +0000 UTC][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.aws_lb_controller: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [00m40s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Still creating... [00m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.metrics_server: Still creating... [00m40s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.aws_lb_controller: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.metrics_server: Creation complete after 45s [id=metrics-server][0m
+[0m[1mhelm_release.aws_lb_controller: Creation complete after 41s [id=aws-load-balancer-controller][0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [00m50s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Still creating... [00m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.waf.aws_s3_bucket_lifecycle_configuration.alb_logs: Creation complete after 56s [id=chatapp-prod-alb-logs-866317130608][0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [00m30s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [00m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [00m40s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [00m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [00m50s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m00s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m10s elapsed][0m[0m
+[0m[1mmodule.secrets.aws_secretsmanager_secret.db: Still creating... [01m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [01m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [01m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [01m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [02m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [02m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [02m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [03m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [03m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [03m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [04m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [04m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [04m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [05m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [05m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [05m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [06m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m00s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [06m10s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [06m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [06m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m20s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [07m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [06m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m30s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [07m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Still creating... [06m40s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Still creating... [07m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.reader: Creation complete after 6m49s [id=chatapp-prod-db-reader][0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [06m50s elapsed][0m[0m
+[0m[1mmodule.elasticache.aws_elasticache_replication_group.this: Creation complete after 7m30s [id=chatapp-prod-redis][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_cpu: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_evictions: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_replication_lag: Creating...[0m[0m
+[0m[1mlocal_file.helm_values_infra: Creating...[0m[0m
+[0m[1mlocal_file.helm_values_infra: Creation complete after 0s [id=08f5f6ac0f388936cff9037d3770166188d0e83a][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_cpu: Creation complete after 0s [id=chatapp-prod-redis-cpu-high][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_replication_lag: Creation complete after 0s [id=chatapp-prod-redis-replication-lag][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.redis_evictions: Creation complete after 0s [id=chatapp-prod-redis-evictions][0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [07m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [08m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [09m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m20s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m30s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m40s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [10m50s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [11m00s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Still creating... [11m10s elapsed][0m[0m
+[0m[1mmodule.rds.aws_rds_cluster_instance.writer: Creation complete after 11m16s [id=chatapp-prod-db-writer][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_free_storage: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_cpu: Creating...[0m[0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_cpu: Creation complete after 1s [id=chatapp-prod-rds-cpu-high][0m
+[0m[1mmodule.monitoring.aws_cloudwatch_metric_alarm.rds_free_storage: Creation complete after 1s [id=chatapp-prod-rds-storage-low][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mHelm release "" was created but has a failed status. Use the `helm` command to investigate the error, correct it, then run Terraform again.[0m
+[33m│[0m [0m
+[33m│[0m [0m[0m  with helm_release.cluster_autoscaler,
+[33m│[0m [0m  on helm.tf line 67, in resource "helm_release" "cluster_autoscaler":
+[33m│[0m [0m  67: resource "helm_release" "cluster_autoscaler" [4m{[0m[0m
+[33m│[0m [0m
+[33m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m1 error occurred:
+[31m│[0m [0m	* Internal error occurred: failed calling webhook "mservice.elbv2.k8s.aws": failed to call webhook: Post "https://aws-load-balancer-webhook-service.kube-system.svc:443/mutate-v1-service?timeout=10s": no endpoints available for service "aws-load-balancer-webhook-service"
+[31m│[0m [0m
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with helm_release.cluster_autoscaler,
+[31m│[0m [0m  on helm.tf line 67, in resource "helm_release" "cluster_autoscaler":
+[31m│[0m [0m  67: resource "helm_release" "cluster_autoscaler" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mcreating Secrets Manager Secret (chatapp/prod/db-credentials): operation error Secrets Manager: CreateSecret, https response error StatusCode: 400, RequestID: e03af8c7-b0ab-4696-8afe-a66f2d5d42ce, InvalidRequestException: You can't create this secret because a secret with this name is already scheduled for deletion.[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.secrets.aws_secretsmanager_secret.db,
+[31m│[0m [0m  on modules/secrets/main.tf line 8, in resource "aws_secretsmanager_secret" "db":
+[31m│[0m [0m   8: resource "aws_secretsmanager_secret" "db" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m

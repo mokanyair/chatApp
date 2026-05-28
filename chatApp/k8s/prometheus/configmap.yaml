@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: chatapp
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval:     15s
+      evaluation_interval: 15s
+
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets: ['alertmanager:9093']
+
+    rule_files:
+      - /etc/prometheus/alerts.yml
+
+    scrape_configs:
+      - job_name: chat-api
+        static_configs:
+          - targets: ['chat-api:8000']
+        metrics_path: /metrics
+
+  alerts.yml: |
+    groups:
+      - name: chat-api
+        rules:
+
+          - alert: HighErrorRate
+            expr: |
+              rate(http_requests_total{status=~"5.."}[5m])
+              / rate(http_requests_total[5m]) > 0.01
+            for: 2m
+            labels:
+              severity: critical
+            annotations:
+              summary: "HTTP error rate above 1% SLO"
+              description: "{{ $value | humanizePercentage }} of requests are failing."
+
+          - alert: HighP99Latency
+            expr: |
+              histogram_quantile(0.99,
+                rate(http_request_duration_highr_seconds_bucket[5m])
+              ) > 0.5
+            for: 2m
+            labels:
+              severity: warning
+            annotations:
+              summary: "p99 latency above 500 ms SLO"
+              description: "p99 = {{ $value | humanizeDuration }}"
+
+          - alert: MessageVolumeSilent
+            expr: rate(chat_messages_sent_total[15m]) == 0
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "No messages sent in 20 minutes — possible silent outage"
+
+          - alert: WebSocketConnectionSpike
+            expr: chat_websocket_connections_active > 500
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              summary: "WebSocket connections above 500"
+
+          - alert: DatabaseDown
+            expr: dependency_healthy{dependency="mysql"} == 0
+            for: 30s
+            labels:
+              severity: critical
+            annotations:
+              summary: "MySQL is unreachable — all writes are failing"
+
+          - alert: RedisDown
+            expr: dependency_healthy{dependency="redis"} == 0
+            for: 30s
+            labels:
+              severity: critical
+            annotations:
+              summary: "Redis is unreachable — real-time delivery stopped"

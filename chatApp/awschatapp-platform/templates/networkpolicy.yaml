@@ -1,0 +1,37 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: {{ include "awschatapp.fullname" . }}-netpol
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "awschatapp.selectorLabels" . | nindent 6 }}
+
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 8000
+
+  egress:
+    - ports:
+        - protocol: UDP
+          port: 53      # DNS
+    - ports:
+        - protocol: TCP
+          port: 3306    # MySQL/Aurora
+    - ports:
+        - protocol: TCP
+          port: 6379    # Redis
+    - ports:
+        - protocol: TCP
+          port: 443     # HTTPS (AWS APIs, OTLP)
+{{- end }}

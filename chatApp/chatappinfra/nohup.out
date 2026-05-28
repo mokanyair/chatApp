@@ -1,0 +1,5 @@
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mFailed to load "phase3a.log" as a plan file[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mError: stat phase3a.log: no such file or directory
+[31m╵[0m[0m

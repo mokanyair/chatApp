@@ -1,0 +1,165 @@
+{{- if .Values.monitoring.prometheusRule.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "awschatapp.fullname" . }}-slo
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+    {{- with .Values.monitoring.prometheusRule.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  groups:
+
+    # ── SLI recording rules ───────────────────────────────────────────────────
+    # Pre-compute error ratios so dashboards and alerts stay fast.
+
+    - name: chatapp.sli.rules
+      interval: 30s
+      rules:
+
+        # Total HTTP request rate (5m window)
+        - record: job:http_requests_total:rate5m
+          expr: |
+            sum(rate(http_requests_total{job="chatapp-api"}[5m]))
+
+        # HTTP error rate — 5xx only (5m window)
+        - record: job:http_errors_total:rate5m
+          expr: |
+            sum(rate(http_requests_total{job="chatapp-api", status_code=~"5.."}[5m]))
+
+        # HTTP availability SLI  (1 = perfect, 0 = all errors)
+        - record: job:http_availability:rate5m
+          expr: |
+            1 - (
+              sum(rate(http_requests_total{job="chatapp-api", status_code=~"5.."}[5m]))
+              /
+              sum(rate(http_requests_total{job="chatapp-api"}[5m]))
+            )
+
+        # HTTP availability — 1h window (for burn rate)
+        - record: job:http_availability:rate1h
+          expr: |
+            1 - (
+              sum(rate(http_requests_total{job="chatapp-api", status_code=~"5.."}[1h]))
+              /
+              sum(rate(http_requests_total{job="chatapp-api"}[1h]))
+            )
+
+        # HTTP availability — 6h window (for slow-burn alert)
+        - record: job:http_availability:rate6h
+          expr: |
+            1 - (
+              sum(rate(http_requests_total{job="chatapp-api", status_code=~"5.."}[6h]))
+              /
+              sum(rate(http_requests_total{job="chatapp-api"}[6h]))
+            )
+
+        # p95 latency — 5m window
+        - record: job:http_request_duration_p95:rate5m
+          expr: |
+            histogram_quantile(0.95,
+              sum by (le) (
+                rate(http_request_duration_seconds_bucket{job="chatapp-api"}[5m])
+              )
+            )
+
+        # p99 latency — 5m window
+        - record: job:http_request_duration_p99:rate5m
+          expr: |
+            histogram_quantile(0.99,
+              sum by (le) (
+                rate(http_request_duration_seconds_bucket{job="chatapp-api"}[5m])
+              )
+            )
+
+    # ── SLO alerting rules ────────────────────────────────────────────────────
+    # SLO: 99.9% availability  (error budget: 0.1% = ~43 min/month)
+    # Multi-window, multi-burn-rate per Google SRE book.
+
+    - name: chatapp.slo.alerts
+      rules:
+
+        # Fast burn — 1h window, 14× burn rate
+        # Fires when 2% of monthly budget burned in 1h. Page immediately.
+        - alert: ChatAppHighErrorBurnRate
+          expr: |
+            (
+              job:http_availability:rate1h < (1 - 14 * 0.001)
+            )
+          for: 2m
+          labels:
+            severity: critical
+            slo: availability
+          annotations:
+            summary: "High error burn rate (fast burn)"
+            description: >
+              Availability over 1h is {{ "{{" }} $value | humanizePercentage {{ "}}" }}.
+              SLO target is 99.9%. At this rate the monthly error budget will be
+              exhausted in less than 2 hours.
+
+        # Slow burn — 6h window, 2.4× burn rate
+        # Fires when 5% of monthly budget burned over 6h. Ticket urgency.
+        - alert: ChatAppSlowErrorBurnRate
+          expr: |
+            (
+              job:http_availability:rate6h < (1 - 2.4 * 0.001)
+            )
+          for: 15m
+          labels:
+            severity: warning
+            slo: availability
+          annotations:
+            summary: "Elevated error burn rate (slow burn)"
+            description: >
+              Availability over 6h is {{ "{{" }} $value | humanizePercentage {{ "}}" }}.
+              SLO target is 99.9%. Error budget is being consumed steadily.
+
+        # Latency SLO — p95 > 500ms for 5 minutes
+        - alert: ChatAppHighLatency
+          expr: job:http_request_duration_p95:rate5m > 0.5
+          for: 5m
+          labels:
+            severity: warning
+            slo: latency
+          annotations:
+            summary: "p95 latency above 500ms SLO"
+            description: >
+              p95 HTTP latency is {{ "{{" }} $value | humanizeDuration {{ "}}" }}.
+              SLO target is p95 < 500ms.
+
+        # Dependency down — fires within one scrape cycle
+        - alert: ChatAppDependencyDown
+          expr: dependency_healthy{job="chatapp-api"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Dependency {{ "{{" }} $labels.dependency {{ "}}" }} is unreachable"
+            description: >
+              The {{ "{{" }} $labels.dependency {{ "}}" }} dependency has been
+              unreachable for more than 1 minute.
+
+        # HPA near max replicas — scaling headroom exhausted
+        - alert: ChatAppHPANearMax
+          expr: |
+            kube_horizontalpodautoscaler_status_current_replicas{
+              namespace="chatapp",
+              horizontalpodautoscaler="chatapp-api"
+            }
+            >=
+            kube_horizontalpodautoscaler_spec_max_replicas{
+              namespace="chatapp",
+              horizontalpodautoscaler="chatapp-api"
+            } * 0.9
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "HPA near maximum replicas"
+            description: >
+              chatapp-api is running at 90%+ of its HPA max replicas for 10m.
+              Consider increasing the max or the node capacity.
+
+{{- end }}

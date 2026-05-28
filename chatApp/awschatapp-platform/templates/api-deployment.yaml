@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "awschatapp.fullname" . }}
+  labels:
+    {{- include "awschatapp.labels" . | nindent 4 }}
+
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+
+  selector:
+    matchLabels:
+      {{- include "awschatapp.selectorLabels" . | nindent 6 }}
+
+  template:
+    metadata:
+      labels:
+        {{- include "awschatapp.selectorLabels" . | nindent 8 }}
+
+    spec:
+
+      {{- if .Values.api.serviceAccountName }}
+      serviceAccountName: {{ .Values.api.serviceAccountName }}
+      {{- end }}
+
+      {{- with .Values.api.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.db.ssl.enabled }}
+      volumes:
+        - name: rds-ca-cert
+          secret:
+            secretName: {{ .Values.db.ssl.secretName }}
+            items:
+              - key: global-bundle.pem
+                path: global-bundle.pem
+      {{- end }}
+
+      initContainers:
+        - name: migrate
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          command: ["alembic", "upgrade", "head"]
+          {{- with .Values.api.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+          {{- if .Values.db.ssl.enabled }}
+          volumeMounts:
+            - name: rds-ca-cert
+              mountPath: {{ .Values.db.ssl.mountPath }}
+              readOnly: true
+          {{- end }}
+
+      containers:
+        - name: chat-api
+
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+
+          {{- with .Values.api.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          ports:
+            - containerPort: 8000
+
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+
+          {{- if .Values.db.ssl.enabled }}
+          volumeMounts:
+            - name: rds-ca-cert
+              mountPath: {{ .Values.db.ssl.mountPath }}
+              readOnly: true
+          {{- end }}
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.api.probes.liveness.path }}
+              port: 8000
+
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.api.probes.readiness.path }}
+              port: 8000
+
+          resources:
+{{ toYaml .Values.api.resources | indent 12 }}

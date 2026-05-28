@@ -1,0 +1,805 @@
+nohup: ignoring input
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mDeprecated Parameter[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe parameter "dynamodb_table" is deprecated. Use parameter "use_lockfile"
+[33m│[0m [0minstead.
+[33m╵[0m[0m
+[0m[1mdata.aws_eks_cluster.cluster[0]: Reading...[0m[0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role.eks_node: Refreshing state... [id=chatapp-prod-eks-node-role][0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.eks: Refreshing state... [id=/aws/eks/chatapp-prod-cluster/cluster][0m
+[0m[1mmodule.iam_bootstrap.aws_iam_role.eks_cluster: Refreshing state... [id=chatapp-prod-eks-cluster-role][0m
+[0m[1mmodule.vpc.aws_vpc.this: Refreshing state... [id=vpc-07f61fb37477f7e6a][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=866317130608][0m
+[0m[1mmodule.kms.data.aws_iam_policy_document.kms: Reading...[0m[0m
+[0m[1mmodule.kms.data.aws_iam_policy_document.kms: Read complete after 0s [id=1707013534][0m
+[0m[1mmodule.kms.aws_kms_key.secrets: Refreshing state... [id=60874524-870a-4a57-aacc-4c8c7b77820c][0m
+[0m[1mmodule.kms.aws_kms_key.eks: Refreshing state... [id=26d2dadf-53a8-4b7f-b49c-810287442ce0][0m
+[0m[1mdata.aws_eks_cluster.cluster[0]: Read complete after 0s [id=chatapp-prod-cluster][0m
+[0m[1mmodule.vpc.aws_subnet.private_app[0]: Refreshing state... [id=subnet-019c954fc8fea069c][0m
+[0m[1mmodule.vpc.aws_subnet.private_app[1]: Refreshing state... [id=subnet-0eba1fc0bcbf9d22d][0m
+[0m[1mmodule.security_groups.aws_security_group.alb: Refreshing state... [id=sg-0d124cba2f989a9fb][0m
+[0m[1mmodule.security_groups.aws_security_group.eks_nodes: Refreshing state... [id=sg-07d995f04c3945189][0m
+[0m[1mmodule.eks.aws_eks_cluster.this: Refreshing state... [id=chatapp-prod-cluster][0m
+[0m[1mmodule.eks.data.tls_certificate.eks: Reading...[0m[0m
+[0m[1mmodule.eks.aws_eks_node_group.app: Refreshing state... [id=chatapp-prod-cluster:chatapp-prod-app-nodes][0m
+[0m[1mmodule.eks.aws_eks_addon.pod_identity: Refreshing state... [id=chatapp-prod-cluster:eks-pod-identity-agent][0m
+[0m[1mmodule.eks.aws_eks_addon.kube_proxy: Refreshing state... [id=chatapp-prod-cluster:kube-proxy][0m
+[0m[1mmodule.eks.aws_eks_addon.coredns: Refreshing state... [id=chatapp-prod-cluster:coredns][0m
+[0m[1mmodule.eks.aws_eks_addon.vpc_cni: Refreshing state... [id=chatapp-prod-cluster:vpc-cni][0m
+[0m[1mmodule.eks.data.tls_certificate.eks: Read complete after 0s [id=b1b539daa206035ae3c3e28288b0681fa1b462f3][0m
+[0m[1mmodule.eks.aws_iam_openid_connect_provider.eks: Refreshing state... [id=arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.cluster_autoscaler_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.external_secrets_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.cluster_autoscaler_trust: Read complete after 1s [id=1371493068][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.chatapp_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.alb_controller_trust: Reading...[0m[0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.alb_controller_trust: Read complete after 0s [id=3563853886][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.chatapp_trust: Read complete after 0s [id=3326542077][0m
+[0m[1mmodule.iam.data.aws_iam_policy_document.external_secrets_trust: Read complete after 0s [id=730462504][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "external_secrets" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "external-secrets"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "external-secrets"
+      [32m+[0m[0m namespace                  = "external-secrets"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://charts.external-secrets.io"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "0.9.20"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "serviceAccount.create"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "serviceAccount.name"
+          [32m+[0m[0m value = "external-secrets"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # kubernetes_namespace.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_namespace" "external_secrets" {
+      [32m+[0m[0m id                               = (known after apply)
+      [32m+[0m[0m wait_for_default_service_account = false
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "external-secrets"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # kubernetes_service_account.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "kubernetes_service_account" "external_secrets" {
+      [32m+[0m[0m automount_service_account_token = true
+      [32m+[0m[0m default_secret_name             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+
+      [32m+[0m[0m metadata {
+          [32m+[0m[0m annotations      = (known after apply)
+          [32m+[0m[0m generation       = (known after apply)
+          [32m+[0m[0m name             = "external-secrets"
+          [32m+[0m[0m namespace        = "external-secrets"
+          [32m+[0m[0m resource_version = (known after apply)
+          [32m+[0m[0m uid              = (known after apply)
+        }
+    }
+
+[1m  # module.iam.aws_iam_policy.alb_controller[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "alb_controller" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "chatapp-prod-alb-controller-policy"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "iam:CreateServiceLinkedRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "iam:AWSServiceName" = "elasticloadbalancing.amazonaws.com"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:DescribeAccountAttributes",
+                          [32m+[0m[0m "ec2:DescribeAddresses",
+                          [32m+[0m[0m "ec2:DescribeAvailabilityZones",
+                          [32m+[0m[0m "ec2:DescribeInternetGateways",
+                          [32m+[0m[0m "ec2:DescribeVpcs",
+                          [32m+[0m[0m "ec2:DescribeVpcPeeringConnections",
+                          [32m+[0m[0m "ec2:DescribeSubnets",
+                          [32m+[0m[0m "ec2:DescribeSecurityGroups",
+                          [32m+[0m[0m "ec2:DescribeInstances",
+                          [32m+[0m[0m "ec2:DescribeNetworkInterfaces",
+                          [32m+[0m[0m "ec2:DescribeTags",
+                          [32m+[0m[0m "ec2:GetCoipPoolUsage",
+                          [32m+[0m[0m "ec2:DescribeCoipPools",
+                          [32m+[0m[0m "ec2:GetSecurityGroupsForVpc",
+                          [32m+[0m[0m "ec2:DescribeIpamPools",
+                          [32m+[0m[0m "ec2:DescribeRouteTables",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeLoadBalancers",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListeners",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeSSLPolicies",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeRules",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetGroups",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetGroupAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetHealth",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTags",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTrustStores",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListenerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeCapacityReservation",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "cognito-idp:DescribeUserPoolClient",
+                          [32m+[0m[0m "acm:ListCertificates",
+                          [32m+[0m[0m "acm:DescribeCertificate",
+                          [32m+[0m[0m "iam:ListServerCertificates",
+                          [32m+[0m[0m "iam:GetServerCertificate",
+                          [32m+[0m[0m "waf-regional:GetWebACL",
+                          [32m+[0m[0m "waf-regional:GetWebACLForResource",
+                          [32m+[0m[0m "waf-regional:AssociateWebACL",
+                          [32m+[0m[0m "waf-regional:DisassociateWebACL",
+                          [32m+[0m[0m "wafv2:GetWebACL",
+                          [32m+[0m[0m "wafv2:GetWebACLForResource",
+                          [32m+[0m[0m "wafv2:AssociateWebACL",
+                          [32m+[0m[0m "wafv2:DisassociateWebACL",
+                          [32m+[0m[0m "shield:GetSubscriptionState",
+                          [32m+[0m[0m "shield:DescribeProtection",
+                          [32m+[0m[0m "shield:CreateProtection",
+                          [32m+[0m[0m "shield:DeleteProtection",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:AuthorizeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:RevokeSecurityGroupIngress",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:CreateSecurityGroup",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:CreateTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null         = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "ec2:CreateAction" = "CreateSecurityGroup"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:CreateTags",
+                          [32m+[0m[0m "ec2:DeleteTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:AuthorizeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:RevokeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:DeleteSecurityGroup",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:CreateLoadBalancer",
+                          [32m+[0m[0m "elasticloadbalancing:CreateTargetGroup",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:CreateListener",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteListener",
+                          [32m+[0m[0m "elasticloadbalancing:CreateRule",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteRule",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveTags",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:SetIpAddressType",
+                          [32m+[0m[0m "elasticloadbalancing:SetSecurityGroups",
+                          [32m+[0m[0m "elasticloadbalancing:SetSubnets",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteLoadBalancer",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyTargetGroup",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyTargetGroupAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteTargetGroup",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyListenerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyCapacityReservation",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyIpPools",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null         = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "elasticloadbalancing:CreateAction" = [
+                                  [32m+[0m[0m "CreateTargetGroup",
+                                  [32m+[0m[0m "CreateLoadBalancer",
+                                ]
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:RegisterTargets",
+                          [32m+[0m[0m "elasticloadbalancing:DeregisterTargets",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:SetWebAcl",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyListener",
+                          [32m+[0m[0m "elasticloadbalancing:AddListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyRule",
+                          [32m+[0m[0m "elasticloadbalancing:SetRulePriorities",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+    }
+
+[1m  # module.iam.aws_iam_policy.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "chatapp" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "chatapp-prod-chatapp-policy"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "secretsmanager:GetSecretValue",
+                          [32m+[0m[0m "secretsmanager:DescribeSecret",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:secretsmanager:*:866317130608:secret:chatapp/prod/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "cloudwatch:PutMetricData",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "cloudwatch:namespace" = "chatapp/prod"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+    }
+
+[1m  # module.iam.aws_iam_policy.cluster_autoscaler[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "cluster_autoscaler" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "chatapp-prod-cluster-autoscaler-policy"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "autoscaling:DescribeAutoScalingGroups",
+                          [32m+[0m[0m "autoscaling:DescribeAutoScalingInstances",
+                          [32m+[0m[0m "autoscaling:DescribeLaunchConfigurations",
+                          [32m+[0m[0m "autoscaling:DescribeScalingActivities",
+                          [32m+[0m[0m "autoscaling:DescribeTags",
+                          [32m+[0m[0m "ec2:DescribeImages",
+                          [32m+[0m[0m "ec2:DescribeInstanceTypes",
+                          [32m+[0m[0m "ec2:DescribeLaunchTemplateVersions",
+                          [32m+[0m[0m "ec2:GetInstanceTypesFromInstanceRequirements",
+                          [32m+[0m[0m "eks:DescribeNodegroup",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = [
+                          [32m+[0m[0m "*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "autoscaling:SetDesiredCapacity",
+                          [32m+[0m[0m "autoscaling:TerminateInstanceInAutoScalingGroup",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/chatapp-prod-cluster" = "owned"
+                              [32m+[0m[0m "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/enabled"              = "true"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "*",
+                        ]
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+    }
+
+[1m  # module.iam.aws_iam_policy.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "external_secrets" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "chatapp-prod-external-secrets-policy"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "secretsmanager:GetSecretValue",
+                          [32m+[0m[0m "secretsmanager:DescribeSecret",
+                          [32m+[0m[0m "secretsmanager:ListSecretVersionIds",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:secretsmanager:*:866317130608:secret:chatapp/prod/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "kms:Decrypt",
+                          [32m+[0m[0m "kms:DescribeKey",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:kms:us-east-1:866317130608:key/60874524-870a-4a57-aacc-4c8c7b77820c"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+    }
+
+[1m  # module.iam.aws_iam_role.alb_controller[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "alb_controller" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRoleWithWebIdentity"
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:aud" = "sts.amazonaws.com"
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:sub" = "system:serviceaccount:kube-system:aws-load-balancer-controller"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Federated = "arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "chatapp-prod-alb-controller-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.iam.aws_iam_role.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "chatapp" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRoleWithWebIdentity"
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:aud" = "sts.amazonaws.com"
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:sub" = "system:serviceaccount:chatapp:chatapp"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Federated = "arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "chatapp-prod-chatapp-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.iam.aws_iam_role.cluster_autoscaler[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "cluster_autoscaler" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRoleWithWebIdentity"
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:aud" = "sts.amazonaws.com"
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:sub" = "system:serviceaccount:kube-system:cluster-autoscaler"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Federated = "arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "chatapp-prod-cluster-autoscaler-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.iam.aws_iam_role.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "external_secrets" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRoleWithWebIdentity"
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:aud" = "sts.amazonaws.com"
+                              [32m+[0m[0m "oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F:sub" = "system:serviceaccount:external-secrets:external-secrets"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Federated = "arn:aws:iam::866317130608:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/B14B5EE5925A18F8245E57BD78A12B1F"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "chatapp-prod-external-secrets-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "prod"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Project"     = "chatapp"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.iam.aws_iam_role_policy_attachment.alb_controller[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "alb_controller" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "chatapp-prod-alb-controller-role"
+    }
+
+[1m  # module.iam.aws_iam_role_policy_attachment.chatapp[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "chatapp" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "chatapp-prod-chatapp-role"
+    }
+
+[1m  # module.iam.aws_iam_role_policy_attachment.cluster_autoscaler[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "chatapp-prod-cluster-autoscaler-role"
+    }
+
+[1m  # module.iam.aws_iam_role_policy_attachment.external_secrets[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "external_secrets" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "chatapp-prod-external-secrets-role"
+    }
+
+[1mPlan:[0m [0m15 to add, 0 to change, 0 to destroy.
+[0m[1mkubernetes_namespace.external_secrets: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.cluster_autoscaler: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.cluster_autoscaler: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.external_secrets: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.chatapp: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.chatapp: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.external_secrets: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.alb_controller: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.alb_controller: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_policy.chatapp: Creation complete after 1s [id=arn:aws:iam::866317130608:policy/chatapp-prod-chatapp-policy][0m
+[0m[1mmodule.iam.aws_iam_policy.external_secrets: Creation complete after 1s [id=arn:aws:iam::866317130608:policy/chatapp-prod-external-secrets-policy][0m
+[0m[1mmodule.iam.aws_iam_policy.cluster_autoscaler: Creation complete after 1s [id=arn:aws:iam::866317130608:policy/chatapp-prod-cluster-autoscaler-policy][0m
+[0m[1mmodule.iam.aws_iam_policy.alb_controller: Creation complete after 1s [id=arn:aws:iam::866317130608:policy/chatapp-prod-alb-controller-policy][0m
+[0m[1mmodule.iam.aws_iam_role.cluster_autoscaler: Creation complete after 1s [id=chatapp-prod-cluster-autoscaler-role][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.cluster_autoscaler: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.external_secrets: Creation complete after 1s [id=chatapp-prod-external-secrets-role][0m
+[0m[1mmodule.iam.aws_iam_role.alb_controller: Creation complete after 1s [id=chatapp-prod-alb-controller-role][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.external_secrets: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.alb_controller: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role.chatapp: Creation complete after 1s [id=chatapp-prod-chatapp-role][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.chatapp: Creating...[0m[0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.cluster_autoscaler: Creation complete after 0s [id=chatapp-prod-cluster-autoscaler-role-20260528001133212000000001][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.alb_controller: Creation complete after 0s [id=chatapp-prod-alb-controller-role-20260528001133238400000003][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.external_secrets: Creation complete after 0s [id=chatapp-prod-external-secrets-role-20260528001133237900000002][0m
+[0m[1mmodule.iam.aws_iam_role_policy_attachment.chatapp: Creation complete after 0s [id=chatapp-prod-chatapp-role-20260528001133292500000004][0m
+[0m[1mkubernetes_namespace.external_secrets: Creation complete after 2s [id=external-secrets][0m
+[0m[1mkubernetes_service_account.external_secrets: Creating...[0m[0m
+[0m[1mkubernetes_service_account.external_secrets: Creation complete after 0s [id=external-secrets/external-secrets][0m
+[0m[1mhelm_release.external_secrets: Creating...[0m[0m
+[0m[1mhelm_release.external_secrets: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.external_secrets: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.external_secrets: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.external_secrets: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.external_secrets: Creation complete after 44s [id=external-secrets][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 15 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0meks_cluster_endpoint = "https://B14B5EE5925A18F8245E57BD78A12B1F.gr7.us-east-1.eks.amazonaws.com"
+eks_cluster_name = "chatapp-prod-cluster"
+helm_deploy_command = <<EOT
+# Update kubeconfig
+aws eks update-kubeconfig --name chatapp-prod-cluster --region us-east-1
+
+# Download RDS CA bundle (if not already present)
+curl -sL https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -o global-bundle.pem
+
+# Apply with generated values
+helm upgrade --install chatapp ../awschatapp-platform \
+  --values ../awschatapp-platform/values.yaml \
+  --values ../awschatapp-platform/values-prod-infra.yaml \
+  --values ../awschatapp-platform/values-prod-secrets.yaml \
+  -n chatapp --create-namespace
+
+EOT
+vpc_id = "vpc-07f61fb37477f7e6a"
