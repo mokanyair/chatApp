@@ -33,10 +33,8 @@ resource "aws_elasticache_replication_group" "this" {
   subnet_group_name  = aws_elasticache_subnet_group.this.name
   security_group_ids = [var.security_group_id]
 
-  # High availability
-  automatic_failover_enabled = true
-  multi_az_enabled           = true
-  preferred_cache_cluster_azs = var.azs
+  automatic_failover_enabled = false
+  multi_az_enabled           = false
 
   # Encryption
   at_rest_encryption_enabled = true

@@ -29,7 +29,7 @@ resource "aws_eks_cluster" "this" {
   }
 
 # All control plane log types sent to CloudWatch
-  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  enabled_cluster_log_types = ["api", "authenticator", "controllerManager", "scheduler"]
 
   depends_on = [aws_cloudwatch_log_group.eks]
 }
@@ -55,6 +55,7 @@ resource "aws_eks_node_group" "app" {
   subnet_ids      = var.private_app_subnet_ids
 
   instance_types = var.node_instance_types
+  capacity_type  = "SPOT"
 
   scaling_config {
     desired_size = var.node_desired_size

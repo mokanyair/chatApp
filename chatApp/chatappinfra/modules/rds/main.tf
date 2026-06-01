@@ -75,11 +75,10 @@ resource "aws_rds_cluster" "this" {
   storage_encrypted = true
   kms_key_id        = var.kms_key_arn
 
-  # Protection
-  deletion_protection       = false
-  skip_final_snapshot       = true
-  final_snapshot_identifier = "${local.name}-db-final-snapshot"
-  copy_tags_to_snapshot     = true
+  # Protection — deletion_protection and final snapshot both disabled for clean teardown
+  deletion_protection   = false
+  skip_final_snapshot   = true
+  copy_tags_to_snapshot = true
 
   # Backup
   backup_retention_period      = var.backup_retention_days
@@ -113,21 +112,21 @@ resource "aws_rds_cluster_instance" "writer" {
   tags                       = { Name = "${local.name}-db-writer" }
 }
 
-resource "aws_rds_cluster_instance" "reader" {
-  identifier         = "${local.name}-db-reader"
-  cluster_identifier = aws_rds_cluster.this.id
-  instance_class     = var.db_instance_class
-  engine             = aws_rds_cluster.this.engine
-  engine_version     = aws_rds_cluster.this.engine_version
+#resource "aws_rds_cluster_instance" "reader" {
+ # identifier         = "${local.name}-db-reader"
+ # cluster_identifier = aws_rds_cluster.this.id
+ # instance_class     = var.db_instance_class
+ # engine             = aws_rds_cluster.this.engine
+ # engine_version     = aws_rds_cluster.this.engine_version
 
-  availability_zone    = var.azs[1]
-  db_subnet_group_name = aws_db_subnet_group.this.name
-  db_parameter_group_name = aws_db_parameter_group.this.name
+ # availability_zone    = var.azs[1]
+ # db_subnet_group_name = aws_db_subnet_group.this.name
+ # db_parameter_group_name = aws_db_parameter_group.this.name
 
-  monitoring_interval          = 60
-  monitoring_role_arn          = aws_iam_role.rds_monitoring.arn
-  performance_insights_enabled = false
+ # monitoring_interval          = 60
+ # monitoring_role_arn          = aws_iam_role.rds_monitoring.arn
+ # performance_insights_enabled = false
 
-  auto_minor_version_upgrade = true
-  tags                       = { Name = "${local.name}-db-reader" }
-}
+ # auto_minor_version_upgrade = true
+ # tags                       = { Name = "${local.name}-db-reader" }
+#}

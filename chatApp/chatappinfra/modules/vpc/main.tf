@@ -66,17 +66,17 @@ resource "aws_subnet" "private_data" {
 # ── NAT Gateways (one per AZ for HA) ─────────────────────────────────────────
 
 resource "aws_eip" "nat" {
-  count  = length(var.azs)
+  count  = 1
   domain = "vpc"
-  tags   = { Name = "${local.name}-nat-eip-${var.azs[count.index]}" }
+  tags   = { Name = "${local.name}-nat-eip-${var.azs[0]}" }
 }
 
 resource "aws_nat_gateway" "this" {
-  count         = length(var.azs)
-  allocation_id = aws_eip.nat[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id
+  count         = 1
+  allocation_id = aws_eip.nat[0].id
+  subnet_id     = aws_subnet.public[0].id
 
-  tags = { Name = "${local.name}-nat-${var.azs[count.index]}" }
+  tags = { Name = "${local.name}-nat-${var.azs[0]}" }
   depends_on = [aws_internet_gateway.this]
 }
 
@@ -151,7 +151,7 @@ resource "aws_route_table" "private_app" {
   vpc_id = aws_vpc.this.id
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.this[count.index].id
+    nat_gateway_id = aws_nat_gateway.this[0].id
   }
   tags = { Name = "${local.name}-rt-private-app-${var.azs[count.index]}" }
 }
@@ -167,7 +167,7 @@ resource "aws_route_table" "private_data" {
   vpc_id = aws_vpc.this.id
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.this[count.index].id
+    nat_gateway_id = aws_nat_gateway.this[0].id
   }
   tags = { Name = "${local.name}-rt-private-data-${var.azs[count.index]}" }
 }

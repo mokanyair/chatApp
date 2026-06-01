@@ -22,10 +22,10 @@ variable "addon_versions" {
   description = "Pinned versions for EKS managed add-ons"
   type        = map(string)
   default = {
-    vpc-cni                = "v1.18.1-eksbuild.3"
-    coredns                = "v1.11.3-eksbuild.1"
-    kube-proxy             = "v1.31.2-eksbuild.3"
-    eks-pod-identity-agent = "v1.3.4-eksbuild.1"
-    aws-ebs-csi-driver     = "v1.60.0-eksbuild.1"
+    vpc-cni                = "v1.22.1-eksbuild.2"
+    coredns                = "v1.11.4-eksbuild.39"
+    kube-proxy             = "v1.32.13-eksbuild.14"
+    eks-pod-identity-agent = "v1.3.10-eksbuild.3"
+    aws-ebs-csi-driver     = "v1.60.1-eksbuild.1"
   }
 }

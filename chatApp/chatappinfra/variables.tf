@@ -61,7 +61,7 @@ variable "cluster_endpoint_public_access_cidrs" {
 
 variable "kubernetes_version" {
   type    = string
-  default = "1.31"
+  default = "1.32"
 }
 
 variable "node_instance_types" {
@@ -71,7 +71,7 @@ variable "node_instance_types" {
 
 variable "node_min_size" {
   type    = number
-  default = 2
+  default = 1
 }
 
 variable "node_max_size" {
@@ -81,7 +81,7 @@ variable "node_max_size" {
 
 variable "node_desired_size" {
   type    = number
-  default = 2
+  default = 1
 }
 
 # ── Database ─────────────────────────────────────────────────────────────────
@@ -111,13 +111,13 @@ variable "db_backup_retention_days" {
 
 variable "redis_node_type" {
   type    = string
-  default = "cache.t4g.small"
+  default = "cache.t4g.micro"
 }
 
 variable "redis_num_replicas" {
-  description = "Number of replica nodes per shard (1 = primary + 1 replica)"
+  description = "Number of replica nodes per shard (0 = primary only)"
   type        = number
-  default     = 1
+  default     = 0
 }
 
 # ── DNS / TLS ─────────────────────────────────────────────────────────────────

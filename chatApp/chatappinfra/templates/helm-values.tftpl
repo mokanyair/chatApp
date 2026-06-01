@@ -72,7 +72,7 @@ ingress:
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/idle-timeout: "3600"
     alb.ingress.kubernetes.io/wafv2-acl-arn: "${waf_arn}"
-    alb.ingress.kubernetes.io/load-balancer-attributes: "access_logs.s3.enabled=true,access_logs.s3.bucket=${alb_logs_bucket},deletion_protection.enabled=true"
+    alb.ingress.kubernetes.io/load-balancer-attributes: "access_logs.s3.enabled=true,access_logs.s3.bucket=${alb_logs_bucket},deletion_protection.enabled=false"
 
   tls:
     enabled: true
