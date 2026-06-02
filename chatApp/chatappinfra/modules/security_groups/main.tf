@@ -86,14 +86,6 @@ resource "aws_security_group" "rds" {
   description = "Aurora MySQL: allow MySQL from EKS nodes only"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description     = "MySQL from EKS nodes"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [aws_security_group.eks_nodes.id]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -102,6 +94,20 @@ resource "aws_security_group" "rds" {
   }
 
   tags = { Name = "${local.name}-rds-sg" }
+
+  lifecycle {
+    ignore_changes = [ingress]
+  }
+}
+
+resource "aws_security_group_rule" "rds_from_eks_nodes" {
+  type                     = "ingress"
+  description              = "MySQL from EKS nodes"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds.id
+  source_security_group_id = aws_security_group.eks_nodes.id
 }
 
 # ── ElastiCache ───────────────────────────────────────────────────────────────
@@ -111,12 +117,8 @@ resource "aws_security_group" "elasticache" {
   description = "ElastiCache Redis: allow Redis from EKS nodes only"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description     = "Redis from EKS nodes"
-    from_port       = 6379
-    to_port         = 6379
-    protocol        = "tcp"
-    security_groups = [aws_security_group.eks_nodes.id]
+  lifecycle {
+    ignore_changes = [ingress]
   }
 
   egress {
@@ -127,4 +129,14 @@ resource "aws_security_group" "elasticache" {
   }
 
   tags = { Name = "${local.name}-redis-sg" }
+}
+
+resource "aws_security_group_rule" "elasticache_from_eks_nodes" {
+  type                     = "ingress"
+  description              = "Redis from EKS nodes"
+  from_port                = 6379
+  to_port                  = 6379
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.elasticache.id
+  source_security_group_id = aws_security_group.eks_nodes.id
 }

@@ -48,6 +48,28 @@ resource "aws_iam_openid_connect_provider" "eks" {
 
 # ── Managed node group ────────────────────────────────────────────────────────
 
+resource "aws_launch_template" "node" {
+  name_prefix = "${local.name}-node-"
+
+  vpc_security_group_ids = [
+    aws_eks_cluster.this.vpc_config[0].cluster_security_group_id,
+    var.node_security_group_id,
+  ]
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_put_response_hop_limit = 2
+    http_tokens                 = "optional"
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "${local.name}-app-nodes"
+    }
+  }
+}
+
 resource "aws_eks_node_group" "app" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${local.name}-app-nodes"
@@ -56,6 +78,11 @@ resource "aws_eks_node_group" "app" {
 
   instance_types = var.node_instance_types
   capacity_type  = "SPOT"
+
+  launch_template {
+    id      = aws_launch_template.node.id
+    version = aws_launch_template.node.latest_version
+  }
 
   scaling_config {
     desired_size = var.node_desired_size
@@ -67,7 +94,6 @@ resource "aws_eks_node_group" "app" {
     max_unavailable = 1
   }
 
-  # Force instance refresh on launch template change
   force_update_version = false
 
   labels = {
